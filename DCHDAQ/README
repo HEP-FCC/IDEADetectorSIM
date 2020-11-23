@@ -1,0 +1,64 @@
+-----------------------------------------------------------------------------
+
+                   --- CAEN SpA - Computing Division ---
+
+                                www.caen.it
+
+  -----------------------------------------------------------------------------
+
+  Program: WaveDump
+
+
+  -----------------------------------------------------------------------------
+
+
+  Content
+  -----------------------------------------------------------------------------
+
+  WaveDump_README.txt        :  This file.
+
+  WaveDump_ReleaseNotes.txt  :  Revision History and notes.
+
+   src          :  Source files
+   inc          :  Include files
+   build		:  Windows Project files
+   bin			:  Executable files
+   doc			:  Documentation
+   gnuplot		:  Windows gnuplot executable folder 
+
+
+  System Requirements
+  -----------------------------------------------------------------------------
+  - CAENVME library
+  - CAENComm library
+  - CAEN Digitizer Library
+  - glibc 2.11.1 or above
+  - GNUplot >=4.2 (www.gnuplot.org)
+
+
+  How to get support
+  -----------------------------------------------------------------------------
+  Our Software Support Group is available for questions, support and any other
+  software related issue concerning CAEN products; for software support
+  visit the page www.caen.it/computing/support.php or send an email to
+  support.computing@caen.it
+
+
+  Description:
+  -----------------------------------------------------------------------------
+
+
+
+  Syntax
+  -----------------------------------------------------------------------------
+  WaveDump [ConfigFile]
+  Default config file is "/etc/wavedump/WaveDumpConfig.txt"
+  or "/etc/wavedump/WaveDumpConfig_X742.txt" for X742 boards.
+
+
+  Keyword list and syntax for the configuration file:
+  -----------------------------------------------------------------------------
+  For configuration file syntax please refer to the Wavedump Manual.
+
+  -----------------------------------------------------------------------------
+

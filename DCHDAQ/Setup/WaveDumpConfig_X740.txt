@@ -1,0 +1,170 @@
+# ****************************************************************
+# WaveDump Configuration File
+# ****************************************************************
+
+# NOTE:
+# The lines between the commands @OFF and @ON will be skipped.
+# This can be used to exclude parts of the file.
+
+# ----------------------------------------------------------------
+# Settings common to all channels
+# ----------------------------------------------------------------
+[COMMON]
+
+# OPEN: open the digitizer
+# options: USB 0 0      Desktop/NIM digitizer through USB              
+#          USB 0 BA     VME digitizer through USB-V1718 (BA = BaseAddress of the VME board, 32 bit hex)
+#          PCI 0 0 0    Desktop/NIM/VME through CONET (optical link) 
+#          PCI 0 0 BA   VME digitizer through V2718 (BA = BaseAddress of the VME board, 32 bit hex)
+OPEN USB 0 0
+#OPEN USB 0 32100000
+#OPEN PCI 0 0 0
+#OPEN PCI 0 0 32100000
+
+# GNUPLOT_PATH: path to gnuplot executable file
+# Linux systems: GNUPLOT_PATH  "/usr/bin/"
+# Windows systems: GNUPLOT_PATH  ".\"
+GNUPLOT_PATH  "/usr/bin/"
+
+# OUTPUT_FILE_FORMAT: output file can be either ASCII (column of decimal numbers) or binary 
+# (2 bytes per sample)
+# options: BINARY, ASCII
+OUTPUT_FILE_FORMAT  ASCII
+
+# OUTPUT_FILE_HEADER: if enabled, the header is included in the output file data
+# options: YES, NO
+OUTPUT_FILE_HEADER  NO
+
+# RECORD_LENGTH = number of samples in the acquisition window
+RECORD_LENGTH  1024
+
+# TEST_PATTERN: if enabled, data from ADC are replaced by test pattern (triangular wave)
+# options: YES, NO
+TEST_PATTERN   NO
+
+# EXTERNAL_TRIGGER: external trigger input settings. When enabled, the ext. trg. can be either 
+# propagated (ACQUISITION_AND_TRGOUT) or not (ACQUISITION_ONLY) through the TRGOUT
+# options: DISABLED, ACQUISITION_ONLY, ACQUISITION_AND_TRGOUT
+EXTERNAL_TRIGGER   DISABLED	
+
+# MAX_NUM_EVENTS_BLT: maximum number of events to read out in one Block Transfer. Higher values may lead
+# to higher readout bandwidth, requiring more memory allocation for the block transfer.
+# options: 1 to 1023
+MAX_NUM_EVENTS_BLT   1
+
+#PULSE_POLARITY: input signal polarity.
+#options: POSITIVE, NEGATIVE
+#
+PULSE_POLARITY  POSITIVE
+
+# DECIMATION_FACTOR: change the decimation factor for the acquisition.
+# options: 1 2 4 8 16 32 64 128  
+DECIMATION_FACTOR  1
+
+# POST_TRIGGER: post trigger size in percent of the whole acquisition window
+# options: 0 to 100 
+POST_TRIGGER  50
+
+# USE_INTERRUPT: number of events that must be ready for the readout when the IRQ is asserted.
+# Zero means that the interrupts are not used (readout runs continuously)
+# values: 0 to 1023
+USE_INTERRUPT 0
+
+# FPIO_LEVEL: type of the front panel I/O LEMO connectors 
+# options: NIM, TTL
+FPIO_LEVEL  NIM
+
+# WRITE_REGISTER: generic write register access. This command allows the user to have a direct write access
+# to the registers of the board. NOTE: all the direct write accesses are executed AFTER the other settings,
+# thus it might happen that the direct write overwrites a specific setting.
+# To avoid this use the right "MASK".
+# Syntax: WRITE_REGISTER ADDRESS DATA MASK, where ADDRESS is the address offset of the register (16 bit hex), DATA
+# is the value being written (32 bit hex) and MASK is the bitmask to be used for DATA masking.
+# Example: Set only bit [8] of register 1080 to 1, leaving the other bits to their previous value
+# WRITE_REGISTER 1080 0100 0100
+# Example: Set only bit [8] of register 1080 to 0, leaving the other bits to their previous value
+# WRITE_REGISTER 1080 0000 0100
+# Example: Set register 1080 to the value of 0x45:
+# WRITE_REGISTER 1080 45 FFFFFFFF
+
+
+# ----------------------------------------------------------------
+# Individual Settings 
+# ----------------------------------------------------------------
+# The following setting are usually applied on channel by channel
+# basis; however, you can put them also in the [COMMON] section in
+# order to apply them to all the channels.
+# ----------------------------------------------------------------
+
+# ENABLE_INPUT: enable/disable one group of channels
+# options: YES, NO
+ENABLE_INPUT          YES
+
+
+#BASELINE_SHIFT: baseline position in percent of the Full Scale. 
+# The baseline shift is the same for all channels in the group
+# POSITIVE PULSE POLARITY (Full Scale = from 0 to + Vpp)
+# 0: analog input dynamic range = from 0 to +Vpp 
+# 50: analog input dynamic range = from +Vpp/2 to +Vpp 
+# 100: analog input dynamic range = null (usually not used)*
+# NEGATIVE PULSE POLARITY (Full Scale = from -Vpp to 0) 
+# 0: analog input dynamic range = from -Vpp to 0 
+# 50: analog input dynamic range = from -Vpp/2 to 0 
+# 100: analog input dynamic range = null (usually not used)*
+#
+# options: 0 to 100
+BASELINE_SHIFT  50
+
+
+# DC_OFFSET: DC offset adjust (DAC channel setting) in percent of the Full Scale. 
+# the DC offset adjust is the same for all channels in the group 
+# -50: analog input dynamic range = -Vpp to 0 (negative signals)*
+# +50: analog input dynamic range = 0 to +Vpp (positive signals)*
+# 0:   analog input dynamic range = -Vpp/2 to +Vpp/2 (bipolar signals)*
+#options: -50 to 50
+#DC_OFFSET              0 
+
+
+# TRIGGER_THRESHOLD: threshold for the channel auto trigger (ADC counts)
+# options 0 to 2^N-1 (N=Number of bit of the ADC)
+# *if DC_OFFSET is used the threshold is absolute* 
+# *if BASELINE_SHIFT is used the threshold is relative to the baseline of the first channel in the group*:
+# POSITIVE PULSE POLARITY: threshold = baseline + TRIGGER_THRESHOLD
+# NEGATIVE PULSE POLARITY: threshold = baseline - TRIGGER_THRESHOLD
+#
+#TRIGGER_THRESHOLD      100
+
+# CHANNEL_TRIGGER: channel auto trigger settings. When enabled, the ch. auto trg. can be either 
+# propagated (ACQUISITION_AND_TRGOUT) or not (ACQUISITION_ONLY) through the TRGOUT
+# options: DISABLED, ACQUISITION_ONLY, ACQUISITION_AND_TRGOUT, TRGOUT_ONLY
+CHANNEL_TRIGGER        ACQUISITION_ONLY
+
+# GROUP_TRG_ENABLE_MASK: channels are grouped 8 by 8; one group of 8 channels has a common trigger that is generated as
+# the OR of the self trigger of the channels in the group that are enabled by this mask.
+# options: 0 to FF
+
+
+[0]
+ENABLE_INPUT           YES
+BASELINE_SHIFT          50
+#DC_OFFSET              50 
+TRIGGER_THRESHOLD      100
+CHANNEL_TRIGGER        ACQUISITION_ONLY
+GROUP_TRG_ENABLE_MASK  01
+
+[1]
+ENABLE_INPUT           NO
+BASELINE_SHIFT          50
+#DC_OFFSET              50
+TRIGGER_THRESHOLD      100
+CHANNEL_TRIGGER        ACQUISITION_ONLY
+GROUP_TRG_ENABLE_MASK  01
+
+[2]
+ENABLE_INPUT           NO
+
+[3]
+ENABLE_INPUT           NO
+
+[4]
+ENABLE_INPUT           NO
