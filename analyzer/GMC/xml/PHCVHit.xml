@@ -1,0 +1,110 @@
+<!-- $Id$ -->
+<Folder>
+   <FolderName>PHCVHit</FolderName>
+   <FolderTitle>PHCVHit</FolderTitle>
+   <Affiliation>GMC</Affiliation>
+   <ArraySize>variable</ArraySize>
+   <Author>
+      <AuthorName>Gianfranco Tassielli</AuthorName>
+   </Author>
+   <FolderVersion>1</FolderVersion>
+   <FolderDescription>Folder class for PHCV Scintillator hit</FolderDescription>
+   <NoResetByFramework>false</NoResetByFramework>
+   <NoResetModifiedByFramework>false</NoResetModifiedByFramework>
+   <Field>
+      <FieldName>fChanId</FieldName>
+      <FieldType>ULong_t</FieldType>
+      <FieldComment>PHCV Scintillator Read Out Channel number</FieldComment>
+      <FieldInitialization>1e+16</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fTrkIDofHit</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Track ID for hit</FieldComment>
+      <FieldInitialization>-999</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fTotalEnergyLoss</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Total energy loss</FieldComment>
+      <FieldInitialization>-9999.</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fTotalCharge</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Total charge (related to energy loss)</FieldComment>
+      <FieldInitialization>-9999.</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fHitTime</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>hit time in nsec</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fHitPosX</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>hit position x</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fHitPosY</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>hit position Y</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fHitPosZ</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>hit position Z</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fToF</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Global time of hits </FieldComment>
+      <FieldInitialization>-9999.</FieldInitialization>      
+   </Field>
+   <Field>
+      <FieldName>fEntranceX</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>Entrance point x coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceY</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>Entrance point y coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceZ</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>Entrance point z coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceMomX</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>Entrance mom x</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceMomY</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>Entrance mom y</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceMomZ</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>Entrance mom z</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fGlobalTime</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-9999.</FieldInitialization>
+      <FieldComment>global time in nsec</FieldComment>
+   </Field>
+</Folder>

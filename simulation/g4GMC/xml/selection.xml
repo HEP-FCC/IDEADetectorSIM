@@ -1,0 +1,9 @@
+<lcgdict>
+<class name="G4String" />
+<class name="G4VHit" /> 
+<class name="GMCG4TrackerHit" />
+<class name="std::vector<GMCG4TrackerHit*>" />
+<class name="GMCG4Particle" />
+<class name="std::vector<GMCG4Particle*>" /> 
+<class name="CLHEP::Hep3Vector" />
+</lcgdict>

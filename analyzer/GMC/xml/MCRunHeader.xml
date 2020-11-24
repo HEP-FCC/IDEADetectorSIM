@@ -1,0 +1,57 @@
+<!-- $Id$ -->
+<Folder>
+	<FolderName>MCRunHeader</FolderName>
+	<FolderTitle>run header</FolderTitle>
+	<Affiliation>GMC</Affiliation>
+<!--	<Affiliation>cyldch</Affiliation>
+	<Affiliation>spx</Affiliation>
+	<Affiliation>svt</Affiliation>
+	<Affiliation>xec</Affiliation>  
+	<ArraySize>variable</ArraySize>   -->
+	<NoResetByFramework>true</NoResetByFramework>
+	<NetFolder>true</NetFolder>
+	<Author>
+		<AuthorName>Chiri Claudio</AuthorName>
+	</Author>
+	<FolderVersion>1</FolderVersion>
+	<FolderDescription>run information of simulation data.</FolderDescription>
+	<Field>
+		<FieldName>FileArraySize</FieldName>
+		<FieldType>Int_t</FieldType>
+		<FieldComment>Number of files in the array.</FieldComment>
+	</Field>
+	<Field>
+		<FieldName>EventRate</FieldName>
+		<FieldType>Double_t</FieldType>
+		<FieldComment>event rate.</FieldComment>
+	</Field>
+	<Field>
+		<FieldName>TotalNumberOfEvents</FieldName>
+		<FieldType>Int_t</FieldType>
+		<FieldComment>! total number of events in the array.</FieldComment>
+	</Field>
+	<Field>
+		<FieldName>AccessMode</FieldName>
+		<FieldType>Int_t</FieldType>
+		<FieldComment>! How to pick up events. 0:sequential, 1:loop, 2:random</FieldComment>
+		<FieldInitialization>kFALSE</FieldInitialization>
+	</Field>
+	<Field>
+		<FieldName>NEvent</FieldName>
+		<FieldType>Int_t</FieldType>
+		<FieldComment>Number of events in the file.</FieldComment>
+		<!-- <ArraySize>vector</ArraySize>    -->
+	</Field>
+	<Field>
+		<FieldName>FileName</FieldName>
+		<FieldType>TString</FieldType>
+		<FieldComment>Input file name.</FieldComment>
+		<ArraySize>vector</ArraySize>
+	</Field>
+	<Field>
+		<FieldName>FileRevision</FieldName>
+		<FieldType>Int_t</FieldType>
+		<FieldComment>Revision number of gem.</FieldComment>
+		<ArraySize>vector</ArraySize>
+	</Field>
+</Folder>

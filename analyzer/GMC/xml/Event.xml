@@ -1,0 +1,58 @@
+    <Folder>
+      <FolderName>Event</FolderName>
+      <NoResetByFramework>false</NoResetByFramework>
+      <NoResetModifiedByFramework>false</NoResetModifiedByFramework>
+      <Include>
+        <IncludeName>include/util/Waveform.h</IncludeName>
+        <IncludeType>local</IncludeType>
+      </Include>
+      <Include>
+        <IncludeName>include/generated/GMCMPXHit.h</IncludeName>
+        <IncludeType>local</IncludeType>
+      </Include>
+      <Field>
+        <FieldName>OscWaveform</FieldName>
+        <FieldType>Waveform*</FieldType>
+        <ArraySize>variable</ArraySize>
+        <InheritTObject>true</InheritTObject>
+        <FieldComment>Sense wire waveforms</FieldComment>
+      </Field>
+     <Field>
+        <FieldName>DRSWaveform</FieldName>
+        <FieldType>Waveform*</FieldType>
+        <ArraySize>variable</ArraySize>
+        <InheritTObject>true</InheritTObject>
+        <FieldComment>Sense wire waveforms</FieldComment>
+      </Field>
+     <Field>
+        <FieldName>ModuPix0</FieldName>
+        <FieldType>GMCMPXHit*</FieldType>
+        <ArraySize>variable</ArraySize>
+        <InheritTObject>true</InheritTObject>
+        <FieldComment>Pixel data</FieldComment>
+      </Field>
+     <Field>
+        <FieldName>ModuPix1</FieldName>
+        <FieldType>GMCMPXHit*</FieldType>
+        <ArraySize>variable</ArraySize>
+        <InheritTObject>true</InheritTObject>
+        <FieldComment>Pixel data 1</FieldComment>
+      </Field>
+      <Field>
+        <FieldName>EventTime</FieldName>
+        <FieldType>Int_t</FieldType>
+        <FieldComment>event Unix time</FieldComment>
+      </Field>
+      <Field>
+        <FieldName>TDCRefTime</FieldName>
+        <FieldType>Double_t</FieldType>
+        <FieldComment>TDC reference time</FieldComment>
+        <FieldInitialization>9999999</FieldInitialization>
+      </Field>
+      <Field>
+        <FieldName>OSCRefTime</FieldName>
+        <FieldType>Double_t</FieldType>
+        <FieldComment>Oscilloscope reference time</FieldComment>
+        <FieldInitialization>9999999</FieldInitialization>
+      </Field>
+    </Folder>

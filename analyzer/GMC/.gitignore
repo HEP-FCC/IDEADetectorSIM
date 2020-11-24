@@ -1,0 +1,7 @@
+/dict/
+/obj/
+/res/
+/*.root
+/gmcanalyzer.exe
+/GMCAnalyzer.html
+/Makefile

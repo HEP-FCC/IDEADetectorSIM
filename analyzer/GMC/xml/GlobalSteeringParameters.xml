@@ -1,0 +1,104 @@
+  <GlobalSteeringParameters>
+    <SteeringParameterField>
+      <SPFieldName>GeomSrvType</SPFieldName>
+      <SPFieldType>TString</SPFieldType>
+      <SPFieldInitialization>"PROTO"</SPFieldInitialization>
+      <SPFieldComment>Geometry Service Type (PROTO: to load Prototypes Geometry Service, CDCH: for central geometry DCH Geometry Service) </SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>GSrvAddFile</SPFieldName>
+      <SPFieldType>TString</SPFieldType>
+<!--       <SPFieldInitialization></SPFieldInitialization> -->
+      <SPFieldComment>additional (optional) configuration file name for Geometry Service </SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>GSrvAddFold</SPFieldName>
+      <SPFieldType>TString</SPFieldType>
+      <SPFieldInitialization>"."</SPFieldInitialization>
+      <SPFieldComment>additional (optional) folder for configuration file for Geometry Service </SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>GeomGDMLfile</SPFieldName>
+      <SPFieldType>TString</SPFieldType>
+      <SPFieldInitialization>"g4GMC.gdml"</SPFieldInitialization>
+      <SPFieldComment>GDML file for G4 geometry description </SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>Bz</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>0.0</SPFieldInitialization>
+      <SPFieldComment>value of magnetic field (Z component) in case of constant magnetic field</SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>GasMixture</SPFieldName>
+      <SPFieldType>TString</SPFieldType>
+<!--      <SPFieldInitialization></SPFieldInitialization>  -->
+      <SPFieldComment>gas mixture composition </SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>tube_radius</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>9.75/2.</SPFieldInitialization>
+      <SPFieldComment>tube radius in mm </SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>tube_lenght</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>250</SPFieldInitialization>
+      <SPFieldComment>tube lenght in mm.</SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>lambda</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>0.46</SPFieldInitialization>
+      <SPFieldComment>interaction lenght in mm</SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+      <SPFieldName>xBeam</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>0.</SPFieldInitialization>
+      <SPFieldComment>beam distance from the first tube in mm</SPFieldComment>
+    </SteeringParameterField>
+<SteeringParameterField>
+      <SPFieldName>yBeamSpot</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>10.5</SPFieldInitialization>
+      <SPFieldComment>Y estention for the beam in mm</SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>  
+    <SPFieldName>zBeam</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>-200.</SPFieldInitialization>
+      <SPFieldComment>beam distance from the first tube in mm</SPFieldComment>
+    </SteeringParameterField>
+<SteeringParameterField>
+      <SPFieldName>beamSpread</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>0.02</SPFieldInitialization>
+      <SPFieldComment>beam angular spread in rad</SPFieldComment>
+    </SteeringParameterField>
+<SteeringParameterField>
+      <SPFieldName>central_tube</SPFieldName>
+      <SPFieldType>Double_t</SPFieldType>
+      <SPFieldInitialization>5</SPFieldInitialization>
+      <SPFieldComment>central tube</SPFieldComment>
+    </SteeringParameterField>
+<SteeringParameterField>
+      <SPFieldName>CablingFile</SPFieldName>
+      <SPFieldType>TString</SPFieldType>
+      <SPFieldInitialization>"cabling.dat"</SPFieldInitialization>
+      <SPFieldComment>cabling file</SPFieldComment>
+</SteeringParameterField>
+<SteeringParameterField>
+      <SPFieldName>TimeOffsetsFile</SPFieldName>
+      <SPFieldType>TString</SPFieldType>
+      <SPFieldInitialization>"time_offsets.dat"</SPFieldInitialization>
+      <SPFieldComment>time offsets file</SPFieldComment>
+</SteeringParameterField>
+<SteeringParameterField>
+      <SPFieldName>AlignmentFile</SPFieldName>
+      <SPFieldType>TString</SPFieldType>
+      <SPFieldInitialization>"alignment.dat"</SPFieldInitialization>
+      <SPFieldComment>alignment file</SPFieldComment>
+</SteeringParameterField>
+  </GlobalSteeringParameters

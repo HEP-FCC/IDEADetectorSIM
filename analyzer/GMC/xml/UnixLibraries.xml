@@ -1,0 +1,18 @@
+  <UnixLibraries>
+    <Library>
+      <LibraryName>Minuit</LibraryName>
+    </Library>
+    <Library>
+      <LibraryName>Spectrum</LibraryName>
+    </Library>
+    <Library>
+      <LibraryName>genfit2</LibraryName>
+    </Library>
+<!--     <Library>
+      <LibraryName>g4GMC</LibraryName>
+    </Library>
+    <Library>
+      <LibraryName>CDCH</LibraryName>
+    </Library> -->
+  </UnixLibraries>
+

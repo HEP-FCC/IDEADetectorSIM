@@ -1,0 +1,408 @@
+ <?xml version="2.0" encoding="ISO-8859-1"?>
+<!-- $Id: Prototype.xml 207 2013-04-15 15:18:01Z renga $ -->
+<!DOCTYPE ROMEFrameworkDefinition [
+<!-- Folders -->
+  <!ENTITY MCRunHeader        SYSTEM "xml/MCRunHeader.xml">  
+  <!ENTITY GeantTrack         SYSTEM "xml/GeantTrack.xml">  
+  <!ENTITY DCGeantStep        SYSTEM "xml/DCGeantStep.xml">  
+  <!ENTITY PXGeantStep        SYSTEM "xml/PXGeantStep.xml">  
+  <!ENTITY SVXGeantStep       SYSTEM "xml/SVXGeantStep.xml">  
+  <!ENTITY PSHWGeantStep      SYSTEM "xml/PSHWGeantStep.xml">  
+  <!ENTITY PHCVGeantStep      SYSTEM "xml/PHCVGeantStep.xml">  
+  <!ENTITY PHCVRadGeantStep   SYSTEM "xml/PHCVRadGeantStep.xml">  
+  <!ENTITY MPXHit             SYSTEM "xml/MPXHit.xml">  
+  <!ENTITY DCHHit             SYSTEM "xml/DCHHit.xml">  
+  <!ENTITY SVXHit             SYSTEM "xml/SVXHit.xml">  
+  <!ENTITY PSHWHit            SYSTEM "xml/PSHWHit.xml">  
+  <!ENTITY PHCVHit            SYSTEM "xml/PHCVHit.xml">  
+  <!ENTITY MCTrack            SYSTEM "xml/MCTrack.xml"> 
+  <!ENTITY WaveformData       SYSTEM "xml/WaveformData.xml">
+<!--   <!ENTITY Event              SYSTEM "xml/Event.xml"> -->
+  <!ENTITY GenerateWaveforms  SYSTEM "xml/GenerateWaveforms.xml"> 
+  <!ENTITY TrackFitCDCH       SYSTEM "xml/TrackFitCDCH1.xml"> 
+  <!ENTITY RecoTracks         SYSTEM "xml/RecoTracks.xml"> 
+  <!ENTITY GMCMain            SYSTEM "xml/GMCMain.xml"> 
+  <!ENTITY sim                SYSTEM "xml/sim.xml"> 
+  <!ENTITY hits               SYSTEM "xml/hits.xml"> 
+  <!ENTITY reco               SYSTEM "xml/reco.xml"> 
+<!--   <!ENTITY raws               SYSTEM "xml/raws.xml">  -->
+  <!--User Makefile-->
+  <!ENTITY DictionaryHeaders  SYSTEM "xml/DictionaryHeaders.xml">
+  <!ENTITY IncludeDirectories SYSTEM "xml/IncludeDirectories.xml">
+  <!ENTITY AdditionalFiles    SYSTEM "xml/AdditionalFiles.xml"> 
+  <!ENTITY UnixLibraries      SYSTEM "xml/UnixLibraries.xml">
+  <!ENTITY GlobalSteeringParameters SYSTEM "xml/GlobalSteeringParameters.xml">
+
+  <!ENTITY PhotonConvStudy    SYSTEM "xml/PhotonConvStudy.xml"> 
+  
+<!--  <!ENTITY GenerateTrack SYSTEM "xml/tasks/GenerateTrack.xml">  -->
+<!--  <!ENTITY EventDisplay SYSTEM "xml/tabs/EventDisplay.xml">  --> 
+]>
+<ROMEFrameworkDefinition> 
+ 
+  <!-- Experiment Definition -->
+  <Experiment>
+    <ExperimentName>Gas Monitor Chamber Track Reconstruction </ExperimentName>
+    <ExperimentShortCut>GMC</ExperimentShortCut>
+    <ProgramName>Analyzer</ProgramName>
+  </Experiment>
+
+<UserMakeFile>
+   &DictionaryHeaders;
+   &IncludeDirectories;
+   &AdditionalFiles;
+   &UnixLibraries;
+</UserMakeFile>
+
+  <!-- Folders -->
+  <Folders>
+    <Folder>
+      <FolderName>ODB</FolderName>
+      <DataBaseAccess>true</DataBaseAccess>
+      <Field>
+	<FieldName>RunNumber</FieldName>
+	<FieldType>Int_t</FieldType>
+	<FieldComment>Runinfo/Run number</FieldComment>
+	<DataBaseName>odb</DataBaseName>
+	<DataBasePath>"/Runinfo/Run number"</DataBasePath>
+      </Field>
+      <Field>
+	<FieldName>StartTime</FieldName>
+	<FieldType>ROMEString</FieldType>
+	<FieldComment>Runinfo/Start time</FieldComment>
+	<DataBaseName>odb</DataBaseName>
+	<DataBasePath>"/Runinfo/Start time"</DataBasePath>
+      </Field>
+    </Folder>
+    <Folder>
+      <FolderName>GMCData</FolderName>
+      <FolderTitle>GMCData</FolderTitle>
+      <Affiliation>GMC</Affiliation>
+      <FolderDescription>GMC data root folder.</FolderDescription>
+      &GeantTrack;  
+      &DCGeantStep;
+      &PXGeantStep;
+      &SVXGeantStep;
+      &PSHWGeantStep;
+      &PHCVGeantStep;
+      &PHCVRadGeantStep;
+      &MCTrack;
+<!--       &Event; -->
+    </Folder>    
+    <Folder>
+      <FolderName>MC</FolderName>
+      <FolderTitle>MC</FolderTitle>
+      <Affiliation>GMC</Affiliation>
+      <FolderDescription>MC related folder.</FolderDescription>
+      &MCRunHeader;  
+      &DCHHit;
+      &MPXHit;
+      &SVXHit;
+      &PSHWHit;
+      &PHCVHit;
+      &WaveformData;
+    </Folder>
+    <Folder>
+      <FolderName>RecoData</FolderName>
+      <FolderTitle>RecoData</FolderTitle>
+      <Affiliation>GMC</Affiliation>
+      <FolderDescription>Reconstruction related folder.</FolderDescription>
+      &RecoTracks;
+    </Folder>    
+  </Folders>
+  
+  <!--TASKS-->
+  <Tasks>
+<!--    <Task>
+      <TaskName>MCGenerator</TaskName>
+      <Histogram>
+	<HistName>HTIME</HistName>
+	<HistType>TH1D</HistType>
+	<HistXLabel>drift_time</HistXLabel>
+	<HistYLabel>Entries</HistYLabel>
+	<HistXNbins>100</HistXNbins>
+	<HistXmin>-10</HistXmin>
+	<HistXmax>1000</HistXmax>
+	<HistTitle>drift time distribution</HistTitle>
+      </Histogram>
+    </Task>  -->
+<!--    <Task>
+      <TaskName>ReadData</TaskName>
+    </Task> -->  
+    <Task>
+      <TaskName>ReadMCData</TaskName>
+    </Task>
+    <Task>
+      <TaskName>ReadMCDataCDCH</TaskName>
+      <SteeringParameters>
+        <SteeringParameterField>
+          <SPFieldName>SimulateClusters</SPFieldName>
+          <SPFieldType>Bool_t</SPFieldType>
+          <SPFieldInitialization>true</SPFieldInitialization>
+          <SPFieldComment>simulate clusters</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>HitEnergyCut</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0</SPFieldInitialization>
+          <SPFieldComment>Minimum energy cut for hit creation</SPFieldComment>
+        </SteeringParameterField>
+      </SteeringParameters>
+    </Task>
+    <Task>
+      <TaskName>ReadMCDataSVX</TaskName>
+      <SteeringParameters>
+        <SteeringParameterField>
+          <SPFieldName>NLayers</SPFieldName>
+          <SPFieldType>Int_t</SPFieldType>
+          <SPFieldInitialization>1</SPFieldInitialization>
+          <SPFieldComment>Numeber of SVX Layers</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>RODeadTime</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+<!--           <ArraySize>vector</ArraySize> -->
+          <!-- <SPFieldInitialization>1e-9</SPFieldInitialization> -->
+          <SPFieldComment>[NLayers] Read Out Channel dead time per Layer</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>HitEnergyCut</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0</SPFieldInitialization>
+          <SPFieldComment>Minimum energy cut for hit creation</SPFieldComment>
+        </SteeringParameterField>
+      </SteeringParameters>
+    </Task>
+    <Task>
+      <TaskName>ReadMCDataPSHW</TaskName>
+      <SteeringParameters>
+        <SteeringParameterField>
+          <SPFieldName>NLayers</SPFieldName>
+          <SPFieldType>Int_t</SPFieldType>
+          <SPFieldInitialization>1</SPFieldInitialization>
+          <SPFieldComment>Numeber of PSHW Layers</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>RODeadTime</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+<!--           <ArraySize>vector</ArraySize> -->
+          <!-- <SPFieldInitialization>1e-9</SPFieldInitialization> -->
+          <SPFieldComment>[NLayers] Read Out Channel dead time per Layer</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>HitEnergyCut</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0</SPFieldInitialization>
+          <SPFieldComment>Minimum energy cut for hit creation</SPFieldComment>
+        </SteeringParameterField>
+      </SteeringParameters>
+    </Task>
+    <Task>
+      <TaskName>ReadMCDataPHCV</TaskName>
+      <SteeringParameters>
+        <SteeringParameterField>
+          <SPFieldName>NShells</SPFieldName>
+          <SPFieldType>Int_t</SPFieldType>
+          <SPFieldInitialization>1</SPFieldInitialization>
+          <SPFieldComment>Numeber of PHCV Shells</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>PHELPerkeV</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+<!--           <ArraySize>vector</ArraySize> -->
+          <!-- <SPFieldInitialization>1e-9</SPFieldInitialization> -->
+          <SPFieldComment>Mean n. of Photo Electron generated per keV</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>SpaceResolX</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0</SPFieldInitialization>
+          <SPFieldComment>Expected Space roslution X</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>SpaceResolY</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0</SPFieldInitialization>
+          <SPFieldComment>Expected Space roslution Y</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>SpaceResolZ</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0</SPFieldInitialization>
+          <SPFieldComment>Expected Space roslution Z</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>HitEnergyCut</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0</SPFieldInitialization>
+          <SPFieldComment>Minimum energy cut for hit creation</SPFieldComment>
+        </SteeringParameterField>
+      </SteeringParameters>
+    </Task>
+    <Task>
+      <TaskName>Calibrations</TaskName>
+    </Task>
+    &GMCMain;  
+    &GenerateWaveforms;
+    <Task>
+      <TaskName>TrackFit</TaskName>
+      <IncludeName>TMinuit.h</IncludeName>
+      <Histogram>
+	<HistName>HResidual</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>track impact parameter,mm</HistXLabel>
+	<HistXNbins>1000</HistXNbins>
+	<HistXmin>0</HistXmin>
+	<HistXmax>10</HistXmax>
+	<HistYNbins>1000</HistYNbins>
+	<HistYmin>10</HistYmin>
+	<HistYmax>10</HistYmax>
+	<HistYLabel>rmeasrtrk, mm</HistYLabel>
+	<HistTitle>rd_measd_trk distribution</HistTitle>
+      </Histogram>
+      <Histogram>
+	<HistName>HResidualUnbiased</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>track impact parameter,mm</HistXLabel>
+	<HistXNbins>1000</HistXNbins>
+	<HistXmin>0</HistXmin>
+	<HistXmax>10</HistXmax>
+	<HistYNbins>1000</HistYNbins>
+	<HistYmin>10</HistYmin>
+	<HistYmax>10</HistYmax>
+	<HistYLabel>rmeasrtrk, mm</HistYLabel>
+	<HistTitle>rd_measd_trk distribution</HistTitle>
+      </Histogram>
+      <Histogram>
+	<HistName>HResidualBiased</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>track impact parameter,mm</HistXLabel>
+	<HistXNbins>1000</HistXNbins>
+	<HistXmin>0</HistXmin>
+	<HistXmax>10</HistXmax>
+	<HistYNbins>1000</HistYNbins>
+	<HistYmin>10</HistYmin>
+	<HistYmax>10</HistYmax>
+	<HistYLabel>rmeasrtrk, mm</HistYLabel>
+	<HistTitle>rd_measd_trk distribution</HistTitle>
+      </Histogram>
+      <Histogram>
+	<HistName>HPixelResidualUnbiased</HistName>
+	<HistType>TH1D</HistType>
+	<HistXLabel>y pixel y track,mm</HistXLabel>
+	<HistXNbins>1000</HistXNbins>
+	<HistXmin>10</HistXmin>
+	<HistXmax>10</HistXmax>
+	<HistTitle>y_pixely_trk distribution</HistTitle>
+      </Histogram>
+    </Task>  
+    &TrackFitCDCH;
+    <Task>
+      <TaskName>WaveformAnalysis</TaskName>    
+    </Task>
+    &PhotonConvStudy;
+  </Tasks>
+  
+  <TaskHierarchy>
+    <Task>
+      <TaskName>GMCMain</TaskName>
+    </Task>
+    <Task>
+      <TaskName>ReadMCData</TaskName>
+    </Task>    
+    <Task>
+      <TaskName>ReadMCDataCDCH</TaskName>
+    </Task>    
+<!--     <Task>
+      <TaskName>ReadData</TaskName>
+    </Task> -->
+    <Task>
+      <TaskName>ReadMCDataSVX</TaskName>
+    </Task>    
+    <Task>
+      <TaskName>ReadMCDataPSHW</TaskName>
+    </Task>    
+    <Task>
+      <TaskName>ReadMCDataPHCV</TaskName>
+    </Task>    
+    <Task>
+      <TaskName>GenerateWaveforms</TaskName>
+    </Task>
+    <Task>
+      <TaskName>WaveformAnalysis</TaskName>
+    </Task>    
+    <Task>
+      <TaskName>TrackFit</TaskName>
+    </Task> 
+    <Task>
+      <TaskName>TrackFitCDCH</TaskName>
+    </Task> 
+    <Task>
+      <TaskName>PhotonConvStudy</TaskName>
+    </Task> 
+  </TaskHierarchy> 
+  
+  <!-- ROOTfiles -->
+  <Trees>
+    &sim;
+    &hits;
+<!--     &raws; -->
+    &reco;
+  </Trees>
+
+<Tabs>
+<!-- <Tab>
+   <TabName>EventDisplay</TabName>
+   <TabTitle>Event Display</TabTitle>
+</Tab> -->
+</Tabs>
+
+<!--  <UserDAQSystems>
+    <UserDAQSystem>
+      <DAQSystemName>bartender</DAQSystemName>
+      <Affiliation>GMC</Affiliation>
+    </UserDAQSystem>
+  </UserDAQSystems>    -->
+
+&GlobalSteeringParameters;
+
+<!--   <MidasBanks>
+    <EventDefinition>
+      <EventName>DAQ</EventName>
+      <EventID>1</EventID>
+      <EventTriggerMask>-1</EventTriggerMask>
+      <EventSamplingRate>2</EventSamplingRate>
+      <Banks>
+	<Bank>
+	  <BankName>TDC0</BankName>
+	  <BankType>DWORD</BankType>
+	</Bank>
+	<Bank>
+	  <BankName>LOSC</BankName>
+	  <BankType>DWORD</BankType>
+	</Bank>
+	<Bank>
+	  <BankName>CONF</BankName>
+	  <BankType>DWORD</BankType>
+	</Bank>
+        <Bank>
+          <BankName>DRS0</BankName>
+          <BankType>float</BankType>
+        </Bank>
+        <Bank>
+          <BankName>DRS1</BankName>
+          <BankType>float</BankType>
+        </Bank>
+        <Bank>
+          <BankName>PIX0</BankName>
+          <BankType>int</BankType>
+        </Bank>
+        <Bank>
+          <BankName>PIX1</BankName>
+          <BankType>int</BankType>
+        </Bank>
+	</Banks>
+    </EventDefinition>
+  </MidasBanks> -->
+ 
+  </ROMEFrameworkDefinition> 

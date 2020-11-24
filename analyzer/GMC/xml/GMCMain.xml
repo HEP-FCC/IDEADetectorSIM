@@ -1,0 +1,53 @@
+<!-- $Id$ -->
+<Task>
+  <TaskName>GMCMain</TaskName>
+  <Affiliation>GMC</Affiliation>
+  <Author>
+    <AuthorName>Chiri Claudio</AuthorName>
+  </Author>
+  <TaskDescription>Main task. This task does common initialization for all the tasks.</TaskDescription>
+<!--  <Affiliation>meg</Affiliation>
+  <Affiliation>cyldch</Affiliation>
+  <Affiliation>xec</Affiliation>
+  <Affiliation>svt</Affiliation>
+  <Affiliation>spx</Affiliation>  -->
+<!--  <Include>
+    <IncludeName>MEGBField.h</IncludeName>
+    <IncludeType>local</IncludeType>
+  </Include>   -->
+  <SteeringParameters>
+    <SteeringParameterGroup>
+      <SPGroupName>EventSelectionText</SPGroupName>
+      <SteeringParameterField>
+        <SPFieldName>InputFileName</SPFieldName>
+        <SPFieldType>TString</SPFieldType>
+        <SPFieldInitialization>&quot;&quot;</SPFieldInitialization>
+        <SPFieldComment>File name of a text file to skip unselected events by GLBEventSelection task. This file must be created in advance.</SPFieldComment>
+      </SteeringParameterField>
+    </SteeringParameterGroup>
+    <SteeringParameterField>
+      <SPFieldName>WriteODBXML</SPFieldName>
+      <SPFieldType>Bool_t</SPFieldType>
+      <SPFieldInitialization>kTRUE</SPFieldInitialization>
+      <SPFieldComment>When this is true, ODB is copied to ROOT output files. 'odb' database must be present in config XML.</SPFieldComment>
+    </SteeringParameterField>
+<!--    <SteeringParameterField>
+       <SPFieldName>BFieldType</SPFieldName>
+       <SPFieldType>Int_t</SPFieldType>
+       <SPFieldInitialization>MEGBField::kBDefault</SPFieldInitialization>
+       <SPFieldComment></SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+       <SPFieldName>BFieldCobraScaling</SPFieldName>
+       <SPFieldType>Float_t</SPFieldType>
+       <SPFieldInitialization>MEGBFieldConstants::kDefaultScale</SPFieldInitialization>
+       <SPFieldComment></SPFieldComment>
+    </SteeringParameterField>
+    <SteeringParameterField>
+       <SPFieldName>BFieldBTSScaling</SPFieldName>
+       <SPFieldType>Float_t</SPFieldType>
+       <SPFieldInitialization>MEGBFieldConstants::kDefaultScale</SPFieldInitialization>
+       <SPFieldComment></SPFieldComment>
+    </SteeringParameterField>   -->
+  </SteeringParameters>
+</Task>

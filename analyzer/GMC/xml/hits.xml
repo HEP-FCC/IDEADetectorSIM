@@ -1,0 +1,38 @@
+<!-- $Id$ -->
+<Tree>
+  <TreeName>MCHits</TreeName>
+  <TreeTitle>MCHits</TreeTitle>
+  <TreeDescription>Container for MC Hits</TreeDescription>
+  <Branch>
+    <BranchName>MCTracks</BranchName>
+    <RelatedFolder>GeantTrack</RelatedFolder>
+  </Branch>
+  <!--<Branch>
+    <BranchName>MCDCStep</BranchName>
+    <RelatedFolder>DCGeantStep</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>MCPXStep</BranchName>
+    <RelatedFolder>PXGeantStep</RelatedFolder>
+  </Branch> -->
+  <Branch>
+    <BranchName>DCHits</BranchName>
+    <RelatedFolder>DCHHit</RelatedFolder>
+  </Branch>
+  <!-- <Branch>
+    <BranchName>DCWaveforms</BranchName>
+    <RelatedFolder>WaveformData</RelatedFolder>
+  </Branch> -->
+  <Branch>
+    <BranchName>SVXHits</BranchName>
+    <RelatedFolder>SVXHit</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>PSHWHits</BranchName>
+    <RelatedFolder>PSHWHit</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>PHCVHits</BranchName>
+    <RelatedFolder>PHCVHit</RelatedFolder>
+  </Branch>
+</Tree>

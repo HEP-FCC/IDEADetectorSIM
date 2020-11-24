@@ -1,0 +1,10 @@
+<!-- $Id$ -->
+<Tree>
+  <TreeName>RawData</TreeName>
+  <TreeTitle>RawData</TreeTitle>
+  <TreeDescription>Container for real data</TreeDescription>
+  <Branch>
+    <BranchName>EventData</BranchName>
+    <RelatedFolder>Event</RelatedFolder>
+  </Branch>
+</Tree>

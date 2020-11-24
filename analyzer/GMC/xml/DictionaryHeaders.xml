@@ -1,0 +1,40 @@
+<!-- $Id$ -->
+<DictionaryHeaders>
+   <Header>
+     <HeaderName>include/util/Waveform</HeaderName>    
+     <Affiliation>GMC</Affiliation>
+   </Header>
+   <Header> 
+     <HeaderName>include/util/Geometry</HeaderName>
+     <Affiliation>GMC</Affiliation>
+   </Header> 
+   <Header>
+     <HeaderName>include/util/GeometrySrvHndl</HeaderName>
+     <Affiliation>GMC</Affiliation>
+   </Header>                                                                                                                        
+   <!--    <Header> 
+     <HeaderName>include/util/GeometryProto</HeaderName>
+     <Affiliation>GMC</Affiliation>
+   </Header> -->
+   <Header>
+     <HeaderName>include/util/CreateClusters</HeaderName>
+     <Affiliation>GMC</Affiliation>
+   </Header>
+   <Header>
+     <HeaderName>include/util/XTDataVlGas</HeaderName>
+     <Affiliation>GMC</Affiliation>
+   </Header>
+   <Header>
+     <HeaderName>include/util/XTREL</HeaderName>
+     <Affiliation>GMC</Affiliation>
+   </Header>
+   <Header>
+     <HeaderName>include/util/XTRELTIME</HeaderName>
+     <Affiliation>GMC</Affiliation>
+   </Header>    
+   <Header>
+     <HeaderName>include/util/ClusterSize</HeaderName>
+     <Affiliation>GMC</Affiliation>
+   </Header>
+</DictionaryHeaders>
+

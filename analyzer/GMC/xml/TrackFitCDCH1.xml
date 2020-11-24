@@ -1,0 +1,111 @@
+    <Task>
+      <TaskName>TrackFitCDCH</TaskName>
+      <!--________________Parameters ____________________ -->
+      <SteeringParameters>
+        <SteeringParameterField>
+          <SPFieldName>SigmaVtx</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>-0.0005</SPFieldInitialization>
+          <SPFieldComment>sigma vtx constrain(used if positive)</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>SigmaPxlVtx</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0005</SPFieldInitialization>
+          <SPFieldComment>sigma vtx detector</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>SigmaPxlPreshower</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.002</SPFieldInitialization>
+          <SPFieldComment>sigma at outer preshower</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>SigmaRPhi</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.01</SPFieldInitialization>
+          <SPFieldComment>sigma hit rphi, cm</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>DebugLevel</SPFieldName>
+          <SPFieldType>Int_t</SPFieldType>
+          <SPFieldInitialization>0</SPFieldInitialization>
+          <SPFieldComment>debug level</SPFieldComment>
+        </SteeringParameterField>
+      </SteeringParameters>
+      <Histogram>
+	<HistName>HResidualUnbiased</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>track impact parameter,mm</HistXLabel>
+	<HistXNbins>1000</HistXNbins>
+	<HistXmin>0</HistXmin>
+	<HistXmax>10</HistXmax>
+	<HistYNbins>1000</HistYNbins>
+	<HistYmin>-10</HistYmin>
+	<HistYmax>10</HistYmax>
+	<HistYLabel>rmeasrtrk, mm</HistYLabel>
+	<HistTitle>rd_measd_trk distribution</HistTitle>
+      </Histogram>
+      <Histogram>
+	<HistName>HResidualBiased</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>track impact parameter,mm</HistXLabel>
+	<HistXNbins>1000</HistXNbins>
+	<HistXmin>0</HistXmin>
+	<HistXmax>10</HistXmax>
+	<HistYNbins>1000</HistYNbins>
+	<HistYmin>-10</HistYmin>
+	<HistYmax>10</HistYmax>
+	<HistYLabel>rmeasrtrk, mm</HistYLabel>
+	<HistTitle>rd_measd_trk distribution</HistTitle>
+      </Histogram>
+      <Histogram>
+	<HistName>HMomentum</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>Momentum, GeV</HistXLabel>
+	<HistXNbins>1000</HistXNbins>
+	<HistXmin>0</HistXmin>
+	<HistXmax>10</HistXmax>
+	<HistYNbins>1000</HistYNbins>
+	<HistYmin>-0.05</HistYmin>
+	<HistYmax>0.05</HistYmax>
+	<HistYLabel>P_{fit}/P_{mc}-1</HistYLabel>
+	<HistTitle>fitted momentum</HistTitle>
+      </Histogram>
+      <Histogram>
+	<HistName>HPixelXres</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>x, cm</HistXLabel>
+	<HistXNbins>5000</HistXNbins>
+	<HistXmin>-1</HistXmin>
+	<HistXmax>1</HistXmax>
+	<HistYNbins>20</HistYNbins>
+	<HistYmin>0</HistYmin>
+	<HistYmax>20</HistYmax>
+	<HistTitle>Pixel Resolution - X</HistTitle>
+      </Histogram>
+      <Histogram>
+	<HistName>HPixelYres</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>y, cm</HistXLabel>
+	<HistXNbins>5000</HistXNbins>
+	<HistXmin>-1</HistXmin>
+	<HistXmax>1</HistXmax>
+	<HistYNbins>20</HistYNbins>
+	<HistYmin>0</HistYmin>
+	<HistYmax>20</HistYmax>
+	<HistTitle>Pixel Resolution - Y</HistTitle>
+      </Histogram>
+      <Histogram>
+	<HistName>HPixelZres</HistName>
+	<HistType>TH2D</HistType>
+	<HistXLabel>z, cm</HistXLabel>
+	<HistXNbins>5000</HistXNbins>
+	<HistXmin>-1</HistXmin>
+	<HistXmax>1</HistXmax>
+	<HistYNbins>20</HistYNbins>
+	<HistYmin>0</HistYmin>
+	<HistYmax>20</HistYmax>
+	<HistTitle>Pixel Resolution - Z</HistTitle>
+      </Histogram>
+    </Task>  

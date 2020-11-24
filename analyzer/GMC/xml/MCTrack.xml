@@ -1,0 +1,54 @@
+<!--$Id:  $-->
+<Folder>
+   <FolderName>MCTrack</FolderName>
+   <FolderTitle>MCTrack</FolderTitle>
+   <Affiliation>GMC</Affiliation>
+   <ArraySize>variable</ArraySize>
+   <Author>
+      <AuthorName>Claudio Chiri</AuthorName>
+   </Author>
+   <FolderVersion>1</FolderVersion>
+   <FolderDescription>Folder class for MC track info</FolderDescription>
+   <NoResetByFramework>false</NoResetByFramework>
+   <NoResetModifiedByFramework>false</NoResetModifiedByFramework>
+   <Field>
+      <FieldName>TrkID</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Track ID</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>PDGCode</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Particle code in PDG</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>x0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Track Vertex x coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>y0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Track Vertex y coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>z0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Track Vertex z coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>theta</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>polar angle w.r.t. the  beam direction</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>phi</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>azimuthal angle in the X-Y plane</FieldComment>
+   </Field> 
+   <Field>
+      <FieldName>Momentum</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Track Momentum</FieldComment>
+   </Field>
+</Folder>

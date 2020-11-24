@@ -1,0 +1,21 @@
+<!-- $Id$ -->
+<Tree>
+  <TreeName>RecoData</TreeName>
+  <TreeTitle>RecoData</TreeTitle>
+  <TreeDescription>Container for RecoData</TreeDescription>
+
+  <Branch>
+    <BranchName>RecoTracks</BranchName>
+    <RelatedFolder>RecoTracks</RelatedFolder>
+  </Branch>
+<!--  <Branch>
+    <BranchName>RecoDCHits</BranchName>
+    <RelatedFolder>RecoDCHHit</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>RecoPXHits</BranchName>
+    <RelatedFolder>RecoMPXHit</RelatedFolder>
+  </Branch>  -->
+
+
+</Tree>

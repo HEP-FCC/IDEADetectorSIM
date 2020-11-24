@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $Id: $ -->
+
+<!-- Please check $ROMESYS/romeConfig_xsd.html for details of tags -->
+
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="">
+  <ProgramConfiguration>
+    <ProgramMode>0</ProgramMode>
+  </ProgramConfiguration>
+
+  <MainConfiguration>
+    <Modes>
+      <AnalyzingMode>offline</AnalyzingMode>
+      <DAQSystem>rome</DAQSystem>
+    </Modes>
+
+    <Offline>
+      <RunNumbers></RunNumbers>
+      <EventNumbers></EventNumbers>
+      <EventStep>1</EventStep>
+      <InputFileNames></InputFileNames>
+    </Offline>
+
+    <Online>
+      <Host></Host>
+      <Experiment></Experiment>
+      <AnalyzerName>Analyzer</AnalyzerName>
+      <MemoryBuffer>SYSTEM</MemoryBuffer>
+      <ReadConfigFromODB>false</ReadConfigFromODB>
+    </Online>
+
+    <Paths>
+      <InputFilePath>../../simulation/g4GMC/</InputFilePath>
+      <OutputFilePath>./</OutputFilePath>
+      <OutputFileOption>RECREATE</OutputFileOption>
+      <MakeOutputDirectory>false</MakeOutputDirectory>
+    </Paths>
+
+    <Common>
+      <Settings>
+        <VerboseLevel>normal</VerboseLevel>
+        <ReportMaxCount>20</ReportMaxCount>
+        <ReportSummaryFileName></ReportSummaryFileName>
+        <ReportSummaryFileLevel>warning</ReportSummaryFileLevel>
+        <ReportSummaryLineLength>2048</ReportSummaryLineLength>
+        <ConfigCommentLevel>1</ConfigCommentLevel>
+        <QuitMode>false</QuitMode>
+        <ShowSplashScreen>false</ShowSplashScreen>
+        <GraphicalConfigEdit>false</GraphicalConfigEdit>
+        <PreserveConfig>false</PreserveConfig>
+      </Settings>
+
+      <FloatingPointExceptionTrap>
+        <Invalid>false</Invalid>
+        <DivByZero>false</DivByZero>
+        <Overflow>false</Overflow>
+        <Underflow>false</Underflow>
+        <Inexact>false</Inexact>
+      </FloatingPointExceptionTrap>
+
+      <SocketServer>
+        <Active>false</Active>
+        <PortNumber>9090</PortNumber>
+      </SocketServer>
+
+      <DataBases/>
+
+      <Trees>
+        <Accumulate>false</Accumulate>
+        <MaxMemory>100000000</MaxMemory>
+        <Tree>
+          <TreeName>MCData</TreeName>
+          <Read>true</Read>
+          <Write>false</Write>
+          <Fill>false</Fill>
+          <CompressionLevel>1</CompressionLevel>
+          <CompressionAlgorithm>ZLIB</CompressionAlgorithm>
+          <AutoSaveSize>300000000</AutoSaveSize>
+          <AutoFlushSize>-30000000</AutoFlushSize>
+          <CacheSize>-1</CacheSize>
+          <MaxNumberOfEntries>0</MaxNumberOfEntries>
+          <TreeInputFileName>MCData#.root</TreeInputFileName>
+          <TreeOutputFileName></TreeOutputFileName>
+          <SaveConfiguration>false</SaveConfiguration>
+          <Branch>
+            <BranchName>MCTracks</BranchName>
+            <Active>true</Active>
+            <Read>true</Read>
+          </Branch>
+          <Branch>
+            <BranchName>MCDCStep</BranchName>
+            <Active>true</Active>
+            <Read>true</Read>
+          </Branch>
+          <Branch>
+            <BranchName>MCPXStep</BranchName>
+            <Active>false</Active>
+            <Read>false</Read>
+          </Branch>
+        </Tree>
+
+        <Tree>
+          <TreeName>MCHits</TreeName>
+          <Read>false</Read>
+          <Write>true</Write>
+          <Fill>true</Fill>
+          <CompressionLevel>1</CompressionLevel>
+          <CompressionAlgorithm>ZLIB</CompressionAlgorithm>
+          <AutoSaveSize>300000000</AutoSaveSize>
+          <AutoFlushSize>-30000000</AutoFlushSize>
+          <CacheSize>-1</CacheSize>
+          <MaxNumberOfEntries>0</MaxNumberOfEntries>
+          <TreeInputFileName>MCHits#.root</TreeInputFileName>
+          <TreeOutputFileName></TreeOutputFileName>
+          <SaveConfiguration>false</SaveConfiguration>
+          <Branch>
+            <BranchName>DCHits</BranchName>
+            <Active>true</Active>
+            <Read>true</Read>
+          </Branch>
+          <Branch>
+            <BranchName>PXHits</BranchName>
+            <Active>false</Active>
+            <Read>false</Read>
+          </Branch>
+        </Tree>
+
+        <Tree>
+          <TreeName>RecoData</TreeName>
+          <Read>false</Read>
+          <Write>true</Write>
+          <Fill>true</Fill>
+          <CompressionLevel>1</CompressionLevel>
+          <CompressionAlgorithm>ZLIB</CompressionAlgorithm>
+          <AutoSaveSize>300000000</AutoSaveSize>
+          <AutoFlushSize>-30000000</AutoFlushSize>
+          <CacheSize>-1</CacheSize>
+          <MaxNumberOfEntries>0</MaxNumberOfEntries>
+          <TreeInputFileName></TreeInputFileName>
+          <TreeOutputFileName></TreeOutputFileName>
+          <SaveConfiguration>false</SaveConfiguration>
+          <Branch>
+            <BranchName>RecoTracks</BranchName>
+            <Active>true</Active>
+            <Read>true</Read>
+          </Branch>
+        </Tree>
+      </Trees>
+
+      <GlobalSteeringParameters>
+        <SteeringParameterField>
+          <!-- Geometry Service Type (PROTO: to load Prototypes Geometry Service, CDCH: for central geometry DCH Geometry Service) -->
+          <SPName>GeomSrvType</SPName>
+          <SPValue>CDCH</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- additional (optional) configuration file name for Geometry Service -->
+          <SPName>GSrvAddFile</SPName>
+          <SPValue>geom_02.txt</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- additional (optional) folder for configuration file for Geometry Service -->
+          <SPName>GSrvAddFold</SPName>
+          <SPValue>../../simulation/g4GMC/config</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- GDML file for G4 geometry description -->
+          <SPName>GeomGDMLfile</SPName>
+          <SPValue>../../simulation/g4GMC/g4test-mu2e.gdml</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- value of magnetic field (Z component) in case of constant magnetic field -->
+          <SPName>Bz</SPName>
+          <SPValue>2</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- gas mixture composition -->
+          <SPName>GasMixture</SPName>
+          <SPValue>90:10</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- tube radius in mm -->
+          <SPName>tube_radius</SPName>
+          <SPValue>5</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- tube lenght in mm. -->
+          <SPName>tube_lenght</SPName>
+          <SPValue>250</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- interaction lenght in mm -->
+          <SPName>lambda</SPName>
+          <SPValue>0.46</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- beam distance from the first tube in mm -->
+          <SPName>xBeam</SPName>
+          <SPValue>0</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- Y estention for the beam in mm -->
+          <SPName>yBeamSpot</SPName>
+          <SPValue>10</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- beam distance from the first tube in mm -->
+          <SPName>zBeam</SPName>
+          <SPValue>-60</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- beam angular spread in rad -->
+          <SPName>beamSpread</SPName>
+          <SPValue>0.02</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- central tube -->
+          <SPName>central_tube</SPName>
+          <SPValue>5</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- cabling file -->
+          <SPName>CablingFile</SPName>
+          <SPValue>cabling.dat</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- time offsets file -->
+          <SPName>TimeOffsetsFile</SPName>
+          <SPValue>time_offsets.dat</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- alignment file -->
+          <SPName>AlignmentFile</SPName>
+          <SPValue>alignment.dat</SPValue>
+        </SteeringParameterField>
+      </GlobalSteeringParameters>
+    </Common>
+
+    <Analyzer>
+      <HistogramRead>
+        <Read>false</Read>
+        <RunNumber></RunNumber>
+        <Path></Path>
+        <FileName></FileName>
+      </HistogramRead>
+
+      <HistogramWrite>
+        <Write>true</Write>
+        <Path></Path>
+        <FileName></FileName>
+        <AccumulateAll>false</AccumulateAll>
+        <DeactivateAll>false</DeactivateAll>
+        <AutoSavePeriod>0</AutoSavePeriod>
+        <SnapShotFileName></SnapShotFileName>
+        <SnapShotEvents>0</SnapShotEvents>
+      </HistogramWrite>
+
+      <Macros>
+        <BeginOfRun></BeginOfRun>
+        <BeginOfEvent></BeginOfEvent>
+        <EndOfEvent></EndOfEvent>
+        <EndOfRun></EndOfRun>
+      </Macros>
+
+      <Tasks>
+        <Task>
+          <TaskName>GMCMain</TaskName>
+          <Active>true</Active>
+          <SteeringParameterField>
+            <!-- When this is true, ODB is copied to ROOT output files. 'odb' database must be present in config XML. -->
+            <SPName>WriteODBXML</SPName>
+            <SPValue>true</SPValue>
+          </SteeringParameterField>
+
+          <SteeringParameterGroup>
+            <SPGroupName>EventSelectionText</SPGroupName>
+            <SteeringParameterField>
+              <!-- File name of a text file to skip unselected events by GLBEventSelection task. This file must be created in advance. -->
+              <SPName>InputFileName</SPName>
+              <SPValue></SPValue>
+            </SteeringParameterField>
+          </SteeringParameterGroup>
+        </Task>
+
+        <Task>
+          <TaskName>ReadMCData</TaskName>
+          <Active>false</Active>
+        </Task>
+
+        <Task>
+          <TaskName>ReadMCDataCDCH</TaskName>
+          <Active>true</Active>
+        </Task>
+
+        <Task>
+          <TaskName>GenerateWaveforms</TaskName>
+          <Active>false</Active>
+          <SteeringParameterField>
+            <!-- Resistance in input -->
+            <SPName>ResistRR</SPName>
+            <SPValue>50</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Ions mobility -->
+            <SPName>mobility</SPName>
+            <SPValue>10.4</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- time slope for signal (ns) -->
+            <SPName>tauRumpUp</SPName>
+            <SPValue>0.87</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Rise Constant Time for signal (ns) -->
+            <SPName>tauRumpDown</SPName>
+            <SPValue>0.56</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Rise Time constant 2for signal (ns) -->
+            <SPName>tauRumpDown2</SPName>
+            <SPValue>6.96</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Fraction of mixing signal (Tassielli shape)
+"
+" -->
+            <SPName>FractionMixSign</SPName>
+            <SPValue>0.45</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Resolution for time acquisition (ns) -->
+            <SPName>BinTimeWidth</SPName>
+            <SPValue>0.4</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Time acquisition window (ns) -->
+            <SPName>TimeWindow</SPName>
+            <SPValue>1000</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- High Voltage on tube -->
+            <SPName>HVTube</SPName>
+            <SPValue>1500</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Gas Gain -->
+            <SPName>GasGain</SPName>
+            <SPValue>1e+06</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- flag to switch on noise -->
+            <SPName>NoiseOn</SPName>
+            <SPValue>true</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Noise level -->
+            <SPName>SignalNoiseRatio</SPName>
+            <SPValue>7</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- flag to switch on the waveform digitization
+"
+" -->
+            <SPName>DigitizationOn</SPName>
+            <SPValue>true</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Nr. of Bits for ADC -->
+            <SPName>ADCResolution</SPName>
+            <SPValue>12</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- ADC range in Volt -->
+            <SPName>ADCFullRange</SPName>
+            <SPValue>1</SPValue>
+          </SteeringParameterField>
+          <SteeringParameterField>
+            <!-- Electronic Front--End gain -->
+            <SPName>FrontEndGain</SPName>
+            <SPValue>10</SPValue>
+          </SteeringParameterField>
+        </Task>
+
+        <Task>
+          <TaskName>WaveformAnalysis</TaskName>
+          <Active>false</Active>
+        </Task>
+
+        <Task>
+          <TaskName>TrackFit</TaskName>
+          <Active>false</Active>
+        </Task>
+
+        <Task>
+          <TaskName>TrackFitCDCH</TaskName>
+          <Active>true</Active>
+        </Task>
+      </Tasks>
+    </Analyzer>
+
+    <Monitor>
+      <SocketClient>
+        <Host>localhost</Host>
+        <Port>0</Port>
+      </SocketClient>
+    </Monitor>
+  </MainConfiguration>
+</Configuration>

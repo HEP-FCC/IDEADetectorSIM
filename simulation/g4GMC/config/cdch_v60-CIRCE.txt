@@ -1,0 +1,204 @@
+//
+// Warning:  do not write 10000. as 10,000.; it will be read as two numbers (10., 0.).
+
+bool hasCDCH      = true;
+
+string cdch.motherVolMat = "G4_AIR";
+bool cdch.ActiveWiresSD = false;
+bool cdch.ActiveFWiresSD = false;
+//vector<double> g4.detSysCenter = { 0.0, 0.0, 0.0 };
+
+vector<string> cdch.materials =
+  { "C_19_H_20_O_4", "C_10_H_18_O_4", "C_9_H_22_N_2", "Epotek301", "EGlass",
+      "CarbonFiber_resin", "CarbonFiber", "CFoam_332", "CFoam_166", "G10_FR4"
+  };
+
+string cdch.extFile          =    "";   //"CDCH/CDCHGeom.gdml";
+string cdch.extWireFile      =    "";   //"CDCH/CDCHWireData.root";
+//double cdch.r0               =  ­109.9968757929693642093382273450¬ (manca innerwall e approx a 9 cifre);   //To be consistent check that is = nSWire*cellDimension/2pi -cellDimension/2 -InnerWall_thickness -fieldWireDiameter -1.0e-2 -1.0e-3  // Lengths in mm
+double cdch.r0               = 92.976875793;
+double cdch.z0               =      0;//10200.0;
+double cdch.zHalfLength      = 1606.0;
+double cdch.rOut             = 2500.00;   //must be greater than the radius of the outer most filed wire +fieldWireDiameter +OuterWall_thickness or +elctContWallThick if it is present
+double cdch.alpha            =   60.0;   //alpha of the wires (angle in the transverse plane between the two ends of the wires and the axis of chamber) //deg
+
+int    cdch.geomType         =    60;   //decimal digit:magior version, unit digit:minor version  20:Hexagonal, 30:Square with constant cell dimension, 
+                                            //                                         31:Like 30 but with base fw in both directions and shared between two consecutive layers, and layers staggered
+                                            //                                         41:Like 31 but with cell dimension that increases with radius
+                                            //                                         42:Like 41 but (final Mu2e/MEG layout)
+                                            //                                         50:Like 42 but organized in SuperLayer (the number of wire increase at each Superlayer)
+                                            //                                         60:Like 50 but divided in inner and outer DCH and the outer is organized in group of trackers
+int    cdch.endCapType       =     0;   //EndCap shape type: 0 plane, 1 spherical
+double cdch.voxelization     =     0;   //Choose voxelization method for the gas volumes that contain wires, negative: default computation, 0: voxelization off, positive: smartless value
+bool   cdch.displayGasLayer  = false;   //Allow to display the gas inside the chamber. It is recommended to switch on it only for debug, it makes the display slow.
+bool   cdch.displayWires     = false;   //Allow to display every wires inside gas inside the chamber. It is recommended to switch on it only for debug, it makes the display very slow.
+
+bool   cdch.doDetailedSurfCheck = false;
+bool   cdch.debugLayer       = false;
+
+// Cell parameter needed only for the square cell case
+
+int    cdch.nSWire           =   120;
+double cdch.cellDimension    = 5.917;  //of the innermost layer (is equivalent to fix the radius at Z=0 of the first Layer)
+//int    cdch.nLayer           =    36;
+
+int    cdch.nSDeltaWire      =     6;
+int    cdch.nSuperLayer      =    80;
+int    cdch.nRing            =     1;  //Max 10 for the Square Cell Layout (geomType 50)
+
+int    cdch.nVerticalFWire   =     1;
+int    cdch.StoFWireRation   =     5;
+
+int    cdch.nOuterShell      =     8;
+vector<int> cdch.OSnSWire        = { 624, 624, 636, 660, 696, 720, 744, 780 };
+vector<double> cdch.OScellDimension = { 6.948, 8.227, 9.543, 10.834, 12.007, 13.474, 15.066, 16.497 };
+vector<int> cdch.OSnSDeltaWire   = { 6, 6, 6, 6, 6, 6, 6, 6 };
+vector<int> cdch.OSnSuperLayer   = { 16, 16, 16, 16, 16, 16, 16, 16 };
+vector<int> cdch.OSnRing         = { 1, 1, 1, 1, 1, 1, 1, 1 };  //Max 10 for the Square Cell Layout (geomType 60)
+vector<double> cdch.OSalpha      = { 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0 }; 
+vector<double> cdch.OSservSpace  = { 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0 };
+
+// Materials and elements compositions
+string         cdch.fillMaterial    = "GasHe_85Isob_15";
+//string         cdch.fillMaterial    = "WAGVacuum";
+
+bool   cdch.usePhysicalStep  =  false; //Use the physical calculation of the path length, if false a fixed step distance is used by using the freePath variable 
+double cdch.freePath         =    1.0; // free Path length in mm
+//bool   cdch.changeMSC        =   true;
+
+// Field wires description
+int    cdch.nFieldWireShells =      2;
+vector<string> cdch.fieldWireMaterials = { "G4_Al", "G4_Ag" };
+//vector<string> cdch.fieldWireMaterials = { "WAGVacuum", "WAGVacuum" };
+vector<double> cdch.fieldWireShellsThicknesses = { 0.0197, 0.0003 };
+//vector<double> cdch.fieldWireShellsThicknesses = { 0.197, 0.003 };
+
+// Central (Vertical) Field wires description
+int    cdch.nCntFieldWireShells =      2;
+vector<string> cdch.CntfieldWireMaterials = { "G4_Al", "G4_Ag" };
+//vector<string> cdch.CntfieldWireMaterials = { "WAGVacuum", "WAGVacuum" };
+vector<double> cdch.CntfieldWireShellsThicknesses = { 0.0247, 0.0003 };
+
+// Sense wires description
+int    cdch.nSenseWireShells =      2;
+vector<string> cdch.senseWireMaterials = { "G4_W", "G4_Au" };
+//vector<string> cdch.senseWireMaterials = { "WAGVacuum", "WAGVacuum" };
+vector<double> cdch.senseWireShellsThicknesses = { 0.0097, 0.0003 };
+//vector<double> cdch.senseWireShellsThicknesses = { 0.097, 0.003 };
+
+// Innermost Guard Field wires description
+int    cdch.nInGuardWireShells =    2;
+vector<string> cdch.inGuardWireMaterials = { "G4_Al", "G4_Ag" };
+//vector<string> cdch.inGuardWireMaterials = { "WAGVacuum", "WAGVacuum" };
+vector<double> cdch.inGuardWireShellsThicknesses = { 0.0247, 0.0003 };
+int    cdch.nInGuardWires    =    192; //number of innermost guard wires per stereo direction, if <0 equal to the number of Field Wires, if =0 no guard wires 
+double cdch.inGuardRad       =  165.0; //365.008173333;
+
+// Outermost Guard Field wires description
+int    cdch.nOutGuardWireShells =   2;
+vector<string> cdch.outGuardWireMaterials = { "G4_Al", "G4_Ag" };
+//vector<string> cdch.outGuardWireMaterials = { "WAGVacuum", "WAGVacuum" };
+vector<double> cdch.outGuardWireShellsThicknesses = { 0.0247, 0.0003 };
+int    cdch.nOutGuardWires    =   192; //number of outermost guard wires per stereo direction, if <0 equal to the number of Field Wires, if =0 no guard wires 
+double cdch.outGuardRad       = 246.0; //365.008173333;
+
+// Inner Wall description
+int    cdch.nInnerWallShells =      2;
+vector<string> cdch.innerWallMaterials = { "Kapton", "GasHe_85Isob_15" };
+//vector<string> cdch.innerWallMaterials = { "WAGVacuum", "WAGVacuum", "WAGVacuum", "WAGVacuum", "WAGVacuum", "GasHe_85Isob_15" };
+vector<double> cdch.innerWallShellsThicknesses = { 0.020, 17.000 };
+
+// Outer Wall description
+int    cdch.nOuterWallShells =      1;
+vector<string> cdch.outerWallMaterials = { "CarbonFiber" };
+vector<double> cdch.outerWallShellsThicknesses = { 2.000 };
+
+// End Cap description
+int    cdch.nEndCapWallShells =     7;
+int    cdch.structShellsAreLast = 1;  //Which shells of the endcap wall shells vector are the structural ones
+vector<string> cdch.endcapWallMaterials = { "GasHe_85Isob_15", "GasHe_85Isob_15", "GasHe_85Isob_15", "GasHe_85Isob_15", "G4_Cu", "Kapton", "CarbonFiber" }; //the first 3 volumes are used to contain the wires supports and cables 
+vector<double> cdch.endcapWallShellsThicknesses = { 5.000, 10.000, 100.000, 34.7495, 0.0005, 0.010, 0.240 };
+
+// o'ring for End Cap Inner Wall junction description
+string cdch.oringMaterial = "CarbonFiber"; 
+double cdch.oringWidth  = 15.000;
+double cdch.oringHeight =  6.0125; //6.000 the 12.5um are need to compensate the metallized Kapton film of the inner wall
+
+bool   cdch.detailedWireSupport = false;
+
+// Spider Web support
+string cdch.spdWebSpokeMaterial = "CarbonFiber"; 
+int    cdch.spdWebSpokesNumber = 24; 
+double cdch.spdWebBaseWidth = 5.000;
+double cdch.spdWebBaseThickness = 5.000;
+bool   cdch.useSimplefiedSpoke = true;
+double cdch.simplefiedSpokeWidth = 2.645;
+vector<double> cdch.spdWebSpokeFacePntsX = {  2.500,  0.500,  0.500, -0.500, -0.500, -2.500, -2.500, -0.500, -0.500,  0.500,  0.500,  2.500 };
+vector<double> cdch.spdWebSpokeFacePntsY = {  0.500,  0.500,  1.500,  1.500,  0.500,  0.500, -0.500, -0.500, -1.500, -1.500, -0.500, -0.500 };
+
+// Wires Spacer
+string cdch.spacerMaterial = "G4_POLYCARBONATE"; 
+double cdch.spacerBaseWidth = 3.000;
+double cdch.spacerBaseThickness = 0.250;
+double cdch.spacerCoreThickness = 0.500;
+int    cdch.spacerNumCores = 180;
+int    cdch.spacerNumSpokesPerCore = 2;
+double cdch.spacerCoreSurfFrac  = 0.3333333333333333;
+
+// Sense Wires board
+string cdch.swBoardMaterial = "G10_FR4"; 
+double cdch.swBoardWidth = 10.000;
+double cdch.swBoardThickness = 0.200;
+
+// Field Wires board
+string cdch.fwBoardMaterial = "G10_FR4"; 
+double cdch.fwBoardWidth =  4.000;
+double cdch.fwBoardThickness = 0.200;
+
+// HV Capacitance
+string cdch.hvCapMaterial = "G4_Al"; 
+double cdch.hvCapLength =  3.170;
+double cdch.hvCapWidth  =  1.570;
+double cdch.hvCapHeight =  1.700;
+
+// Termination Resistance
+string cdch.trmResMaterial = "G4_Al"; 
+double cdch.trmResLength =  1.600;
+double cdch.trmResWidth  =  0.800;
+double cdch.trmResHeight =  0.450;
+
+// Hv Resistance
+string cdch.hvResMaterial = "G4_Al"; 
+double cdch.hvResLength =  5.000;
+double cdch.hvResWidth  =  2.500;
+double cdch.hvResHeight =  0.550;
+
+// Signal Cables
+string cdch.cableDielMaterial = "Kapton"; 
+double cdch.cableDielThickness =  0.025;
+double cdch.cableDielWidth =  20.320;
+string cdch.cableWireMaterial = "G4_Cu"; 
+double cdch.cableWireDiameter =  0.040;
+double cdch.cableWirePitch =  0.635;
+
+// HV Cables
+vector<string> cdch.hvCableMaterials = { "G4_Cu", "G4_TEFLON" };
+vector<double> cdch.hvCableShellsThicknesses = { 0.250, 0.500 };
+
+//// electronics Container
+//double  cdch.elctContRmax = 820.000; 
+//double  cdch.elctContWallThick = 10.000; 
+//string  cdch.elctContWallMat = "CarbonFiber";
+//string  cdch.elctContFillMat = "GasHe_85Isob_15";
+//double  cdch.electCardLength =  120.000;
+//double  cdch.electCardThick  =    3.000;
+//double  cdch.electCardHeight =   60.000;
+//int  cdch.electCardChanPerBord =   16;
+//string  cdch.electCardMaterial = "G10_FR4"; 
+
+
+//
+// This tells emacs to view this file in c++ mode.
+// Local Variables:
+// mode:c++
+// End:

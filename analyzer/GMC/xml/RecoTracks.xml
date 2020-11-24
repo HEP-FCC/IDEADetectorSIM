@@ -1,0 +1,203 @@
+<!--$Id:  $-->
+<Folder>
+   <FolderName>RecoTracks</FolderName>
+   <FolderTitle>RecoTracks</FolderTitle>
+   <Affiliation>GMC</Affiliation>
+   <ArraySize>variable</ArraySize>
+   <Author>
+      <AuthorName>Claudio Chiri</AuthorName>
+   </Author>
+   <FolderVersion>2</FolderVersion>
+   <FolderDescription>Folder class for reconstructed tracks</FolderDescription>
+   <NoResetByFramework>false</NoResetByFramework>
+   <NoResetModifiedByFramework>false</NoResetModifiedByFramework>
+   <Include>
+     <IncludeName>TVector3.h</IncludeName>
+     <IncludeType>global</IncludeType>
+   </Include>
+   <Include>
+     <IncludeName>TMatrixDSym.h</IncludeName>
+     <IncludeType>global</IncludeType>
+   </Include>
+   <Field>
+      <FieldName>TrkID</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Track ID</FieldComment>
+      <FieldInitialization>-1</FieldInitialization>  
+   </Field>
+   <Field>
+      <FieldName>x0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Track Vertex x coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>err_x0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Error On the Track Vertex x coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>y0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Track Vertex y coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>err_y0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Error On the Track Vertex y coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>z0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Track Vertex z coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>err_z0</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Error On the Track Vertex z coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>theta</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>polar angle w.r.t. the  beam direction</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>err_theta</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Error on thepolar angle w.r.t. the  beam direction</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>phi</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>azimuthal angle in the X-Y plane</FieldComment>
+   </Field> 
+   <Field>
+      <FieldName>err_phi</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>azimuthal angle in the X-Y plane</FieldComment>
+   </Field> 
+   <Field>
+      <FieldName>Momentum</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Track Momentum</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>Err_Momentum</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>1e10</FieldInitialization>  
+      <FieldComment>Track Momentum</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>mom</FieldName>
+      <FieldType>TVector3</FieldType>
+      <FieldComment>Fitted Track Momentum</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>cov</FieldName>
+      <FieldType>TMatrixDSym</FieldType>
+      <InheritTObject>true</InheritTObject>
+      <FieldComment>Covariant Matrix of fitted Tracks</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>hitindex</FieldName>
+     <FieldType>Int_t</FieldType>
+     <ArraySize>vector</ArraySize>
+     <FieldComment>Index of the hit in DCHHitRecResult folder.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>detid</FieldName>
+     <FieldType>Int_t</FieldType>
+     <ArraySize>vector</ArraySize>
+     <FieldComment>detector id of hit: 0 - DCH, 1 - SVX</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>Skipped</FieldName>
+     <FieldType>Bool_t</FieldType>
+     <ArraySize>vector</ArraySize>
+     <FieldComment>Flag for hits removed from the fit.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>StateVector</FieldName>
+     <FieldType>TVector3</FieldType>
+     <ArraySize>variable</ArraySize>
+     <InheritTObject>true</InheritTObject>
+     <FieldComment>State vectors of the track.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>nhits</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>number of hits.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>ngoodhits</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>number of hits.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>nhitsdch</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>number of dch hits.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>ngoodhitsdch</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>number of good dch hits.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>nhitssvx</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>number of dch hits.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>ngoodhitssvx</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>number of good dch hits.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>nhitspshw</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>number of dch hits.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>ngoodhitspshw</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>number of good dch hits.</FieldComment>
+   </Field>
+   <Field>
+     <FieldName>chi2</FieldName>
+     <FieldType>Double_t</FieldType>
+     <FieldInitialization>0</FieldInitialization>  
+     <FieldComment>chi2 of the track.</FieldComment>
+   </Field>        
+   <Field>
+     <FieldName>dof</FieldName>
+     <FieldType>Int_t</FieldType>
+     <FieldInitialization>-1</FieldInitialization>  
+     <FieldComment>Degrees of freedom.</FieldComment>
+   </Field>        
+   <Field>
+     <FieldName>IsFitted</FieldName>
+     <FieldType>Bool_t</FieldType>
+     <FieldInitialization>false</FieldInitialization>  
+     <FieldComment>Flag indicating if the track has been already fitted.</FieldComment>
+   </Field>        
+
+</Folder>

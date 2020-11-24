@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define/>
+
+  <materials>
+    <isotope N="12" Z="6" name="C120x213b8d0">
+      <atom unit="g/mole" value="12"/>
+    </isotope>
+    <isotope N="13" Z="6" name="C130x213bbd0">
+      <atom unit="g/mole" value="13.0034"/>
+    </isotope>
+    <element name="C0x213b970">
+      <fraction n="0.9893" ref="C120x213b8d0"/>
+      <fraction n="0.0107" ref="C130x213bbd0"/>
+    </element>
+    <isotope N="1" Z="1" name="H10x2137950">
+      <atom unit="g/mole" value="1.00782503081372"/>
+    </isotope>
+    <isotope N="2" Z="1" name="H20x2137350">
+      <atom unit="g/mole" value="2.01410199966617"/>
+    </isotope>
+    <element name="H0x2136e10">
+      <fraction n="0.999885" ref="H10x2137950"/>
+      <fraction n="0.000115" ref="H20x2137350"/>
+    </element>
+    <isotope N="14" Z="7" name="N140x2142a90">
+      <atom unit="g/mole" value="14.0031"/>
+    </isotope>
+    <isotope N="15" Z="7" name="N150x21430b0">
+      <atom unit="g/mole" value="15.0001"/>
+    </isotope>
+    <element name="N0x2142ea0">
+      <fraction n="0.99632" ref="N140x2142a90"/>
+      <fraction n="0.00368" ref="N150x21430b0"/>
+    </element>
+    <isotope N="16" Z="8" name="O160x2143310">
+      <atom unit="g/mole" value="15.9949"/>
+    </isotope>
+    <isotope N="17" Z="8" name="O170x213bb80">
+      <atom unit="g/mole" value="16.9991"/>
+    </isotope>
+    <isotope N="18" Z="8" name="O180x2143010">
+      <atom unit="g/mole" value="17.9992"/>
+    </isotope>
+    <element name="O0x2143100">
+      <fraction n="0.99757" ref="O160x2143310"/>
+      <fraction n="0.00038" ref="O170x213bb80"/>
+      <fraction n="0.00205" ref="O180x2143010"/>
+    </element>
+    <material name="G4_KAPTON0x2144b80" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="79.6"/>
+      <D unit="g/cm3" value="1.42"/>
+      <fraction n="0.691127814286998" ref="C0x213b970"/>
+      <fraction n="0.026363378233988" ref="H0x2136e10"/>
+      <fraction n="0.0732713201549139" ref="N0x2142ea0"/>
+      <fraction n="0.2092374873241" ref="O0x2143100"/>
+    </material>
+    <material name="G4_MYLAR0x2153930" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="78.7"/>
+      <D unit="g/cm3" value="1.4"/>
+      <fraction n="0.625010832340889" ref="C0x213b970"/>
+      <fraction n="0.0419607170679433" ref="H0x2136e10"/>
+      <fraction n="0.333028450591168" ref="O0x2143100"/>
+    </material>
+    <isotope N="180" Z="74" name="W1800x21548d0">
+      <atom unit="g/mole" value="179.947"/>
+    </isotope>
+    <isotope N="182" Z="74" name="W1820x2154920">
+      <atom unit="g/mole" value="181.948"/>
+    </isotope>
+    <isotope N="183" Z="74" name="W1830x2154990">
+      <atom unit="g/mole" value="182.95"/>
+    </isotope>
+    <isotope N="184" Z="74" name="W1840x2143360">
+      <atom unit="g/mole" value="183.951"/>
+    </isotope>
+    <isotope N="186" Z="74" name="W1860x2154af0">
+      <atom unit="g/mole" value="185.954"/>
+    </isotope>
+    <element name="W0x21546c0">
+      <fraction n="0.0012" ref="W1800x21548d0"/>
+      <fraction n="0.265" ref="W1820x2154920"/>
+      <fraction n="0.1431" ref="W1830x2154990"/>
+      <fraction n="0.3064" ref="W1840x2143360"/>
+      <fraction n="0.2843" ref="W1860x2154af0"/>
+    </element>
+    <material name="G4_W0x21545a0" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="727"/>
+      <D unit="g/cm3" value="19.3"/>
+      <fraction n="1" ref="W0x21546c0"/>
+    </material>
+    <isotope N="3" Z="2" name="He30x2138230">
+      <atom unit="g/mole" value="3.01692961808401"/>
+    </isotope>
+    <isotope N="4" Z="2" name="He40x213b920">
+      <atom unit="g/mole" value="4.00264393551385"/>
+    </isotope>
+    <element name="He0x213b710">
+      <fraction n="1.36999949310019e-06" ref="He30x2138230"/>
+      <fraction n="0.999998630000507" ref="He40x213b920"/>
+    </element>
+    <material name="ChamberGas0x213bc20" state="gas">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="48.8432249317198"/>
+      <D unit="g/cm3" value="0.0003984"/>
+      <fraction n="0.382635100446205" ref="He0x213b710"/>
+      <fraction n="0.107061807167701" ref="H0x2136e10"/>
+      <fraction n="0.510303092386095" ref="C0x213b970"/>
+    </material>
+    <isotope N="28" Z="14" name="Si280x21565f0">
+      <atom unit="g/mole" value="27.9769"/>
+    </isotope>
+    <isotope N="29" Z="14" name="Si290x2156640">
+      <atom unit="g/mole" value="28.9765"/>
+    </isotope>
+    <isotope N="30" Z="14" name="Si300x21566b0">
+      <atom unit="g/mole" value="29.9738"/>
+    </isotope>
+    <element name="Si0x21563e0">
+      <fraction n="0.922296077703922" ref="Si280x21565f0"/>
+      <fraction n="0.0468319531680468" ref="Si290x2156640"/>
+      <fraction n="0.0308719691280309" ref="Si300x21566b0"/>
+    </element>
+    <material name="G4_Si0x21562c0" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="173"/>
+      <D unit="g/cm3" value="2.33"/>
+      <fraction n="1" ref="Si0x21563e0"/>
+    </material>
+    <isotope N="36" Z="18" name="Ar360x2143600">
+      <atom unit="g/mole" value="35.9675"/>
+    </isotope>
+    <isotope N="38" Z="18" name="Ar380x2143270">
+      <atom unit="g/mole" value="37.9627"/>
+    </isotope>
+    <isotope N="40" Z="18" name="Ar400x21432c0">
+      <atom unit="g/mole" value="39.9624"/>
+    </isotope>
+    <element name="Ar0x21433f0">
+      <fraction n="0.003365" ref="Ar360x2143600"/>
+      <fraction n="0.000632" ref="Ar380x2143270"/>
+      <fraction n="0.996003" ref="Ar400x21432c0"/>
+    </element>
+    <material name="G4_AIR0x2142810" state="gas">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="85.7"/>
+      <D unit="g/cm3" value="0.00120479"/>
+      <fraction n="0.000124000124000124" ref="C0x213b970"/>
+      <fraction n="0.755267755267755" ref="N0x2142ea0"/>
+      <fraction n="0.231781231781232" ref="O0x2143100"/>
+      <fraction n="0.0128270128270128" ref="Ar0x21433f0"/>
+    </material>
+  </materials>
+
+  <solids>
+    <box lunit="mm" name="kapt_wall0x2144e70" x="0.1" y="100" z="250"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="wall_tracker0x2153c50" rmax="4.911" rmin="4.875" startphi="0" z="250"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="anode_wire0x21553d0" rmax="0.01" rmin="0" startphi="0" z="250"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="tracker_tube0x2153760" rmax="4.911" rmin="0" startphi="0" z="250"/>
+    <box lunit="mm" name="box_gas0x2153640" x="100" y="100" z="250"/>
+    <box lunit="mm" name="box_out0x2144a20" x="100.2" y="100" z="250"/>
+    <box lunit="mm" name="modupix0x2156ca0" x="14.25" y="14.25" z="0.3"/>
+    <box lunit="mm" name="world0x21445d0" x="2000" y="2000" z="2000"/>
+  </solids>
+
+  <structure>
+    <volume name="kapt_wall_log0x2144ef0">
+      <materialref ref="G4_KAPTON0x2144b80"/>
+      <solidref ref="kapt_wall0x2144e70"/>
+    </volume>
+    <volume name="wall_tracker_log0x2153d40">
+      <materialref ref="G4_MYLAR0x2153930"/>
+      <solidref ref="wall_tracker0x2153c50"/>
+    </volume>
+    <volume name="anode_wire_log0x21554c0">
+      <materialref ref="G4_W0x21545a0"/>
+      <solidref ref="anode_wire0x21553d0"/>
+    </volume>
+    <volume name="tracker_log0x2153850">
+      <materialref ref="ChamberGas0x213bc20"/>
+      <solidref ref="tracker_tube0x2153760"/>
+      <physvol name="walltube0x2154510">
+        <volumeref ref="wall_tracker_log0x2153d40"/>
+      </physvol>
+      <physvol name="anodewire0x2154e50">
+        <volumeref ref="anode_wire_log0x21554c0"/>
+      </physvol>
+    </volume>
+    <volume name="box_gas_log0x21536c0">
+      <materialref ref="ChamberGas0x213bc20"/>
+      <solidref ref="box_gas0x2153640"/>
+      <physvol name="tracker_tube_00x2154df0">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_00x2154df0_pos" unit="mm" x="-34.377" y="9.822" z="0"/>
+      </physvol>
+      <physvol copynumber="1" name="tracker_tube_10x2155600">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_10x2155600_pos" unit="mm" x="-24.555" y="4.911" z="0"/>
+      </physvol>
+      <physvol copynumber="2" name="tracker_tube_20x2155690">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_20x2155690_pos" unit="mm" x="-14.733" y="9.822" z="0"/>
+      </physvol>
+      <physvol copynumber="3" name="tracker_tube_30x2155750">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_30x2155750_pos" unit="mm" x="-4.911" y="4.911" z="0"/>
+      </physvol>
+      <physvol copynumber="4" name="tracker_tube_40x21557e0">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_40x21557e0_pos" unit="mm" x="4.911" y="9.822" z="0"/>
+      </physvol>
+      <physvol copynumber="5" name="tracker_tube_50x2155870">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_50x2155870_pos" unit="mm" x="14.733" y="4.911" z="0"/>
+      </physvol>
+      <physvol copynumber="6" name="tracker_tube_60x21558d0">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_60x21558d0_pos" unit="mm" x="24.555" y="9.822" z="0"/>
+      </physvol>
+      <physvol copynumber="7" name="tracker_tube_70x2155960">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_70x2155960_pos" unit="mm" x="34.377" y="4.911" z="0"/>
+      </physvol>
+      <physvol copynumber="8" name="tracker_tube_80x21559f0">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_80x21559f0_pos" unit="mm" x="-34.377" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="9" name="tracker_tube_90x2155b10">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_90x2155b10_pos" unit="mm" x="-24.555" y="-4.911" z="0"/>
+      </physvol>
+      <physvol copynumber="10" name="tracker_tube_100x2155ba0">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_100x2155ba0_pos" unit="mm" x="-14.733" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="11" name="tracker_tube_110x2155c30">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_110x2155c30_pos" unit="mm" x="-4.911" y="-4.911" z="0"/>
+      </physvol>
+      <physvol copynumber="12" name="tracker_tube_120x2155cc0">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_120x2155cc0_pos" unit="mm" x="4.911" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="13" name="tracker_tube_130x2155d50">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_130x2155d50_pos" unit="mm" x="14.733" y="-4.911" z="0"/>
+      </physvol>
+      <physvol copynumber="14" name="tracker_tube_140x2155de0">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_140x2155de0_pos" unit="mm" x="24.555" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="15" name="tracker_tube_150x2155e70">
+        <volumeref ref="tracker_log0x2153850"/>
+        <position name="tracker_tube_150x2155e70_pos" unit="mm" x="34.377" y="-4.911" z="0"/>
+      </physvol>
+    </volume>
+    <volume name="box_out_log0x2144aa0">
+      <materialref ref="ChamberGas0x213bc20"/>
+      <solidref ref="box_out0x2144a20"/>
+      <physvol name="box_wall_10x2141540">
+        <volumeref ref="kapt_wall_log0x2144ef0"/>
+        <position name="box_wall_10x2141540_pos" unit="mm" x="-50.05" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="1" name="box_wall_20x21535e0">
+        <volumeref ref="kapt_wall_log0x2144ef0"/>
+        <position name="box_wall_20x21535e0_pos" unit="mm" x="50.05" y="0" z="0"/>
+      </physvol>
+      <physvol name="Chamber0x2155f00">
+        <volumeref ref="box_gas_log0x21536c0"/>
+      </physvol>
+    </volume>
+    <volume name="modupix_log0x2156d20">
+      <materialref ref="G4_Si0x21562c0"/>
+      <solidref ref="modupix0x2156ca0"/>
+    </volume>
+    <volume name="World0x2144650">
+      <materialref ref="G4_AIR0x2142810"/>
+      <solidref ref="world0x21445d0"/>
+      <physvol name="ChBox0x2156000">
+        <volumeref ref="box_out_log0x2144aa0"/>
+        <rotation name="ChBox0x2156000_rot" unit="deg" x="0" y="90" z="0"/>
+      </physvol>
+      <physvol name="modupix_10x2156dc0">
+        <volumeref ref="modupix_log0x2156d20"/>
+        <position name="modupix_10x2156dc0_pos" unit="mm" x="0" y="0" z="-55.05"/>
+      </physvol>
+      <physvol copynumber="1" name="modupix_20x2156e50">
+        <volumeref ref="modupix_log0x2156d20"/>
+        <position name="modupix_20x2156e50_pos" unit="mm" x="0" y="0" z="55.05"/>
+      </physvol>
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="World0x2144650"/>
+  </setup>
+
+</gdml>

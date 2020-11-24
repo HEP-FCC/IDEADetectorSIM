@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $Id: $ -->
+
+<!-- Please check $ROMESYS/romeConfig_xsd.html for details of tags -->
+
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="">
+  <ProgramConfiguration>
+    <ProgramMode>2</ProgramMode>
+  </ProgramConfiguration>
+
+  <MainConfiguration>
+    <Modes>
+      <AnalyzingMode>offline</AnalyzingMode>
+      <DAQSystem>none</DAQSystem>
+    </Modes>
+
+    <Offline>
+      <RunNumbers></RunNumbers>
+      <EventNumbers></EventNumbers>
+      <InputFileNames></InputFileNames>
+    </Offline>
+
+    <Online>
+      <Host>local</Host>
+      <Experiment>FIRB_DAQ</Experiment>
+      <AnalyzerName>Analyzer</AnalyzerName>
+      <MemoryBuffer>SYSTEM</MemoryBuffer>
+    </Online>
+
+    <Paths>
+      <InputFilePath>/home/meg/FIRB/Repository/online/online_midas/</InputFilePath>
+      <OutputFilePath>./</OutputFilePath>
+      <OutputFileOption>RECREATE</OutputFileOption>
+      <MakeOutputDirectory>false</MakeOutputDirectory>
+    </Paths>
+
+    <Common>
+      <Settings>
+        <VerboseLevel>normal</VerboseLevel>
+        <ReportMaxCount>20</ReportMaxCount>
+        <ReportSummaryFileName></ReportSummaryFileName>
+        <ReportSummaryFileLevel>warning</ReportSummaryFileLevel>
+        <ReportSummaryLineLength>2048</ReportSummaryLineLength>
+        <ConfigCommentLevel>1</ConfigCommentLevel>
+        <QuitMode>false</QuitMode>
+        <ShowSplashScreen>true</ShowSplashScreen>
+        <GraphicalConfigEdit>false</GraphicalConfigEdit>
+        <PreserveConfig>false</PreserveConfig>
+      </Settings>
+
+      <FloatingPointExceptionTrap>
+        <Invalid>false</Invalid>
+        <DivByZero>false</DivByZero>
+        <Overflow>false</Overflow>
+        <Underflow>false</Underflow>
+        <Inexact>false</Inexact>
+      </FloatingPointExceptionTrap>
+
+      <SocketServer>
+        <Active>false</Active>
+        <PortNumber>9090</PortNumber>
+      </SocketServer>
+
+      <DataBases/>
+
+      <Trees>
+        <Accumulate>false</Accumulate>
+        <MaxMemory>0</MaxMemory>
+        <Tree>
+          <TreeName>DataTree</TreeName>
+          <Read>false</Read>
+          <Write>true</Write>
+          <Fill>true</Fill>
+          <CompressionLevel>0</CompressionLevel>
+          <CompressionAlgorithm>ZLIB</CompressionAlgorithm>
+          <AutoSaveSize>0</AutoSaveSize>
+          <AutoFlushSize>0</AutoFlushSize>
+          <CacheSize>0</CacheSize>
+          <MaxNumberOfEntries>0</MaxNumberOfEntries>
+          <TreeInputFileName></TreeInputFileName>
+          <TreeOutputFileName>DataTree#.root</TreeOutputFileName>
+          <SaveConfiguration>false</SaveConfiguration>
+          <Branch>
+            <BranchName>mctracks</BranchName>
+            <Active>true</Active>
+            <Read>true</Read>
+          </Branch>
+          <Branch>
+            <BranchName>hits</BranchName>
+            <Active>true</Active>
+            <Read>true</Read>
+          </Branch>
+          <Branch>
+            <BranchName>mchits</BranchName>
+            <Active>true</Active>
+            <Read>true</Read>
+          </Branch>
+          <Branch>
+            <BranchName>tracks</BranchName>
+            <Active>true</Active>
+            <Read>true</Read>
+          </Branch>
+        </Tree>
+      </Trees>
+
+      <GlobalSteeringParameters>
+        <SteeringParameterField>
+          <!-- tube radius in mm -->
+          <SPName>tube_radius</SPName>
+          <SPValue>5</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- tube lenght in mm. -->
+          <SPName>tube_lenght</SPName>
+          <SPValue>250</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- interaction lenght in mm -->
+          <SPName>lambda</SPName>
+          <SPValue>0.46</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- beam distance from the first tube in mm -->
+          <SPName>xBeam</SPName>
+          <SPValue>0</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- Y estention for the beam in mm -->
+          <SPName>yBeamSpot</SPName>
+          <SPValue>10</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- beam distance from the first tube in mm -->
+          <SPName>zBeam</SPName>
+          <SPValue>-60</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- beam angular spread in rad -->
+          <SPName>beamSpread</SPName>
+          <SPValue>0.02</SPValue>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <!-- central tube -->
+          <SPName>central_tube</SPName>
+          <SPValue>5</SPValue>
+        </SteeringParameterField>
+      </GlobalSteeringParameters>
+    </Common>
+
+    <Analyzer>
+      <HistogramRead>
+        <Read>false</Read>
+        <RunNumber></RunNumber>
+        <Path></Path>
+        <FileName></FileName>
+      </HistogramRead>
+
+      <HistogramWrite>
+        <Write>true</Write>
+        <Path></Path>
+        <FileName></FileName>
+        <AccumulateAll>false</AccumulateAll>
+        <DeactivateAll>false</DeactivateAll>
+        <AutoSavePeriod>0</AutoSavePeriod>
+        <SnapShotFileName></SnapShotFileName>
+        <SnapShotEvents>0</SnapShotEvents>
+      </HistogramWrite>
+
+      <Macros>
+        <BeginOfRun></BeginOfRun>
+        <BeginOfEvent></BeginOfEvent>
+        <EndOfEvent></EndOfEvent>
+        <EndOfRun></EndOfRun>
+      </Macros>
+
+      <Tasks>
+        <Task>
+          <TaskName>MCGenerator</TaskName>
+          <Active>true</Active>
+        </Task>
+
+        <Task>
+          <TaskName>ReadData</TaskName>
+          <Active>false</Active>
+        </Task>
+
+        <Task>
+          <TaskName>TrackFit</TaskName>
+          <Active>true</Active>
+        </Task>
+      </Tasks>
+    </Analyzer>
+
+    <Monitor>
+      <Display>
+        <WindowScale>1.0</WindowScale>
+        <StatusBar>true</StatusBar>
+        <UpdateFrequency>1</UpdateFrequency>
+        <ScreenShotPeriod>60</ScreenShotPeriod>
+        <ListTreeView>false</ListTreeView>
+        <TimeZone>local</TimeZone>
+        <AnalyzerController>
+          <Active>false</Active>
+          <NetFolderName></NetFolderName>
+        </AnalyzerController>
+      </Display>
+
+      <SocketClient>
+        <Host>localhost</Host>
+        <Port>0</Port>
+      </SocketClient>
+
+      <Tabs>
+        <Tab>
+          <TabName>EventDisplay</TabName>
+          <Active>true</Active>
+          <ScreenShotFileName></ScreenShotFileName>
+          <NewWindow>false</NewWindow>
+        </Tab>
+      </Tabs>
+    </Monitor>
+
+    <Midas>
+      <MidasByteSwap>false</MidasByteSwap>
+      <MidasOnlineCommunicationThread>false</MidasOnlineCommunicationThread>
+      <MidasOnlineLoopPeriod>10</MidasOnlineLoopPeriod>
+      <Event>
+        <EventName>DAQ</EventName>
+        <Active>true</Active>
+        <Bank>
+          <BankName>TDC0</BankName>
+          <Active>true</Active>
+        </Bank>
+        <Bank>
+          <BankName>LOSC</BankName>
+          <Active>true</Active>
+        </Bank>
+        <Bank>
+          <BankName>CONF</BankName>
+          <Active>true</Active>
+        </Bank>
+      </Event>
+    </Midas>
+  </MainConfiguration>
+</Configuration>

@@ -1,0 +1,65 @@
+<!-- $Id$ -->
+<Tree>
+  <TreeName>MCData</TreeName>
+  <TreeTitle>MCData</TreeTitle>
+  <TreeDescription>Simulation specific data. It a simple conversion from Geant4 stepper</TreeDescription>
+<!--  <RunHeader>
+    <RelatedFolder>MCTrack</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>BarXECPM</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>MCRunHeader</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>MCKineRunHeader</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>MCBFieldRunHeader</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RunHeaderName>ScalarMCTargetRunHeader</RunHeaderName> 
+    <RelatedFolder>MCTargetRunHeader</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>MCXECRunHeader</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>MCCYLDCHRunHeader</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>MCSPXRunHeader</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>BarSPXRunHeader</RelatedFolder>
+  </RunHeader>
+  <RunHeader>
+    <RelatedFolder>BarSPXPPDRunHeader</RelatedFolder>
+  </RunHeader>  -->
+
+  <Branch>
+    <BranchName>MCTracks</BranchName>
+    <RelatedFolder>GeantTrack</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>MCDCStep</BranchName>
+    <RelatedFolder>DCGeantStep</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>MCSVXStep</BranchName>
+    <RelatedFolder>SVXGeantStep</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>MCPSHWStep</BranchName>
+    <RelatedFolder>PSHWGeantStep</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>MCPHCVStep</BranchName>
+    <RelatedFolder>PHCVGeantStep</RelatedFolder>
+  </Branch>
+  <Branch>
+    <BranchName>MCPHCVRadStep</BranchName>
+    <RelatedFolder>PHCVRadGeantStep</RelatedFolder>
+  </Branch>
+</Tree>

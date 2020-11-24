@@ -1,0 +1,80 @@
+**************************************************************************************
+****            README FILE For GMCAnalyzer Software               *******************
+****                                                               *******************
+****          Simulation Tools for Gas Monitored Chamber           *******************
+****                                                               *******************
+****          Developed by Lecce's and Roma's Peoples for          *******************
+****          Renga-Tassielli Firb                                 *******************
+**************************************************************************************
+
+The software is developed in the ROME framework and allow to manager the simulation tools
+for the Gas Monitored Chamber. It not include the Geant4 MC which is now an external 
+packages. Nevertheless it need as input a file.root created by Geant4.  
+
+
+The main tools of GMCAnalyzer are:
+ -- Creates the hits in the chamber and external pixel tracker
+ 
+ -- Simulates the waveforms in drift chamber
+ 
+ -- Reconstructs the particle tracks
+
+=============
+To install the software:
+
+  1) Set the enviroment variables by the file envDeps_csh or envDeps_sh
+  
+     check the right path for LD_LIBRARY_PATH that should include the path for MonteCarlo lib and midas lib.
+     
+  2) Compile the source code typing the command
+     $ROMESYS/bin/romebuilder.exe -i GMC_v1.xml -midas
+     
+ 
+=============
+To use the software
+
+  1) Check if MCData00001.root is present in home directory.
+  (note that it is the Geant4 output file: if ther'isnt this file it needed to run Geant4 MC
+  
+  2) run the GMCAnalyzer by command
+     ./gmcanalyzer.exe -i geant4MC.xml -r 1 -e 1-100
+     
+     In the configuration file geant4MC.xml are active two tasks:
+      -- ReadMCData that read MonteCarlo data, create hits in the both subdetectors;
+         Moreover in drift chamber create the clusters along the particle trajectory.
+         
+      -- GenerateWaveform: this task simulates the signal generated on the sense wires for drift chamber.
+      
+     All data informations are stored in MCHits#.root. It has active three branch
+      i)   DCHits  which contains the hits and clusters data for each traker tube
+      ii)  PXHits  which contains the data coming out from the pixel detector
+      iii) DCWaveform  where are stored the waveforms related to the hits
+      
+     Is possible to switch on or off a task editing the geant4MC.xml file and changing the its status in
+     <Task> section.
+     
+   3) run the reconstruction
+     ./gmcanalyzer.exe -i recoMC.xml -r 1 -e 1-100
+     
+     Based on the TMinuit tool, the task performs the event reconstruction. Each track is recontructed in
+     two step:
+      a) taking advantage of pixel detector estimates the initial track parameters (vertex and direction)
+      b) calling TMinuit to reconstruct the track in drift chamber
+      
+     The recontruction data are stored in RecoData.root
+     Now this file contains only the branch related to the reconstructed tracks. The branches for hits in
+     drift chamber and pixel detector are not active.  
+ 
+=============
+Event Display
+
+     An simply event display has been developed which shows the tracks coming from Geant4 MC.
+     It possible switch on the event display changing the tag <ProgramMode> in the .xml configuration
+     file. 
+
+
+
+
+
+
+ 

@@ -1,0 +1,34 @@
+#           configuration file for the detector construction
+#
+# Is possible to set only the position of the external tracker 
+# (modupix detector) with respect to drift chamber which is put in the 
+# Reference frame origin
+#
+# all positions are in cm
+#
+# zpos is the distance between the drift chamber box and pixel detector: 
+#
+# Pixel number 1 (in front of the beam)
+A_pos 0. 0. -30.
+# 
+# Pixel number 2 (after the drift chamber) 
+# now, a simmetric configuration is choosen
+B_pos 0. 0. 30.
+#
+# Chamber rotation angle with respect beam direction (deg) 
+# (default = 0. the chamber is perpendicular to the beam direction
+R_angle 0. 0. 45.
+#
+#
+# Chamber shift with respect to the reference frame origin
+Shift 0. 0. 0.
+#
+#
+# step limiter in tracker tubes in mm
+L_step 1.
+# Flag to export the geometry in GDML file
+ExpGDML true
+#
+#
+#EOF
+ 

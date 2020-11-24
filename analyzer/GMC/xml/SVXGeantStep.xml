@@ -1,0 +1,95 @@
+<!-- $Id$ -->
+<Folder>
+   <FolderName>SVXGeantStep</FolderName>
+   <FolderTitle>SVXGeantStep</FolderTitle>
+   <Affiliation>GMC</Affiliation>
+   <ArraySize>variable</ArraySize>
+   <Author>
+      <AuthorName>Gianfranco Tassielli</AuthorName>
+   </Author>
+   <FolderVersion>1</FolderVersion>
+   <FolderDescription>Folder class for Silicon Vertex tracker step from geant4</FolderDescription>
+   <IgnoreTObjectStreamer>true</IgnoreTObjectStreamer> 
+   <NoResetByFramework>false</NoResetByFramework>
+   <NoResetModifiedByFramework>false</NoResetModifiedByFramework>
+   <Include>
+     <IncludeName>TVector3.h</IncludeName>
+     <IncludeType>global</IncludeType>
+   </Include>
+   <Include>
+     <IncludeName>TString.h</IncludeName>
+     <IncludeType>global</IncludeType>
+   </Include>
+   <Field>
+      <FieldName>fTrackID</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Track ID for hit</FieldComment>
+      <FieldInitialization>-999</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fChamberNr</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Tracker Ladder station number</FieldComment>
+      <FieldInitialization>-999</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fChannelNr</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Read Out Channel in Ladder station number</FieldComment>
+      <FieldInitialization>-999</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fEdep</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Energy deposit</FieldComment>
+      <FieldInitialization>-999.</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fNoIEdep</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Energy deposit no ionizing</FieldComment>
+      <FieldInitialization>-999.</FieldInitialization>      
+   </Field>
+   <Field>
+      <FieldName>fGlobalTime</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Total time of event</FieldComment>
+      <FieldInitialization>-999.</FieldInitialization>      
+   </Field>
+   <Field>
+      <FieldName>fProperTime</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>Proper time (time from init track)</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fStepLen</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>Step length</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fMomentum</FieldName>
+      <FieldType>TVector3</FieldType>
+     <FieldInitialization>NULL</FieldInitialization>  
+      <FieldComment>Particle momentum</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fPos</FieldName>
+      <FieldType>TVector3</FieldType>
+     <FieldInitialization>NULL</FieldInitialization>  
+      <FieldComment>Pre Step Position</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fPosEnding</FieldName>
+      <FieldType>TVector3</FieldType>
+     <FieldInitialization>NULL</FieldInitialization>  
+      <FieldComment>Post Step Position</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fProcessCode</FieldName>
+      <FieldType>TString</FieldType>
+      <FieldInitialization>""</FieldInitialization>
+      <FieldComment>Process code for energy loss</FieldComment>
+   </Field>
+</Folder>

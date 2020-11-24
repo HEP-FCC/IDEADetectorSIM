@@ -1,0 +1,127 @@
+<!--$Id$ -->
+<Task>
+	<TaskName>GenerateWaveforms</TaskName>
+	<Affiliation>GMC</Affiliation>
+	<Author>
+		<AuthorName>AuroraPepino</AuthorName>
+	</Author>
+	<TaskDescription>Generate waveforms in DCH</TaskDescription>
+	<TaskUsage>No special features</TaskUsage>
+	<TaskStatus>In progress</TaskStatus>
+<!--	<Include>
+		<IncludeName>util/Geometry.h</IncludeName>
+		<IncludeType>local</IncludeType>
+	</Include>-->
+
+	<!--________________Parameters ____________________ -->
+	<SteeringParameters>
+		<SteeringParameterField>
+			<SPFieldName>ResistRR</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>50.</SPFieldInitialization>
+			<SPFieldComment>Resistance in input</SPFieldComment>
+		</SteeringParameterField>
+
+		<SteeringParameterField>
+			<SPFieldName>mobility</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>10.4</SPFieldInitialization>
+			<SPFieldComment>Ions mobility</SPFieldComment>
+		</SteeringParameterField>
+
+		<SteeringParameterField>
+			<SPFieldName>tauRumpUp</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>0.87</SPFieldInitialization>
+			<SPFieldComment>time slope for signal (ns)</SPFieldComment>
+		</SteeringParameterField>
+
+		<SteeringParameterField>
+			<SPFieldName>tauRumpDown</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>0.56</SPFieldInitialization>
+			<SPFieldComment>Rise Constant Time for signal (ns)</SPFieldComment>
+		</SteeringParameterField>
+
+		<SteeringParameterField>
+			<SPFieldName>tauRumpDown2</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>6.96</SPFieldInitialization>
+			<SPFieldComment>Rise Time constant 2for signal (ns)</SPFieldComment>
+		</SteeringParameterField>
+
+		<SteeringParameterField>
+			<SPFieldName>FractionMixSign</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>0.45</SPFieldInitialization>
+			<SPFieldComment>Fraction of mixing signal (Tassielli shape)
+			</SPFieldComment>
+		</SteeringParameterField>
+		<!-- parameters used for Acquisition -->
+		<SteeringParameterField>
+			<SPFieldName>BinTimeWidth</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>0.4</SPFieldInitialization>
+			<SPFieldComment>Resolution for time acquisition (ns)</SPFieldComment>
+		</SteeringParameterField>
+
+		<SteeringParameterField>
+			<SPFieldName>TimeWindow</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>1000.</SPFieldInitialization>
+			<SPFieldComment>Time acquisition window (ns)</SPFieldComment>
+		</SteeringParameterField>
+
+		<SteeringParameterField>
+			<SPFieldName>HVTube</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>1500.</SPFieldInitialization>
+			<SPFieldComment>High Voltage on tube</SPFieldComment>
+		</SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>GasGain</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>1.e6</SPFieldInitialization>
+			<SPFieldComment>Gas Gain</SPFieldComment>
+		</SteeringParameterField>
+		<!-- Parameters for noise genaration -->
+		<SteeringParameterField>
+			<SPFieldName>NoiseOn</SPFieldName>
+			<SPFieldType>Bool_t</SPFieldType>
+			<SPFieldInitialization>true</SPFieldInitialization>
+			<SPFieldComment>flag to switch on noise</SPFieldComment>
+		</SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>SignalNoiseRatio</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>7.</SPFieldInitialization>
+			<SPFieldComment>Noise level </SPFieldComment>
+		</SteeringParameterField>
+		<!-- Parameters for the waveform digitization -->
+		<SteeringParameterField>
+			<SPFieldName>DigitizationOn</SPFieldName>
+			<SPFieldType>Bool_t</SPFieldType>
+			<SPFieldInitialization>true</SPFieldInitialization>
+			<SPFieldComment>flag to switch on the waveform digitization
+			</SPFieldComment>
+		</SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>ADCResolution</SPFieldName>
+			<SPFieldType>Int_t</SPFieldType>
+			<SPFieldInitialization>12</SPFieldInitialization>
+			<SPFieldComment>Nr. of Bits for ADC</SPFieldComment>
+		</SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>ADCFullRange</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>1.</SPFieldInitialization>
+			<SPFieldComment>ADC range in Volt</SPFieldComment>
+		</SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>FrontEndGain</SPFieldName>
+			<SPFieldType>Double_t</SPFieldType>
+			<SPFieldInitialization>10.</SPFieldInitialization>
+			<SPFieldComment>Electronic Front-End gain</SPFieldComment>
+		</SteeringParameterField>
+	</SteeringParameters>
+</Task>

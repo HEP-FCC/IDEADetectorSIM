@@ -1,0 +1,26 @@
+# Macro file for example B2
+# 
+# Can be run in batch, without graphic
+# or interactively: Idle> /control/execute run1.mac
+#
+# Change the default number of workers (in multi-threading mode) 
+#/run/numberOfWorkers 4
+# set seeds
+/random/setSeeds 575841909 838392975 
+#/random/setSeeds xxx yyy 
+#
+# Initialize kernel
+/run/initialize
+#
+# Default kinematics: 
+# electron 500 MeV in direction (0.,0.,1.)
+# 1 event with tracking/verbose
+#
+#/tracking/verbose 1
+#/run/beamOn 5
+#
+# 1 event with printing hits
+#
+/tracking/verbose 1
+/hits/verbose 2
+/run/beamOn 1

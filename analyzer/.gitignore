@@ -1,0 +1,14 @@
+/.project
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.dat
+**MHz**
+*.d
+*.so
+*.o
+*~
+*.log
+*.pdf
+**AutoDict**

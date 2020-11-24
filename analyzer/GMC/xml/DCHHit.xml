@@ -1,0 +1,151 @@
+<!-- $Id$ -->
+<Folder>
+   <FolderName>DCHHit</FolderName>
+   <FolderTitle>DCHHit</FolderTitle>
+   <Affiliation>GMC</Affiliation>
+   <ArraySize>variable</ArraySize>
+   <Author>
+      <AuthorName>Claudio Chiri</AuthorName>
+   </Author>
+   <FolderVersion>1</FolderVersion>
+   <FolderDescription>Folder class for Track Chamber hit</FolderDescription>
+   <NoResetByFramework>false</NoResetByFramework>
+   <NoResetModifiedByFramework>false</NoResetModifiedByFramework>
+   <Field>
+      <FieldName>fCellId</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Tracker Tube number</FieldComment>
+      <FieldInitialization>-999</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fTrkIDofHit</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Track ID for hit</FieldComment>
+      <FieldInitialization>-999</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fTotalEnergyLoss</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Total energy loss</FieldComment>
+      <FieldInitialization>-999.</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fTotalCharge</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Total charge (related to energy loss)</FieldComment>
+      <FieldInitialization>-999.</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fToF</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Global time of hits </FieldComment>
+      <FieldInitialization>-999.</FieldInitialization>      
+   </Field>
+   <Field>
+      <FieldName>fxPCA</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>PoCA x coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fyPCA</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>PoCA y coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fzPCA</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>PoCA z coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceX</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>Entrance point x coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceY</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>Entrance point y coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceZ</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>Entrance point z coord</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceMomX</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>Entrance mom x</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceMomY</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>Entrance mom y</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fEntranceMomZ</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>Entrance mom z</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fGlobalTime</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>
+      <FieldComment>global time in nsec</FieldComment>
+   </Field>
+   
+   <Field>
+      <FieldName>fImpact</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>      
+      <FieldComment>Impact parameter</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fLength</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldInitialization>-999.</FieldInitialization>      
+      <FieldComment>Impact parameter</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fNrClusters</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldInitialization>0</FieldInitialization>      
+      <FieldComment>Number of clusters</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fClsDistance</FieldName>
+      <FieldType>Double_t</FieldType>
+ <!--     <FieldInitialization>-999.</FieldInitialization>  -->      
+      <ArraySize>vector</ArraySize>
+      <FieldComment>[NrClusters] drift distance of ionization clusters</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fClsDistanceSmeared</FieldName>
+      <FieldType>Double_t</FieldType>
+ <!--     <FieldInitialization>-999.</FieldInitialization>  -->      
+      <ArraySize>vector</ArraySize>
+      <FieldComment>[NrClusters] drift distance of ionization clusters</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fClsPathPos</FieldName>
+      <FieldType>Double_t</FieldType>
+ <!--     <FieldInitialization>-999.</FieldInitialization>  -->      
+      <ArraySize>vector</ArraySize>
+      <FieldComment>[NrClusters] path of ionization clusters along track</FieldComment>
+   </Field>
+   <Field>
+      <FieldName>fClsCharge</FieldName>
+      <FieldType>Double_t</FieldType>
+<!--      <FieldInitialization>-999.</FieldInitialization>   -->      
+      <ArraySize>vector</ArraySize>
+      <FieldComment>[NrClusters] Charge of ionization clusters</FieldComment>
+   </Field>
+</Folder>

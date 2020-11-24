@@ -1,0 +1,43 @@
+  <AdditionalFiles>
+    <File>
+      <SourceFile>src/util/Waveform</SourceFile>
+      <HeaderFile>include/util/Waveform</HeaderFile>
+    </File>
+    <File>
+      <SourceFile>src/util/Geometry</SourceFile>
+      <HeaderFile>include/util/Geometry</HeaderFile>
+    </File>
+    <File>
+      <SourceFile>src/util/GeometrySrvHndl</SourceFile>
+      <HeaderFile>include/util/GeometrySrvHndl</HeaderFile>
+    </File>
+<!--     <File>
+      <SourceFile>src/util/GeometryProto</SourceFile>
+      <HeaderFile>include/util/GeometryProto</HeaderFile>
+    </File> -->
+    <File>
+      <SourceFile>src/util/XTDataVlGas</SourceFile>
+      <HeaderFile>include/util/XTDataVlGas</HeaderFile>
+    </File>
+    <File>
+      <SourceFile>src/util/XTRELTIME</SourceFile>
+      <HeaderFile>include/util/XTRELTIME</HeaderFile>
+    </File>
+    <File>
+      <SourceFile>src/util/XTREL</SourceFile>
+      <HeaderFile>include/util/XTREL</HeaderFile>
+    </File>
+    <File>
+      <SourceFile>src/util/CreateClusters</SourceFile>
+      <HeaderFile>include/util/CreateClusters</HeaderFile>
+    </File>
+    <File>
+      <SourceFile>src/util/ClusterSize</SourceFile>
+      <HeaderFile>include/util/ClusterSize</HeaderFile>
+    </File>
+<!--    <File>
+      <SourceFile>../exLib/singleShape2.C</SourceFile>
+      <HeaderFile>include/util/ClusterSize</HeaderFile> 
+    </File> -->
+  </AdditionalFiles>
+

@@ -1,0 +1,4 @@
+  <IncludeDirectories>
+    <IncludeDirectory>include/util</IncludeDirectory>
+    <IncludeDirectory>$(GENFIT2SYS)/include</IncludeDirectory>
+  </IncludeDirectories>

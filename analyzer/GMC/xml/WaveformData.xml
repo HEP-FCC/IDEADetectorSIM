@@ -1,0 +1,74 @@
+<!-- $Id$ -->
+<Folder>
+   <FolderName>WaveformData</FolderName>
+   <FolderTitle>WaveformData</FolderTitle>
+   <Affiliation>GMC</Affiliation>
+   <ArraySize>variable</ArraySize>
+   <Author>
+      <AuthorName>Aurora Pepino</AuthorName>
+   </Author>
+   <FolderVersion>1</FolderVersion>
+   <FolderDescription>Folder class for the waveform in DCH</FolderDescription>
+   <NoResetByFramework>false</NoResetByFramework>
+   <NoResetModifiedByFramework>false</NoResetModifiedByFramework>
+   <Field>
+      <FieldName>fCellId</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Tracker Tube number</FieldComment>
+      <FieldInitialization>-999</FieldInitialization>
+   </Field>
+   <Field>
+      <FieldName>fNpoints</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Number of point acquired </FieldComment>
+      <FieldInitialization>2500</FieldInitialization>
+    </Field>
+   <Field>
+      <FieldName>fNofGenEle</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Number of electrons generated </FieldComment>
+      <FieldInitialization>2500</FieldInitialization>
+    </Field>
+   <Field>
+      <FieldName>fBinWidth</FieldName>
+      <FieldType>Double_t</FieldType>
+      <FieldComment>Bin Width in ns </FieldComment>
+      <FieldInitialization>0.4</FieldInitialization>
+    </Field>
+   <Field>
+      <FieldName>fSignalL</FieldName>
+      <FieldType>Double_t*</FieldType>
+      <FieldComment>[fNpoints]Waverfom on the left side </FieldComment>
+    </Field>
+   <Field>
+      <FieldName>fSignalR</FieldName>
+      <FieldType>Double_t*</FieldType>
+      <FieldComment>[fNpoints]Waverfom on the right side </FieldComment>
+    </Field>
+   <Field>
+      <FieldName>fDTimeEle</FieldName>
+      <FieldType>Double_t*</FieldType>
+      <FieldComment>[fNofGenEle] Drift Time of e- generated + diff</FieldComment>
+    </Field>
+   <Field>
+      <FieldName>fNrEleAvalanche</FieldName>
+      <FieldType>Double_t*</FieldType>
+      <FieldComment>[fNofGenEle] Number of electrons in avalanche (Polya distribution)</FieldComment>
+    </Field>
+   <Field>
+      <FieldName>fPeakSize</FieldName>
+      <FieldType>Int_t</FieldType>
+      <FieldComment>Nr of Peak; </FieldComment>
+    </Field>
+   <Field>
+      <FieldName>fPeakBinPos</FieldName>
+      <FieldType>Int_t*</FieldType>
+      <FieldComment>[fPeakSize] Peak position; </FieldComment>
+    </Field>
+   <Field>
+      <FieldName>fPeakAmplitude</FieldName>
+      <FieldType>Double_t*</FieldType>
+      <FieldComment>[fPeakSize] Peak Values; ;mV</FieldComment>
+    </Field>
+
+</Folder>

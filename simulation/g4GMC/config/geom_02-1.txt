@@ -1,0 +1,124 @@
+//
+// Main geometry file for GMC.
+//
+// Original author Giovanni F. Tassielli
+//
+// Warning:  do not write 10000. as 10,000.; it will be read as two numbers (10., 0.).
+
+//string detector.name    = "g4gmc";
+
+//bool hasHall            = true;
+//bool hasTarget          = true;
+
+// Write geometry into a GDML file
+bool   writeGDML        = false;
+string GDMLFileName     = "g4test-mu2e_v50.gdml";
+
+// Uncomment exactly one central tracker.
+//#include "LEproto.txt"
+//#include "itracker_v42.txt"
+#include "cdch_v50-mu2e.txt"
+
+// Uncomment max one vertex tracker.
+//#include "config/ModPxVertex.txt"
+
+// Uncomment to enable debug printout on a per event or per track basis.
+//vector<int> g4.steppingActionEventList = { 0, 1 };
+//vector<int> g4.steppingActionTrackList = { 1 };
+//vector<int> g4.strawSDEventList        = { 0, 1, 2, 3 };
+//vector<int> g4.itgaslayerSDEventList   = { 0, 1, 2, 3 };
+//vector<int> g4.trackingActionEventList = { 0, 1, 2, 3, 4, 5};
+
+//// Some G4 controls which does not allow it to consume all the memory
+//// or to spend all the time tracking one bad particle
+//int g4.steppingActionMaxSteps = 10000;
+//int g4.stepsSizeLimit = 10000;
+//int g4.particlesSizeLimit = 10000;
+//
+//// If the following number is not zero, G4 will kill all particles alive
+//// at that time.
+//double g4.steppingActionMaxGlobalTime = 0; //ns
+//
+//// The information (location, momentum) of all particles will be
+//// recorded in the output files for particular moments in time
+////vector<double> g4.steppingActionTimeVD = { 500, 700, 1000 }; //ns
+//
+//// Enable/disable code that kills uninteresting tracks in SteppingAction,
+//// Put a list of G4 volume names where the tracks should be killed,
+//// for example { "HallAir" }.
+//vector<string> g4SteppingAction.killInTheseVolumes = {};
+//bool   g4SteppingAction.killerVerbose = false;
+//
+//// These are used in both SteppingAction and StackingAction.
+//bool   g4.killLowEKine  = false;
+//double g4.eKineMin      = 0.0;    // Kinetic energy in MeV
+
+// One can set this limit particle-specific:
+// vector<int>    g4.killLowEKinePDG = {211, -211,   13,  -13,   11,  -11};
+// vector<double> g4.eKineMinPDG     = {9.0,  9.0, 20.0, 20.0, 95.0, 95.0};
+
+// This setting is used for special studies (stored muons)
+// bool g4.killPitchToLowToStore = false;
+
+//// current G4 stepper choices are shown below, extend g4GMC.cc if more are needed
+//// G4ClassicalRK4
+//// G4ImplicitEuler
+//// G4ExplicitEuler
+//// G4SimpleRunge
+//// G4SimpleHeum
+//// G4HelixImplicitEuler
+//// G4HelixSimpleRunge
+//string g4.stepper = "G4ClassicalRK4";
+//
+//// List of PDG ids of particles for which to switch off decay.
+//vector<int> g4.noDecay = {};
+//
+//// Choose a PhysicsList and set related parameters.
+//string g4.physicsListName = "QGSP_BERT"; //_HP
+//double g4.minRangeCut     = 0.01;            // mm
+//
+//// Enable the code to kill low p secondaries from cosmics.
+//bool g4.doCosmicKiller = false;
+//double g4.cosmicPcut = 0.;
+//double g4.yaboveDirtYmin = 0.;
+
+// Load other specifical defined materials.
+vector<string> gmc.materials =
+  { "GasHe_90Isob_10", "GasHe_85Isob_15", "Kapton"
+  };
+
+//// Control printout of element and material lists.
+//bool g4.printElements  = false;
+//bool g4.printMaterials = false;
+//
+//// make detector volume structure visible where enabled
+//bool g4.forceAuxEdgeVisible = true;
+//// invoke volume overlap check where enabled (draws random numbers)
+bool g4.doSurfaceCheck = false;
+
+//double world.Length            = 2000.;  //unit mm
+vector<double> world.dims = { 4000, 4000, 6000}; //{ 2000, 2000, 4000}; //unit mm
+//double world.minimalMargin.top = 3000;
+//double world.minimalMargin.bottom = 3000;
+//double world.minimalMargin.xmin = 3000;
+//double world.minimalMargin.xmax = 3000;
+//double world.minimalMargin.zmin = 3000;
+//double world.minimalMargin.zmax =  3000;
+//vector<double> world.GMCOriginInWorld = { 0, 0, 0}; // mm
+
+string world.materialName = "G4_AIR";
+//bool   world.boxVisible   = true;
+//bool   world.boxSolid     = false;
+//int    world.verbosityLevel = 0;
+
+//
+//
+// End notes:
+//
+// 1) Sources of information:
+//
+//
+// This tells emacs to view this file in c++ mode.
+// Local Variables:
+// mode:c++
+// End:

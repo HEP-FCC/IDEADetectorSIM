@@ -1,0 +1,14 @@
+/.project
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.dat
+*.d
+*.so
+*.o
+*~
+*.log
+*.pdf
+/.settings/
+/.cproject

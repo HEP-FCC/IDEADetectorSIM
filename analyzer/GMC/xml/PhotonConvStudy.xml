@@ -1,0 +1,626 @@
+
+<Task>
+	<TaskName>PhotonConvStudy</TaskName>
+	<!--________________Parameters ____________________ -->
+	<SteeringParameters>
+		<!-- <SteeringParameterField> <SPFieldName>MaxRad</SPFieldName> <SPFieldType>Double_t</SPFieldType> 
+			<SPFieldInitialization>2400</SPFieldInitialization> <SPFieldComment>Max allowed 
+			Rad for Conversion</SPFieldComment> </SteeringParameterField> <SteeringParameterField> 
+			<SPFieldName>MaxZ</SPFieldName> <SPFieldType>Double_t</SPFieldType> <SPFieldInitialization>1600</SPFieldInitialization> 
+			<SPFieldComment>Max allowed Z for Conversion</SPFieldComment> </SteeringParameterField> -->
+        <SteeringParameterField>
+          <SPFieldName>HitEnergyCut</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.0</SPFieldInitialization>
+          <SPFieldComment>Minimum energy cut for hit creation</SPFieldComment>
+        </SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>DebugLevel</SPFieldName>
+			<SPFieldType>Int_t</SPFieldType>
+			<SPFieldInitialization>0</SPFieldInitialization>
+			<SPFieldComment>debug level</SPFieldComment>
+		</SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>FitPairs</SPFieldName>
+			<SPFieldType>Bool_t</SPFieldType>
+			<SPFieldInitialization>false</SPFieldInitialization>
+			<SPFieldComment>Fit pairs</SPFieldComment>
+		</SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>FitOnlyFst</SPFieldName>
+			<SPFieldType>Bool_t</SPFieldType>
+			<SPFieldInitialization>false</SPFieldInitialization>
+			<SPFieldComment>Fit only first turne</SPFieldComment>
+		</SteeringParameterField>
+		<SteeringParameterField>
+			<SPFieldName>ExtrapolToDVrt</SPFieldName>
+			<SPFieldType>Bool_t</SPFieldType>
+			<SPFieldInitialization>false</SPFieldInitialization>
+			<SPFieldComment>Do extrapolation to the decay ertex</SPFieldComment>
+		</SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>SigmaRPhi</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.01</SPFieldInitialization>
+          <SPFieldComment>sigma hit rphi, cm</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>sigmaVtime</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.5</SPFieldInitialization>
+          <SPFieldComment>time sigma of pair prod verter, ns</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>sigmaDVertX</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.03</SPFieldInitialization>
+          <SPFieldComment>sigma of pair prod verter x, cm</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>sigmaDVertY</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>0.03</SPFieldInitialization>
+          <SPFieldComment>sigma of pair prod verter y, cm</SPFieldComment>
+        </SteeringParameterField>
+        <SteeringParameterField>
+          <SPFieldName>sigmaDVertZ</SPFieldName>
+          <SPFieldType>Double_t</SPFieldType>
+          <SPFieldInitialization>1</SPFieldInitialization>
+          <SPFieldComment>sigma of pair prod verter z, cm</SPFieldComment>
+        </SteeringParameterField>
+	</SteeringParameters>
+    <Histogram>
+		<HistName>HResidualUnbiased</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>track impact parameter,mm</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>10</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>-10</HistYmin>
+		<HistYmax>10</HistYmax>
+		<HistYLabel>rmeasrtrk, mm</HistYLabel>
+		<HistTitle>rd_measd_trk distribution</HistTitle>
+    </Histogram>
+    <Histogram>
+		<HistName>HResidualBiased</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>track impact parameter,mm</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>10</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>-10</HistYmin>
+		<HistYmax>10</HistYmax>
+		<HistYLabel>rmeasrtrk, mm</HistYLabel>
+		<HistTitle>rd_measd_trk distribution</HistTitle>
+    </Histogram>
+    <Histogram>
+		<HistName>HMomentum</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>Momentum, MeV</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistYNbins>100</HistYNbins>
+		<HistYmin>-0.05</HistYmin>
+		<HistYmax>0.05</HistYmax>
+		<HistYLabel>P_{fit}/P_{mc}-1</HistYLabel>
+		<HistTitle>fitted momentum</HistTitle>
+    </Histogram>
+    <Histogram>
+		<HistName>HMomRes_El</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>Momentum, MeV</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>-2</HistYmin>
+		<HistYmax>2</HistYmax>
+		<HistYLabel>P_{fit} - P_{mc}</HistYLabel>
+		<HistTitle>el fitted momentum</HistTitle>
+    </Histogram>
+    <Histogram>
+		<HistName>HMomRes_Ps</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>Momentum, MeV</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>-2</HistYmin>
+		<HistYmax>2</HistYmax>
+		<HistYLabel>P_{fit} - P_{mc}</HistYLabel>
+		<HistTitle>el fitted momentum</HistTitle>
+    </Histogram>
+	<Histogram>
+		<HistName>HConvHitPerShell</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel># of pairs produced</HistYLabel>
+		<HistTitle>Pair Production per Shell distribution</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HGammaPerShell</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel># of gammma</HistYLabel>
+		<HistTitle>Gamma crossing the shell distribution</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HThetaGamma</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Photon Theta</HistXLabel>
+		<HistXNbins>720</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>180</HistXmax>
+		<HistYLabel>#</HistYLabel>
+		<HistTitle>Theta of Photons that cross the shells</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HConvProbPerShell</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Prob</HistYLabel>
+		<HistTitle>Conversion probability per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HConvEnergy</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Photon Energy</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistYLabel>#</HistYLabel>
+		<HistTitle>Photon Energy</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergy</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Pair Energy</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>pair Enegry</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergyRad</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Pair Energy</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>pair Enegry after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergySct</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Pair Energy</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>pair Enegry after Scintillator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergyRadDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Pair Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>pair Enegry after radiator per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergySctDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Pair Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>pair Enegry after Scintillator per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairThetaRad</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Pair Theta dev [mrad]</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>-500</HistXmin>
+		<HistXmax>500</HistXmax>
+		<HistTitle>Direction smearing after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HThetaRad_El</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>el Theta dev [mrad]</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>-500</HistXmin>
+		<HistXmax>500</HistXmax>
+		<HistTitle>Direction smearing after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HThetaRad_Ps</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>positron Theta dev [mrad]</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>-500</HistXmin>
+		<HistXmax>500</HistXmax>
+		<HistTitle>Direction smearing after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairPhiRad</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Pair Phi dev [mrad]</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>-500</HistXmin>
+		<HistXmax>500</HistXmax>
+		<HistTitle>Direction smearing after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPhiRad_El</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>el Phi dev [mrad]</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>-500</HistXmin>
+		<HistXmax>500</HistXmax>
+		<HistTitle>Direction smearing after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPhiRad_Ps</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>positron Phi dev [mrad]</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>-500</HistXmin>
+		<HistXmax>500</HistXmax>
+		<HistTitle>Direction smearing after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairThetaSct</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Pair Theta dev [mrad]</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>-500</HistXmin>
+		<HistXmax>500</HistXmax>
+		<HistTitle>Direction smearing after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairPhiSct</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Pair Phi dev [mrad]</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>-500</HistXmin>
+		<HistXmax>500</HistXmax>
+		<HistTitle>Direction smearing after radiator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HEnergyOut_El</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistYLabel>Energy</HistYLabel>
+		<HistTitle>electron Enegry exting the shell per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HElossInRadPerShell_El</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>1</HistYmax>
+		<HistYLabel>Energy loss</HistYLabel>
+		<HistTitle>electron Enegry loss in Radiator per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HElossInSctPerShell_El</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>1</HistYmax>
+		<HistYLabel>Energy loss</HistYLabel>
+		<HistTitle>electron Enegry loss in Scint per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HEnergyOut_Ps</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistYLabel>Energy</HistYLabel>
+		<HistTitle>positron Enegry exting the shell per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HElossInRadPerShell_Ps</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>1</HistYmax>
+		<HistYLabel>Energy loss</HistYLabel>
+		<HistTitle>positron Enegry loss in Radiator per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HElossInSctPerShell_Ps</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>1</HistYmax>
+		<HistYLabel>Energy loss</HistYLabel>
+		<HistTitle>positron Enegry loss in Scint per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HElHits</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>el Hits in DCH</HistXLabel>
+		<HistXNbins>100</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>el DCH hits distribution</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HElHitsDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>el Hits in DCH</HistYLabel>
+		<HistYNbins>100</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>el DCH hits distribution per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPsHits</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>pos Hits in DCH</HistXLabel>
+		<HistXNbins>100</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>positron DCH hits distribution</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPsHitsDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>pos Hits in DCH</HistYLabel>
+		<HistYNbins>100</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>positron DCH hits distribution per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergyRec</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Rec Pair Energy</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>Reconstructable pair Enegry after Scintillator</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergyRecDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>Reconstructable pair Enegry after Scintillator per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPairEnergy</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Rec Pair Energy</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>Reconstructed pair Enegry in DCH</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPairEnergyDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>Reconstructed pair Enegry in DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPairEnergyS</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Rec Pair extrapoleted Energy</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>Reconstructed pair extrapoloted Enegry in DCH</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPairEnergySDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair extrapoloted Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>Reconstructed pair extrapoloted Enegry in DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPair2EnergyDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>Reconstructed pair Enegry in DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPair2EnergySDiff</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair extrapoloted Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>Reconstructed pair extrapoloted Enegry in DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPair2EnergyDiff_1</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>Reconstructed pair Enegry in DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPair2EnergySDiff_1</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair extrapoloted Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>Reconstructed pair extrapoloted Enegry in DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HRecPairEnergyDebg</HistName>
+		<HistType>TH1F</HistType>
+		<HistXLabel>Rec Pair Energy</HistXLabel>
+		<HistXNbins>1000</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>100</HistXmax>
+		<HistTitle>MC pair Enegry in DCH</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergyHit0Debg</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>MC pair Enegry in DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairEnergyScntDebg</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>Rec Pair Energy</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>0</HistYmin>
+		<HistYmax>100</HistYmax>
+		<HistTitle>MC pair Enegry in Scint per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairVertXYResHt0ScDebg</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>mm</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>-10</HistYmin>
+		<HistYmax>10</HistYmax>
+		<HistTitle>MC XY diff between Scint and In DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairVertZResHt0ScDebg</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>mm</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>-20</HistYmin>
+		<HistYmax>20</HistYmax>
+		<HistTitle>MC Z diff between Scint and In DCH per Shell</HistTitle>
+	</Histogram>
+	<Histogram>
+		<HistName>HPairMomReasHt0ScDebg</HistName>
+		<HistType>TH2D</HistType>
+		<HistXLabel>PHCV shell ID</HistXLabel>
+		<HistXNbins>20</HistXNbins>
+		<HistXmin>0</HistXmin>
+		<HistXmax>20</HistXmax>
+		<HistYLabel>mom res MeV</HistYLabel>
+		<HistYNbins>1000</HistYNbins>
+		<HistYmin>-10</HistYmin>
+		<HistYmax>10</HistYmax>
+		<HistTitle>Momentum diff between Scint and In DCH per Shell</HistTitle>
+	</Histogram>
+</Task>  
