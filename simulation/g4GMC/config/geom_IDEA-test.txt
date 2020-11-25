@@ -13,13 +13,13 @@
 // Write geometry into a GDML file
 bool   writeGDML        = false;
 //string GDMLFileName     = "g4test-mu2e.gdml";
-string GDMLFileName     = "g4-IDEA-calo.gdml";
+string GDMLFileName     = "g4-IDEA-BP-SVX-DR-calo.gdml";
 
 // Uncomment exactly one central tracker.
-//#include "cdch_v50-IDEA_CEPC.txt"
-//#include "svx_v00-IDEA_CEPC.txt"
+#include "cdch_v50-IDEA_CEPC.txt"
+#include "svx_v00-IDEA_CEPC.txt"
 //#include "pshw_v00-IDEA_CEPC.txt"
-//#include "bmpipe_v00-IDEA_CEPC.txt"
+#include "bmpipe_v00-IDEA_CEPC.txt"
 #include "drfpic_v00-IDEA_CEPC.txt"
 
 // Uncomment max one vertex tracker.
@@ -97,7 +97,7 @@ vector<string> gmc.materials =
 //// make detector volume structure visible where enabled
 //bool g4.forceAuxEdgeVisible = true;
 //// invoke volume overlap check where enabled (draws random numbers)
-bool g4.doSurfaceCheck = true;
+bool g4.doSurfaceCheck = false;
 
 //double world.Length            = 2000.;  //unit mm
 vector<double> world.dims = { 10000, 10000, 11000}; //unit mm

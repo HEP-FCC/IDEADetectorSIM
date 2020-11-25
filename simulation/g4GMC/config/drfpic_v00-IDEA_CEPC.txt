@@ -17,12 +17,12 @@ int    drc.geomType         =    00;   //decimal digit:magior version, unit digi
 
 //double drc.voxelization     =     0;   //Choose voxelization method for the gas volumes that contain wires, negative: default computation, 0: voxelization off, positive: smartless value
 
-bool   drc.doDetailedSurfCheck = true;
-bool   drc.debug            = true;
+bool   drc.doDetailedSurfCheck = false;
+bool   drc.debug            = false;
 
 // DR 4 Pi calorimeter parameters
 
-int    drc.nTower                    = 158;
+//int    drc.nTower                    = 158;
 // added Walaa
   ////////////// Calorimeter parameters
 double  drc.innerR = 2500; //inner radius /1800
