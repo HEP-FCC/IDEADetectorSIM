@@ -2,8 +2,8 @@
 // Original author G. Tassielli
 //
 
-#ifndef LayerId_hh
-#define LayerId_hh
+#ifndef CDCH_LayerId_hh
+#define CDCH_LayerId_hh
 
 //#include "SuperLayerId.hh"
 #include <iostream>

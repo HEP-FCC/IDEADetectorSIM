@@ -307,7 +307,7 @@ VolumeInfo CDCHtrackerBuilder::constructTracker( G4LogicalVolume* mother/*, doub
                         double oringZEnd = oringCenter+oringWidth;
                         double extraInnWallLength = cdchtracker->maxEndCapDim() - oringZEnd;
                         extraInnWallLength *= 0.5;
-                        G4VSolid* extraInnerWallShape = new G4Tubs("extraInnerWall", ((G4Tubs*)trackerInfo.solid)->GetRMin(),innerWallOuterRadius,extraInnWallLength,0.0,360.0*CLHEP::degree);
+                        G4VSolid* extraInnerWallShape = new G4Tubs("extraInnerWall", ((G4Tubs*)trackerInfo.solid)->GetInnerRadius(),innerWallOuterRadius,extraInnWallLength,0.0,360.0*CLHEP::degree);
                         G4LogicalVolume*   extraInnerWallVol = new G4LogicalVolume(extraInnerWallShape,matMother,"extraInnerWallVol",0,0,0);
 
                         for ( walls_it=cdchtracker->getWalls()->begin() ; walls_it != cdchtracker->getWalls()->end(); walls_it++ ) {

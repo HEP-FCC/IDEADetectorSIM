@@ -3,8 +3,8 @@
 // Original author G. Tassielli
 //
 
-#ifndef Layer_hh
-#define Layer_hh
+#ifndef CDCH_Layer_hh
+#define CDCH_Layer_hh
 
 #include <deque>
 #include <vector>

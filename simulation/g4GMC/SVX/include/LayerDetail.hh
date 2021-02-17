@@ -2,8 +2,8 @@
 // Original author G. Tassielli
 //
 
-#ifndef LayerDetail_hh
-#define LayerDetail_hh
+#ifndef SVX_LayerDetail_hh
+#define SVX_LayerDetail_hh
 
 #include <string>
 

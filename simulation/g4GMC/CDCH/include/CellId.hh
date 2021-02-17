@@ -6,6 +6,8 @@
 #define CellId_hh
 
 //#include "WireId.hh"
+#include "LayerId.hh"
+
 #include <iostream>
 
 namespace cdch {

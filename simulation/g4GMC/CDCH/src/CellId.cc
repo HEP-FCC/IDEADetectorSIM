@@ -46,7 +46,7 @@ namespace cdch {
   std::ostream& operator<<(std::ostream& ost,
                                   const CellId& c ){
     ost << "Cell Id: ("
-        << c.getLayerId() << " "
+	<< c.getLayerId().getLayer() << " "
         << c._swid->getWire()
         << " )";
     return ost;

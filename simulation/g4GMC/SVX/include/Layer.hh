@@ -3,8 +3,8 @@
 // Original author G. Tassielli
 //
 
-#ifndef Layer_hh
-#define Layer_hh
+#ifndef SVX_Layer_hh
+#define SVX_Layer_hh
 
 #include <LayerId.hh>
 #include <LayerDetail.hh>

@@ -6,8 +6,8 @@
 // Original author G. Tassielli
 //
 
-#ifndef LayerId_hh
-#define LayerId_hh
+#ifndef SVX_LayerId_hh
+#define SVX_LayerId_hh
 
 #include <iostream>
 

@@ -1,0 +1,3 @@
+file(GLOB GEOMSRVC_SOURCES "src/*.cc")
+add_library(GEOMSRVC SHARED ${GEOMSRVC_SOURCES})
+

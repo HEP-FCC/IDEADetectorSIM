@@ -9,7 +9,7 @@ if [ -v PRJBASE ];
 then
 	echo "PRJ BASE already set to "${PRJBASE}
 else
-	export PRJBASE="/afs/cern.ch/user/w/welmeten/public/IDEA/DriftChamberPLUSVertex"
+	export PRJBASE="/afs/cern.ch/work/l/llavezzi/IDEA/DRIFT_CH/wIDEA/DriftChamberPLUSVertex"
 fi
 export PATH=$PRJBASE/simulation/g4GMC:$PATH
 

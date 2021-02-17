@@ -1,0 +1,2 @@
+file(GLOB DRFPIC_SOURCES "src/*.cc")
+add_library(DRFPIC SHARED ${DRFPIC_SOURCES})
