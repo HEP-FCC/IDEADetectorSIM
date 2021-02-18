@@ -5,9 +5,9 @@
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
-#include <ReadOutDetail.hh>
+#include "ReadOutDetail.hh"
 
-#include <ReadOutId.hh>
+#include "ReadOutId.hh"
 #include "CLHEP/Vector/ThreeVector.h"
 
 namespace pshw {

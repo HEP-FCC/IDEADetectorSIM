@@ -50,12 +50,8 @@ include_directories(${PROJECT_SOURCE_DIR}/include
                     ${HEPMC_INCLUDE_DIR}
                     ${PROJECT_SOURCE_DIR}/../ConfigReader/include
                     ${PROJECT_SOURCE_DIR}/GEOMSRVC/include
-                    ${PROJECT_SOURCE_DIR}/EXCEP/include
-                    ${PROJECT_SOURCE_DIR}/SVX/include
-		    ${PROJECT_SOURCE_DIR}/PSHW/include
-                    ${PROJECT_SOURCE_DIR}/CDCH/include
-                    ${PROJECT_SOURCE_DIR}/PHCV/include
-		    ${PROJECT_SOURCE_DIR}/DRFPIC/include)
+                    ${PROJECT_SOURCE_DIR}/EXCEP/include)
+
 
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 #	  	  ${PROJECT_SOURCE_DIR}/../ConfigReader/src/*.cc

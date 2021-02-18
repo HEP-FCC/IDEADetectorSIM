@@ -11,9 +11,9 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <LadderDetail.hh>
-#include <LadderId.hh>
-#include <ReadOut.hh>
+#include "LadderDetail.hh"
+#include "LadderId.hh"
+#include "ReadOut.hh"
 
 #include "CLHEP/Geometry/Transform3D.h"
 #include "CLHEP/Vector/ThreeVector.h"

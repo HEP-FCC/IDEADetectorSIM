@@ -3,8 +3,8 @@
 // Original author G. Tassielli
 //
 
-#include  "WireId.hh"
-#include <LayerId.hh>
+#include "WireId.hh"
+#include "LayerId.hh"
 
 namespace cdch {
 
