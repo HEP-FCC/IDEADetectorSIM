@@ -34,7 +34,7 @@ void ConstructMaterials::construct() {
 
   contructGeneralMaterial();
 
-  if (cRd->getBool("hasCDCH",false)) contructCDCHMaterial();
+  if (cRd->getBool("hasCDCH",false) || cRd->getBool("hasTDCH",false)) contructCDCHMaterial();
 }
 
 // Decide if we need to build this material.

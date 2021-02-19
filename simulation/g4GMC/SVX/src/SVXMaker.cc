@@ -124,6 +124,10 @@ SVXMaker::~SVXMaker (){}
 void SVXMaker::loadBarrelTracker( crd::SimpleConfig const& config ){
 
   _nLayers        = config.getInt("svx.Brl.nLayers");
+  if (_nLayers==0) {
+    std::cout<<"SVX: no Barrel layers present!"<<std::endl;
+    return;
+  }
 
   config.getVectorDouble("svx.Brl.LayersInRad", _LayersInnerRad, _nLayers);
   config.getVectorInt("svx.Brl.nPhiSectors", _nPhiSectors, _nLayers);
@@ -368,7 +372,7 @@ void SVXMaker::Build(){
   _lst->_isExternal = _isExternal;
   _lst->_geomType=_geomType;
 
-  if (_nLayers<1) {
+  if (_nLayers<1 && _nFwdLayers<1) {
     exc::exceptionG4 e("GEOM","Fatal Error in Argument",1);
     e<<"SVX: Number of Layer is not acceptable\n";
     e.error();

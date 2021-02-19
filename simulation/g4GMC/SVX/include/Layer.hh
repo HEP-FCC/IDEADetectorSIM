@@ -133,4 +133,4 @@ protected:
 
 }  // namespace svx
 
-#endif /* Layer_hh */
+#endif /* SVX_Layer_hh */

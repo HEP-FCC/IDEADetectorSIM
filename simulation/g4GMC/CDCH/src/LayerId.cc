@@ -3,7 +3,7 @@
 //
 
 #include "LayerId.hh"
-#include "SuperLayerId.hh"
+//#include "SuperLayerId.hh"
 
 namespace cdch {
 
@@ -39,13 +39,21 @@ namespace cdch {
     return ( *_sid == *(l._sid) && _id == l._id );
   }
 
-  std::ostream& operator<<(std::ostream& ost,
-                                  const LayerId& l ){
-    ost << "Layer Id: ("
-        << l.getSuperLayerId() << " "
-        << l._id
-        << " )";
-    return ost;
-  }
+//  std::ostream& LayerId::operator<<(std::ostream& ost) const{
+//    ost << "Layer Id: ("
+//        << getSuperLayerId() << " "
+//        << getLayer()
+//        << " )";
+//    return ost;
+//  }
+
+//  std::ostream& operator<<(std::ostream& ost,
+//                                  const LayerId& l ){
+//    ost << "Layer Id: ("
+//        << l.getSuperLayerId() << " "
+//        << l.getLayer()
+//        << " )";
+//    return ost;
+//  }
 
 }

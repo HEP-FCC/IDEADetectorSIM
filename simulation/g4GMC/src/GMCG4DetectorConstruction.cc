@@ -42,6 +42,7 @@
 #include <GMCG4ModupixTrkrBuilder.hh>
 #include "GMCG4DetectorMessenger.hh"
 #include "GMCG4FieldSetup.hh"
+#include <SensitiveDetectorName.hh>
 
 // Beam Pipe
 #include "GMCG4BeamPipeBuilder.hh"
@@ -50,7 +51,11 @@
 #include "CDCHMaker.hh"
 //#include "CDCHtracker.hh"
 #include <CDCHtrackerBuilder.hh>
-#include <SensitiveDetectorName.hh>
+
+// TDCH includes
+#include "TDCHMaker.hh"
+#include "TDCHtracker.hh"
+#include <TDCHBuilder.hh>
 
 // SVX includes
 #include "SVXMaker.hh"
@@ -225,7 +230,11 @@ void GMCG4DetectorConstruction::DefineVolumes() {
 
   ConstructSStopTarget();
 
-  ConstructCentralTracker();
+  ConstructTrackerProto();
+
+  ConstructCDCHTracker();
+
+  ConstructTDCHTracker();
 
   ConstructVertexTracker();
 
@@ -270,11 +279,15 @@ void GMCG4DetectorConstruction::ConstructSStopTarget() {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void GMCG4DetectorConstruction::ConstructCentralTracker() {
+void GMCG4DetectorConstruction::ConstructTrackerProto() {
 
   if (cRd->getBool("hasRMproto",false)) GMCG4RomaProtoBuilder::constructTracker(fTheWorld->GetLogicalVolume());
   else if (cRd->getBool("hasLEproto",false)) GMCG4LecceProtoBuilder::constructTracker(fTheWorld->GetLogicalVolume());
 
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::ConstructCDCHTracker() {
   if (cRd->getBool("hasCDCH",false)) {
 
     RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::TrackerGas(),"HitsStepCh");
@@ -292,6 +305,26 @@ void GMCG4DetectorConstruction::ConstructCentralTracker() {
     fCDCHmother = cdch::CDCHtrackerBuilder::constructTracker(fTheWorld->GetLogicalVolume()).logical;
   }
 
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::ConstructTDCHTracker() {
+  if (cRd->getBool("hasTDCH",false)) {
+
+    RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::TrackerGas(),"HitsStepCh");
+    if (cRd->getBool("tdch.ActiveWiresSD",false)) {
+      RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::TrackerSWires(),"HitsStepChSW");
+      if(cRd->getBool("tdch.ActiveFWiresSD",false)) {
+        RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::TrackerFWires(),"HitsStepChFW");
+      }
+    }
+
+    tdch::TDCHMaker tdchtm( *cRd );
+    GeomService::Instance()->addDetector( tdchtm.getTDCHtrackerPtr() );
+
+    tdch::TDCHBuilder::instantiateSensitiveDetectors("TDriftTrackerHitsCollection");
+    tdch::TDCHBuilder::construct(fTheWorld->GetLogicalVolume());
+  }
 
 }
 
@@ -423,6 +456,7 @@ void GMCG4DetectorConstruction::SetMaxStep(G4double maxStep)
     fTheWorld->GetLogicalVolume()->SetUserLimits(fStepLimit);
   }
   if (cRd->getBool("hasCDCH",false)) { cdch::CDCHtrackerBuilder::constructStepLimiters(); }
+  if (cRd->getBool("hasTDCH",false)) { tdch::TDCHBuilder::constructStepLimiters(); }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

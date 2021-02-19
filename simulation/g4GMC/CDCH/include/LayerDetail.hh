@@ -47,4 +47,4 @@ private:
 
 }  //namespace cdch
 
-#endif /* LayerDetail_hh */
+#endif /* CDCH_LayerDetail_hh */

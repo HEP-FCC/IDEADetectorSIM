@@ -85,7 +85,9 @@ class GMCG4DetectorConstruction : public G4VUserDetectorConstruction
     void ConstructBeamPipe();
     void ConstructMEGTarget();
     void ConstructSStopTarget();
-    void ConstructCentralTracker();
+    void ConstructTrackerProto();
+    void ConstructCDCHTracker();
+    void ConstructTDCHTracker();
     void ConstructVertexTracker();
     void ConstructPreShower();
     void ConstructPhotnConveters();

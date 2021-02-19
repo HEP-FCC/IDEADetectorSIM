@@ -3,8 +3,8 @@
 // Original author G. Tassielli
 //
 
-#include "WireId.hh"
-#include "LayerId.hh"
+#include  "WireId.hh"
+//#include <LayerId.hh>
 
 namespace cdch {
 
@@ -45,13 +45,13 @@ namespace cdch {
     return ( *_lid == *(w._lid) && _n == w._n );
   }
 
-  std::ostream& operator<<(std::ostream& ost,
-                                  const WireId& w ){
-    ost << "Wire Id: ("
-        << w.getLayerId() << " "
-        << w._n
-        << " )";
-    return ost;
-  }
+//  std::ostream& operator<<(std::ostream& ost,
+//                                  const WireId& w ){
+//    ost << "Wire Id: ("
+//        << w.getLayerId() << " "
+//        << w._n
+//        << " )";
+//    return ost;
+//  }
 
 }

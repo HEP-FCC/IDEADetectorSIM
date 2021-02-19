@@ -25,6 +25,7 @@
 
 namespace cdch {
 
+//class Wall;
 class SuperLayer;
 
 class CDCHtracker: public Detector {

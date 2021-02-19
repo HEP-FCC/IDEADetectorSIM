@@ -7,17 +7,13 @@
 
 //#include "WireId.hh"
 #include "LayerId.hh"
-
 #include <iostream>
 
 namespace cdch {
 
-class LayerId;
+//class LayerId;
 class WireId;
-class CellId;
-
-std::ostream& operator<<(std::ostream& ost,
-                                const CellId& c );
+//class CellId;
 
 class CellId{
 
@@ -35,20 +31,33 @@ public:
 
   const LayerId& getLayerId() const;
 
+  int getWireN() const;
+
   int getLayer() const;
 
   int getCell() const;
 
   bool operator==(const CellId c) const;
 
-  friend std::ostream& operator<<(std::ostream& ost,
-                                  const CellId& c );
+//  friend std::ostream& operator<<(std::ostream& ost,
+//                                  const CellId& c );
 
 private:
 
   WireId *_swid;
 
 };
+
+//std::ostream& operator<<(std::ostream& ost,
+//                                const CellId& c );
+inline std::ostream& operator<<(std::ostream& ost,
+                                const CellId& c ){
+  ost << "Cell Id: ("
+      << c.getLayerId() << " "
+      << c.getWireN()
+      << " )";
+  return ost;
+}
 
 }
 #endif /* CellId_hh */

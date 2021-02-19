@@ -29,10 +29,10 @@ namespace svx {
     return ( _id == s._id );
   }
 
-  std::ostream& operator<<(std::ostream& ost,
-                                  const LayerId& s ){
-    ost << "Layer Id: "<<s._id << " ";
-    return ost;
-  }
+  // std::ostream& operator<<(std::ostream& ost,
+  //                                 const LayerId& s ){
+  //   ost << "Layer Id: "<<s._id << " ";
+  //   return ost;
+  // }
 
 } //namespace svx

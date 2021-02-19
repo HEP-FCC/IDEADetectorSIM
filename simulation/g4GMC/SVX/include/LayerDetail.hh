@@ -34,4 +34,4 @@ private:
 
 }  //namespace svx
 
-#endif /* LayerDetail_hh */
+#endif /* SVX_LayerDetail_hh */
