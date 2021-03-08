@@ -28,14 +28,18 @@
 /// \file exampleGMCG4.cc
 /// \brief Main program of the GMCG4 example
 
-#include "GMCG4DetectorConstruction.hh"
-#include "GMCG4ActionInitialization.hh"
+//#include "GMCG4DetectorConstruction.hh"
+//#include "GMCG4ActionInitialization.hh"
+#include "G4GlobalConfig.hh"
 
-#ifdef G4MULTITHREADED
+#if defined(G4MULTITHREADED) && !defined(MT_OFF)
 #include "G4MTRunManager.hh"
 #else
 #include "G4RunManager.hh"
 #endif
+
+#include "GMCG4DetectorConstruction.hh"
+#include "GMCG4ActionInitialization.hh"
 
 #include "G4UImanager.hh"
 #include "FTFP_BERT.hh"
@@ -70,7 +74,7 @@ int main(int argc,char** argv)
 
   // Construct the default run manager
   //
-#ifdef G4MULTITHREADED  
+#if defined(G4MULTITHREADED) && !defined(MT_OFF)
   G4MTRunManager* runManager = new G4MTRunManager;
 #else
   G4RunManager* runManager = new G4RunManager;
