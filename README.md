@@ -19,8 +19,8 @@ source env.sh
 cd g4GMC/
 mkdir build
 cd build/
-#cmake -DCMAKE_INSTALL_PREFIX=<installation_directory> ../
-cmake -DCMAKE_INSTALL_PREFIX=$SIM_INSTAL_DIR ../
+#cmake -DCMAKE_INSTALL_PREFIX=<installation_directory> -DCMAKE_CXX_FLAGS="-DMT_OFF"  ../
+cmake -DCMAKE_INSTALL_PREFIX=$SIM_INSTAL_DIR  -DCMAKE_CXX_FLAGS="-DMT_OFF"  ../
 make
 make install
 #cd <installation_directory> 
