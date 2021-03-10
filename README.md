@@ -30,4 +30,14 @@ mkdir -p $SIM_OUTPUT_DIR
 ./bin/g4GMC ./g4mac/runPFix-1.mac geom_IDEA.txt 0 $SIM_OUTPUT_DIR
 
 ```
+## Converter G4hits to EDM
+It is contained in the file convertHits.cc, compiled together with the rest. </br>
+!!!FOR NOW!!! (to be done):
+- the binary file is inside build/bin, it is not moved to the right place
+- the output file is not int the $SIM_OUTPUT_DIR but it is put in the dir where you run the conversion
 
+To run
+
+```
+./bin/convertHits $SIM_OUTPUT_DIR/<inout_file.root>
+```
