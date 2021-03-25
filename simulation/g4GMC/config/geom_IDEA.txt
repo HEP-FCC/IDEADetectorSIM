@@ -21,7 +21,7 @@ string GDMLFileName     = "g4-IDEA.gdml";
 //#include "cdch_v42-mu2e.txt"
 #include "cdch_v50-IDEA_CEPC.txt"
 #include "svx_v00-IDEA_CEPC.txt"
-//#include "pshw_v00-IDEA_CEPC.txt"
+#include "pshw_v00-IDEA_CEPC.txt"
 #include "bmpipe_v00-IDEA_CEPC.txt"
 //#include "drfpic_v00-IDEA_CEPC.txt"
 

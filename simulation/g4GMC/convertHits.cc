@@ -150,11 +150,21 @@ int main(int argc,char** argv)
   std::cout << "writer    " << l_writer << std::endl;
 
   // from https://github.com/key4hep/EDM4hep/blob/master/edm4hep.yaml
-  edm4hep::SimTrackerHitCollection *s_trackerHits = new edm4hep::SimTrackerHitCollection();
-  l_evtstore->registerCollection("S_trackerHits",s_trackerHits);
-  l_writer->registerForWrite("S_trackerHits");
+  // DCH
+  edm4hep::SimTrackerHitCollection *s_dchtrackerHits = new edm4hep::SimTrackerHitCollection();
+  l_evtstore->registerCollection("S_DCHtrackerHits",s_dchtrackerHits);
+  l_writer->registerForWrite("S_DCHtrackerHits");
+  // SVX
+  edm4hep::SimTrackerHitCollection *s_svxtrackerHits = new edm4hep::SimTrackerHitCollection();
+  l_evtstore->registerCollection("S_SVXtrackerHits",s_svxtrackerHits);
+  l_writer->registerForWrite("S_SVXtrackerHits");
+  // PSHW
+  edm4hep::SimTrackerHitCollection *s_pshwtrackerHits = new edm4hep::SimTrackerHitCollection();
+  l_evtstore->registerCollection("S_PSHWtrackerHits",s_pshwtrackerHits);
+  l_writer->registerForWrite("S_PSHWtrackerHits");
 
-  // event loop
+  
+  // event loop -------------------
   int nevt = hit_tree->GetEntries();
   std::cout << "nof events " << nevt << std::endl;
   for(int ievt=0; ievt<nevt; ievt++) {
@@ -162,10 +172,10 @@ int main(int argc,char** argv)
     //    track_tree->GetEntry(ievt);
     hit_tree->GetEntry(ievt);
 
-    // DCH
+    // DCH ---------------------------------
     if (hitChIsPresent) {
       int nhits = hitsch->size();
-      std::cout << "event " << ievt << " has nof hits " << nhits << std::endl;
+      std::cout << "event " << ievt << " has nof DCH hits " << nhits << std::endl;
 
       // loop on DCH hits
       for (int ihit=0; ihit < nhits; ihit++) {
@@ -180,7 +190,7 @@ int main(int argc,char** argv)
 	int trackID   = hitsch->at(ihit)->GetTrackID();
 	// chamber number
 	int chamberNb = hitsch->at(ihit)->GetChamberNb();
-	// depoisted energy
+	// deposited energy
 	double edep   = hitsch->at(ihit)->GetEdep();
 	// deposited energy, not from ionization
 	double edep_noion = hitsch->at(ihit)->GetNoIEdep();
@@ -194,7 +204,7 @@ int main(int argc,char** argv)
 	G4String proc_code = hitsch->at(ihit)->GetProcessCode();
 	
 	// convert to EDM DCH hit ............................ !! CHECK all the variables and units !!
-	auto l_hit = s_trackerHits->create();
+	auto l_hit = s_dchtrackerHits->create();
 	// unsigned long long cellID / ID of the sensor that created this hit
         l_hit.setCellID(chamberNb); 
 	// float EDep / energy deposited in the hit [GeV]
@@ -207,10 +217,118 @@ int main(int argc,char** argv)
 	// CHECK does it exist?
 	// edm4hep::Vector3d position / the hit position in [mm].
         edm4hep::Vector3d position(s_pos.x(), s_pos.y(), s_pos.z());
-	// l_hit.setPosition(pos);
+	l_hit.setPosition(position);
 	// edm4hep::Vector3f momentum / the 3-momentum of the particle at the hits position in [GeV]
 	edm4hep::Vector3f momentum(mom.x(), mom.y(), mom.z());
-	//  l_hit.setMomentum(mom);
+	l_hit.setMomentum(momentum);
+
+	//	std::cout << "ihit " << ihit << std::endl;
+      }
+    }
+
+    // SVX
+    if (hitSVXIsPresent) {
+      int nhits = hitssvx->size();
+      std::cout << "event " << ievt << " has nof SVX hits " << nhits << std::endl;
+
+      // loop on SVX hits
+      for (int ihit=0; ihit < nhits; ihit++) {
+
+	// pre step pos CHECK
+	G4ThreeVector s_pos = hitssvx->at(ihit)->GetPos();
+	// post step pos CHECK
+	G4ThreeVector q_pos = hitssvx->at(ihit)->GetPosEnding();
+	// three-momentum
+	G4ThreeVector mom = hitssvx->at(ihit)->GetMomentum();
+	// track ID
+	int trackID   = hitssvx->at(ihit)->GetTrackID();
+	// chamber number
+	int chamberNb = hitssvx->at(ihit)->GetChamberNb();
+	// deposited energy
+	double edep   = hitssvx->at(ihit)->GetEdep();
+	// deposited energy, not from ionization
+	double edep_noion = hitssvx->at(ihit)->GetNoIEdep();
+	// global time ?? CHECK	
+	double glo_time = hitssvx->at(ihit)->GetGlobalTime();
+	// proper time ?? CHECK
+	double pro_time = hitssvx->at(ihit)->GetProperTime();
+	// step length
+	double step_length = hitssvx->at(ihit)->GetStepLength();
+	// GetProcessCode ?? CHECK
+	G4String proc_code = hitssvx->at(ihit)->GetProcessCode();
+	
+	// convert to EDM SVX hit ............................ !! CHECK all the variables and units !!
+	auto l_hit = s_svxtrackerHits->create();
+	// unsigned long long cellID / ID of the sensor that created this hit
+        l_hit.setCellID(chamberNb); 
+	// float EDep / energy deposited in the hit [GeV]
+	l_hit.setEDep(edep);
+	// float time / proper time of the hit in the lab frame in [ns]
+	l_hit.setTime(pro_time);
+	// float pathLength / path length of the particle in the sensitive material that resulted in this hit
+	l_hit.setPathLength(step_length);
+	// int quality / quality bit flag
+	// CHECK does it exist?
+	// edm4hep::Vector3d position / the hit position in [mm].
+        edm4hep::Vector3d position(s_pos.x(), s_pos.y(), s_pos.z());
+	l_hit.setPosition(position);
+	// edm4hep::Vector3f momentum / the 3-momentum of the particle at the hits position in [GeV]
+	edm4hep::Vector3f momentum(mom.x(), mom.y(), mom.z());
+	l_hit.setMomentum(momentum);
+
+	//	std::cout << "ihit " << ihit << std::endl;
+      }
+    }
+
+    // PSHW
+    if (hitPSHWIsPresent) {
+      int nhits = hitspshw->size();
+      std::cout << "event " << ievt << " has nof PSHW hits " << nhits << std::endl;
+
+      // loop on PSHW hits
+      for (int ihit=0; ihit < nhits; ihit++) {
+
+	// pre step pos CHECK
+	G4ThreeVector s_pos = hitspshw->at(ihit)->GetPos();
+	// post step pos CHECK
+	G4ThreeVector q_pos = hitspshw->at(ihit)->GetPosEnding();
+	// three-momentum
+	G4ThreeVector mom = hitspshw->at(ihit)->GetMomentum();
+	// track ID
+	int trackID   = hitspshw->at(ihit)->GetTrackID();
+	// chamber number
+	int chamberNb = hitspshw->at(ihit)->GetChamberNb();
+	// depoisted energy
+	double edep   = hitspshw->at(ihit)->GetEdep();
+	// deposited energy, not from ionization
+	double edep_noion = hitspshw->at(ihit)->GetNoIEdep();
+	// global time ?? CHECK	
+	double glo_time = hitspshw->at(ihit)->GetGlobalTime();
+	// proper time ?? CHECK
+	double pro_time = hitspshw->at(ihit)->GetProperTime();
+	// step length
+	double step_length = hitspshw->at(ihit)->GetStepLength();
+	// GetProcessCode ?? CHECK
+	G4String proc_code = hitspshw->at(ihit)->GetProcessCode();
+	
+	// convert to EDM PSHW hit ............................ !! CHECK all the variables and units !!
+	auto l_hit = s_pshwtrackerHits->create();
+	// unsigned long long cellID / ID of the sensor that created this hit
+        l_hit.setCellID(chamberNb); 
+	// float EDep / energy deposited in the hit [GeV]
+	l_hit.setEDep(edep);
+	// float time / proper time of the hit in the lab frame in [ns]
+	l_hit.setTime(pro_time);
+	// float pathLength / path length of the particle in the sensitive material that resulted in this hit
+	l_hit.setPathLength(step_length);
+	// int quality / quality bit flag
+	// CHECK does it exist?
+	// edm4hep::Vector3d position / the hit position in [mm].
+        edm4hep::Vector3d position(s_pos.x(), s_pos.y(), s_pos.z());
+	l_hit.setPosition(position);
+	// edm4hep::Vector3f momentum / the 3-momentum of the particle at the hits position in [GeV]
+	edm4hep::Vector3f momentum(mom.x(), mom.y(), mom.z());
+	l_hit.setMomentum(momentum);
 
 	//	std::cout << "ihit " << ihit << std::endl;
       }
