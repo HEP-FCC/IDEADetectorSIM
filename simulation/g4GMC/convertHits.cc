@@ -23,6 +23,7 @@
 
 #include "GEOMSRVC/include/GMCG4Particle.hh"
 #include "GEOMSRVC/include/GMCG4TrackerHit.hh"
+//#include "SVX/include/ROGeometryHandle.hh"
 
 #include "podio/EventStore.h"
 #include "podio/ROOTWriter.h"
@@ -180,33 +181,41 @@ int main(int argc,char** argv)
       // loop on DCH hits
       for (int ihit=0; ihit < nhits; ihit++) {
 
-	// pre step pos CHECK
+	// pre step pos
 	G4ThreeVector s_pos = hitsch->at(ihit)->GetPos();
-	// post step pos CHECK
-	G4ThreeVector q_pos = hitsch->at(ihit)->GetPosEnding();
 	// three-momentum
 	G4ThreeVector mom = hitsch->at(ihit)->GetMomentum();
-	// track ID
-	int trackID   = hitsch->at(ihit)->GetTrackID();
 	// chamber number
 	int chamberNb = hitsch->at(ihit)->GetChamberNb();
 	// deposited energy
 	double edep   = hitsch->at(ihit)->GetEdep();
-	// deposited energy, not from ionization
-	double edep_noion = hitsch->at(ihit)->GetNoIEdep();
-	// global time ?? CHECK	
-	double glo_time = hitsch->at(ihit)->GetGlobalTime();
-	// proper time ?? CHECK
-	double pro_time = hitsch->at(ihit)->GetProperTime();
 	// step length
 	double step_length = hitsch->at(ihit)->GetStepLength();
-	// GetProcessCode ?? CHECK
+	// proper time 
+	double pro_time = hitsch->at(ihit)->GetProperTime();
+
+	// additional Get methods -------------------
+	// track ID
+	int trackID   = hitsch->at(ihit)->GetTrackID();
+	// channel number (NOT USED)
+	int channelNb = hitsch->at(ihit)->GetChannelNb();
+	// deposited energy, not from ionization
+	double edep_noion = hitsch->at(ihit)->GetNoIEdep();
+	// global time 
+	double glo_time = hitsch->at(ihit)->GetGlobalTime();
+	// post step pos
+	G4ThreeVector q_pos = hitsch->at(ihit)->GetPosEnding();
+	// GetProcessCode 
 	G4String proc_code = hitsch->at(ihit)->GetProcessCode();
-	
+
+	// CHECK from SVX/include/ROGeometryHandle.hh
+	unsigned long cellID = chamberNb;
+
 	// convert to EDM DCH hit ............................ !! CHECK all the variables and units !!
 	auto l_hit = s_dchtrackerHits->create();
+	
 	// unsigned long long cellID / ID of the sensor that created this hit
-        l_hit.setCellID(chamberNb); 
+        l_hit.setCellID(cellID); 
 	// float EDep / energy deposited in the hit [GeV]
 	l_hit.setEDep(edep);
 	// float time / proper time of the hit in the lab frame in [ns]
@@ -242,6 +251,8 @@ int main(int argc,char** argv)
 	G4ThreeVector mom = hitssvx->at(ihit)->GetMomentum();
 	// track ID
 	int trackID   = hitssvx->at(ihit)->GetTrackID();
+	// channel number
+	int channelNb = hitssvx->at(ihit)->GetChannelNb();
 	// chamber number
 	int chamberNb = hitssvx->at(ihit)->GetChamberNb();
 	// deposited energy
@@ -256,11 +267,18 @@ int main(int argc,char** argv)
 	double step_length = hitssvx->at(ihit)->GetStepLength();
 	// GetProcessCode ?? CHECK
 	G4String proc_code = hitssvx->at(ihit)->GetProcessCode();
+
+        //std::cout << "proc_code " << proc_code << std::endl;
+
+	// CHECK from SVX/include/ROGeometryHandle.hh
+	unsigned long cellID = ((chamberNb/*+1*/)*1e+9) + channelNb;
+	// std::cout << "SVX chamberNb " << chamberNb << " channelNb " << channelNb << " cellID " << cellID << std::endl;
 	
+		
 	// convert to EDM SVX hit ............................ !! CHECK all the variables and units !!
 	auto l_hit = s_svxtrackerHits->create();
 	// unsigned long long cellID / ID of the sensor that created this hit
-        l_hit.setCellID(chamberNb); 
+        l_hit.setCellID(cellID);
 	// float EDep / energy deposited in the hit [GeV]
 	l_hit.setEDep(edep);
 	// float time / proper time of the hit in the lab frame in [ns]
@@ -296,6 +314,8 @@ int main(int argc,char** argv)
 	G4ThreeVector mom = hitspshw->at(ihit)->GetMomentum();
 	// track ID
 	int trackID   = hitspshw->at(ihit)->GetTrackID();
+	// channel number
+	int channelNb = hitspshw->at(ihit)->GetChannelNb();
 	// chamber number
 	int chamberNb = hitspshw->at(ihit)->GetChamberNb();
 	// depoisted energy
@@ -310,11 +330,16 @@ int main(int argc,char** argv)
 	double step_length = hitspshw->at(ihit)->GetStepLength();
 	// GetProcessCode ?? CHECK
 	G4String proc_code = hitspshw->at(ihit)->GetProcessCode();
+
+	// CHECK from SVX/include/ROGeometryHandle.hh
+	unsigned long cellID = ((chamberNb/*+1*/)*1e+9) + channelNb;
+	// std::cout << "PSHW chamberNb " << chamberNb << " channelNb " << channelNb << " cellID " << cellID << std::endl;
+
 	
 	// convert to EDM PSHW hit ............................ !! CHECK all the variables and units !!
 	auto l_hit = s_pshwtrackerHits->create();
 	// unsigned long long cellID / ID of the sensor that created this hit
-        l_hit.setCellID(chamberNb); 
+        l_hit.setCellID(cellID);
 	// float EDep / energy deposited in the hit [GeV]
 	l_hit.setEDep(edep);
 	// float time / proper time of the hit in the lab frame in [ns]
