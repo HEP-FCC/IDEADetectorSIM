@@ -23,72 +23,47 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file persistency/P01/include/RootIO.hh
-/// \brief Definition of the RootIO class
 //
-// $Id: RootIO.hh 71791 2013-06-24 14:08:28Z gcosmo $
-#ifndef INCLUDE_ROOTIO_HH 
-#define INCLUDE_ROOTIO_HH 1
+// $Id: PhysicsList.hh,v 1.1 2010-10-18 15:56:17 maire Exp $
+// GEANT4 tag $Name: not supported by cvs2svn $
+//
+//
 
-// Include files
-//#include "TROOT.h"
-#include "TFile.h"
-//#include "TSystem.h"
-#include "TTree.h"
-//#include "TBranch.h"
-//#include "TClonesArray.h"
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#include <map>
-#include <string>
-#include "GMCG4Particle.hh"
-#include "GMCG4TrackerHit.hh"
+#ifndef PhysicsList_h
+#define PhysicsList_h 1
 
-/** @class RootIO
- *   
- *
- *  @author Witold POKORSKI
- *  @date   2005-10-27
- *  modified by G.F: Tassielli
- */
+#include "globals.hh"
+#include "G4VModularPhysicsList.hh"
 
-/// Root IO implementation for the persistency
 
-class RootIO {
-public: 
+class G4VPhysicsConstructor;
+class OpticalPhysics;
+class G4NeutronTrackingCut;
 
-  virtual ~RootIO();
-  
-  static RootIO* GetInstance(Int_t runN=0, TString outFold=".", bool hasDRFPIC=false);
-  void Close();
-//  void CreateTreeObject();
-  void CreateMCStepBranches(std::string , const char *);
-  void CreateDRCaloBranches();
-  void FillEvent();  
-//  void PutMCStepHitCh(std::vector<GMCG4TrackerHit*>&);
-//  void PutMCStepHitPx(std::vector<GMCG4TrackerHit*>&);
-  void PutMCStepHit(std::string , std::vector<GMCG4TrackerHit*>&);
-//  void PutMCTracks(TClonesArray &);
-  void PutMCTracks(std::vector<GMCG4Particle*>&);
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-protected:
-  RootIO(Int_t runN=0, TString outFold=".", bool hasDRFPIC=false);
-  
+class PhysicsList: public G4VModularPhysicsList
+{
+public:
+    PhysicsList(G4String);
+    virtual ~PhysicsList();
+    
+//    void SetCuts();
+    
 private:
-
-  void CreateTreeObject();
-  bool fHasDRFPIC;
-
-  TFile* fFile;
-  int fNevents;
-
-//  std::vector<GMCG4TrackerHit*> fHitsVectorCh;
-//  std::vector<GMCG4TrackerHit*> fHitsVectorPx;
-  std::map<std::string,std::vector<GMCG4TrackerHit*>  > fHitsVector;
-  std::vector<GMCG4Particle*> fTracks;
-  
-  TTree *fMCStep;
-  TTree *fMCTracks;
-  TTree *fDRCalo;
-  
+    OpticalPhysics* OpPhysics;
+    
+    G4NeutronTrackingCut* nCut;
+    
+    G4bool AbsorptionOn;
 };
-#endif // INCLUDE_ROOTIO_HH
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+#endif
+
+
+

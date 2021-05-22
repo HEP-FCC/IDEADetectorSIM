@@ -2,8 +2,8 @@
 // Original author G. Tassielli
 //
 
-#ifndef CDCH_LayerDetail_hh
-#define CDCH_LayerDetail_hh
+#ifndef LayerDetail_hh
+#define LayerDetail_hh
 
 #include <string>
 
@@ -47,4 +47,4 @@ private:
 
 }  //namespace cdch
 
-#endif /* CDCH_LayerDetail_hh */
+#endif /* LayerDetail_hh */

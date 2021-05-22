@@ -33,7 +33,8 @@ else()
 endif()
 
 #----------------------------------------------------------------------------
-# Setup Geant4 include directories
+# Setup Geant4 include directories and compile definitions
+# Setup include directory for this project
 #
 include(${Geant4_USE_FILE})
 
@@ -69,7 +70,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include
                     ${PROJECT_SOURCE_DIR}/../ConfigReader/include
 		    )
 foreach(basefld ${BASE_FLD})
-	include_directories(${PROJECT_SOURCE_DIR}/${basefld}/include)
+include_directories(${PROJECT_SOURCE_DIR}/${basefld}/include)
 endforeach()
 
 # -------------------------------------------------------------------
@@ -93,13 +94,15 @@ add_library(GMCG4ClassesDict SHARED
 	    ${PROJECT_SOURCE_DIR}/GEOMSRVC/include/GMCG4Classes.hh
 	    ClassesDict.cxx
 	    )
+
 add_custom_command(TARGET GMCG4ClassesDict POST_BUILD
 			  COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libClassesDict* ${PROJECT_BINARY_DIR}/lib
-			  COMMAND ${CMAKE_COMMAND} -E remove ${PROJECT_BINARY_DIR}/libClassesDict*
-		   	  )	  
+            	    	  COMMAND ${CMAKE_COMMAND} -E remove ${PROJECT_BINARY_DIR}/libClassesDict*
+		    	  )
 
 #--------------------------------------------------------------------
 # add subdirectories
+
 add_subdirectory(../ConfigReader ${CMAKE_CURRENT_BINARY_DIR}/ConfigReader)
 foreach(basefld ${BASE_FLD})
 	add_subdirectory(${basefld})
@@ -111,6 +114,7 @@ endforeach()
 #--------------------------------------------------------------------
 # Make progect shared libraries
 #
+
 add_library(G4GMC SHARED ${sources})
 foreach(detfld ${DET_FLD})
 	target_include_directories(G4GMC
@@ -121,6 +125,7 @@ endforeach()
 #--------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
+
 add_executable(g4GMC g4GMC.cc)
 
 target_link_libraries(g4GMC PUBLIC
@@ -132,7 +137,7 @@ target_link_libraries(g4GMC PUBLIC
 		      ${Geant4_LIBRARIES}
               	      ${HEPMC_LIBRARIES}
 		      ${HEPMC_FIO_LIBRARIES}
-#             	      ${PYTHIA6_LIBRARIES}
+              	      ${PYTHIA6_LIBRARIES}
 		      ${ROOT_LIBRARIES}
 #		      ${${PROJECT_NAME}_LIB}
 #		      gfortran
@@ -142,10 +147,39 @@ target_link_libraries(g4GMC PUBLIC
 
 #--------------------------------------------------------------------
 # Link configure files
+
 add_custom_command(TARGET g4GMC POST_BUILD
 		   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/config ${PROJECT_BINARY_DIR}/config
-           	   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/g4mac ${PROJECT_BINARY_DIR}/g4mac
+		   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/g4mac ${PROJECT_BINARY_DIR}/g4mac
 		   )
+
+#--------------------------------------------------------------------
+# readHits.cc
+#
+#add_executable(readHits readHits.cc)
+
+#target_include_directories(readHits PUBLIC
+#	${PROJECT_SOURCE_DIR}/../../analyzer/GMC/include
+# 	$ENV{ROMESYS}/include/
+# )
+
+#target_link_libraries(readHits PUBLIC
+#                      G4GMC
+#                      GMCG4ClassesDict
+#                      SCrd
+#                      ${BASE_FLD}
+#                      ${DET_FLD}
+#                      ${Geant4_LIBRARIES}
+#                      ${HEPMC_LIBRARIES}
+#                      ${HEPMC_FIO_LIBRARIES}
+#                      ${PYTHIA6_LIBRARIES}
+#                      ${ROOT_LIBRARIES}
+#                      ${${PROJECT_NAME}_LIB}
+#                      gfortran
+#		      $ENV{ROMESYS}/obj
+#		      $ENV{ROMESYS}
+#		      ${PROJECT_SOURCE_DIR}/../../analyzer/GMC/obj
+#	)	      
 
 #--------------------------------------------------------------------
 # convertHits.cc
@@ -159,7 +193,28 @@ target_link_libraries(convertHits PUBLIC
                       ${BASE_FLD}
                       ${DET_FLD}
                       ${Geant4_LIBRARIES}
-		      ${HEPMC_LIBRARIES}
+                      ${HEPMC_LIBRARIES}
+                      ${HEPMC_FIO_LIBRARIES}
+                      ${PYTHIA6_LIBRARIES}
+                      ${ROOT_LIBRARIES}
+                      ${${PROJECT_NAME}_LIB}
+                      gfortran
+                      EDM4HEP::edm4hep
+                      podio::podioRootIO
+                      )
+#--------------------------------------------------------------------
+# convertTracks.cc
+#
+add_executable(convertTracks convertTracks.cc)
+
+target_link_libraries(convertTracks PUBLIC
+                      G4GMC
+                      GMCG4ClassesDict
+                      SCrd
+                      ${BASE_FLD}
+                      ${DET_FLD}
+                      ${Geant4_LIBRARIES}
+                      ${HEPMC_LIBRARIES}
                       ${HEPMC_FIO_LIBRARIES}
                       ${PYTHIA6_LIBRARIES}
                       ${ROOT_LIBRARIES}
@@ -193,12 +248,11 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/${basefld}/include ${PROJECT_BINARY_DIR}/include/${basefld}
 	)
 endforeach()
-
 foreach(detfld ${DET_FLD})
 	# file(COPY
 # ${PROJECT_SOURCE_DIR}/${detfld}/include/
 	# DESTINATION include/${detfld}
-	# )
+  	# )
 add_custom_command(
 	TARGET g4GMC POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/${detfld}/include ${PROJECT_BINARY_DIR}/include/${detfld}
@@ -222,4 +276,3 @@ endforeach()
 
 install(DIRECTORY g4mac DESTINATION .)
 install(DIRECTORY config DESTINATION .)
-

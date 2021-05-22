@@ -2,8 +2,8 @@
 // Original author G. Tassielli
 //
 
-#include "LadderId.hh"
-#include "LayerId.hh"
+#include <LadderId.hh>
+#include <LayerId.hh>
 
 namespace svx {
 

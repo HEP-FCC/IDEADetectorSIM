@@ -2,9 +2,9 @@
     <Library>
       <LibraryName>Minuit</LibraryName>
     </Library>
-    <Library>
+ <!--   <Library>
       <LibraryName>Spectrum</LibraryName>
-    </Library>
+    </Library> -->
     <Library>
       <LibraryName>genfit2</LibraryName>
     </Library>

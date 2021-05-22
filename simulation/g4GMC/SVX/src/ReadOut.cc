@@ -3,7 +3,7 @@
 #include "manageException.hh"
 
 // SVX includes
-#include "ReadOut.hh"
+#include <ReadOut.hh>
 
 #ifndef __CINT__
 

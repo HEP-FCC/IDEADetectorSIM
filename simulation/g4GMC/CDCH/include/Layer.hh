@@ -3,8 +3,8 @@
 // Original author G. Tassielli
 //
 
-#ifndef CDCH_Layer_hh
-#define CDCH_Layer_hh
+#ifndef Layer_hh
+#define Layer_hh
 
 #include <deque>
 #include <vector>
@@ -25,7 +25,7 @@ namespace cdch {
 class Layer{
 
   friend class SuperLayer;
-  // friend class CDCHDevice;
+//  friend class CDCHDevice;
   friend class CDCHtracker;
   friend class CDCHMaker;
 
@@ -125,4 +125,4 @@ protected:
 
 }  //namespace cdch
 
-#endif /* CDCH_Layer_hh */
+#endif /* Layer_hh */

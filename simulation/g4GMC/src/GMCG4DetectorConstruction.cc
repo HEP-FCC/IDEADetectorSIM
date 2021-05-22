@@ -77,6 +77,7 @@
 #include "DRFPICMaker.hh"
 #include "DRFPIcalorimeter.hh"
 #include "DRFPICBuilder.hh"
+#include "DRCaloIO.hh"
 
 // MEG Target
 #include "GMCG4MegTAR.hh"
@@ -97,6 +98,9 @@
 #include "G4GeometryTolerance.hh"
 #include "G4GeometryManager.hh"
 
+#include "G4Region.hh"
+#include "G4ProductionCuts.hh"
+//#include "G4RegionStore.hh"
 #include "G4UserLimits.hh"
 
 #include "G4VisAttributes.hh"
@@ -137,7 +141,11 @@ GMCG4DetectorConstruction::GMCG4DetectorConstruction(G4String fGeomConfName, int
   ReadConfigGeomFile(fGeomConfName);
 
   //Load data saver
-  RootIO::GetInstance(runNum,dataOutFold);
+  bool hasDRFPIC = GeomService::Instance()->getConfig().getBool("hasDRFPIC",false);
+  RootIO::GetInstance(runNum,dataOutFold,hasDRFPIC);
+  if ( hasDRFPIC ) {
+	  drc::DRCaloIO::GetInstance(dataOutFold);
+  }
 
 }
 
@@ -388,13 +396,22 @@ void GMCG4DetectorConstruction::ConstructPhotnConveters() {
 void GMCG4DetectorConstruction::ConstructFPiCalo() {
 	  if (cRd->getBool("hasDRFPIC",false)) {
 
-	    RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::DRFPICalorimeter(),"DRCHitsStepCh");
+//	    RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::DRFPICalorimeter(),"DRCHitsStepCh");
+	    RootIO::GetInstance()->CreateDRCaloBranches();
 
 	    drc::DRFPICMaker drfpic( *cRd );
 	    GeomService::Instance()->addDetector( drfpic.getDRFPIcalorimeterPtr() );
 
 	    drc::DRFPICBuilder::instantiateSensitiveDetectors("DRFPICHitsCollection");
-	    drc::DRFPICBuilder::construct(fTheWorld->GetLogicalVolume());
+	    VolumeInfo drcInfo = drc::DRFPICBuilder::construct(fTheWorld->GetLogicalVolume());
+	    G4double tmpRngCut = cRd->getDouble("drc.rangeCut", -1)*mm;
+	    if (tmpRngCut>0.0) {
+	    	DefRegionCuts("DRFPICrange",drcInfo.logical,tmpRngCut);
+	    }
+	    G4double tmpStepCut = cRd->getDouble("drc.freePath", -1)*mm;
+	    if (tmpStepCut>=0.0) {
+	    	DefRegionStep("DRFPICrange",drcInfo.logical,tmpStepCut);
+	    }
 	  }
 
 }
@@ -460,7 +477,45 @@ void GMCG4DetectorConstruction::SetMaxStep(G4double maxStep)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::DefRegionCuts(G4String regName, G4LogicalVolume* regVol, G4double rangeCut)
+{
+//	G4Region* tmpReg = G4RegionStore::GetInstance()->FindOrCreateRegion(regName);
+	G4Region* tmpReg = new G4Region(regName);
+	tmpReg->AddRootLogicalVolume(regVol);
+	G4ProductionCuts *cuts = new G4ProductionCuts();
+	cuts->SetProductionCut(rangeCut,"gamma");
+	cuts->SetProductionCut(rangeCut,"e-");
+	cuts->SetProductionCut(rangeCut,"e+");
+	tmpReg->SetProductionCuts(cuts);
+}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::DefRegionAllCuts(G4String regName, G4LogicalVolume* regVol, G4double rangeCut)
+{
+//	G4Region* tmpReg = G4RegionStore::GetInstance()->FindOrCreateRegion(regName);
+	G4Region* tmpReg = new G4Region(regName);
+	tmpReg->AddRootLogicalVolume(regVol);
+	G4ProductionCuts *cuts = new G4ProductionCuts();
+	cuts->SetProductionCut(rangeCut,"gamma");
+	cuts->SetProductionCut(rangeCut,"e-");
+	cuts->SetProductionCut(rangeCut,"e+");
+	cuts->SetProductionCut(rangeCut,"proton");
+	tmpReg->SetProductionCuts(cuts);
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::DefRegionStep(G4String regName, G4LogicalVolume* regVol, G4double maxStep)
+{
+//	G4Region* tmpReg = G4RegionStore::GetInstance()->FindOrCreateRegion(regName);
+	G4Region* tmpReg = new G4Region(regName);
+	tmpReg->AddRootLogicalVolume(regVol);
+	if (maxStep>0.0) {
+		G4UserLimits* stepLimit = new G4UserLimits(maxStep);
+		tmpReg->SetUserLimits(stepLimit);
+	}
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void GMCG4DetectorConstruction::SetCheckOverlaps(G4bool checkOverlaps)
 {
   fCheckOverlaps = checkOverlaps;

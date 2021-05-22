@@ -11,7 +11,7 @@
 //bool hasTarget          = true;
 
 // Write geometry into a GDML file
-bool   writeGDML        = true;
+bool   writeGDML        = false;
 //string GDMLFileName     = "g4test-mu2e.gdml";
 string GDMLFileName     = "g4-IDEA-BP-SVX-DR-calo.gdml";
 

@@ -9,7 +9,7 @@ if [ -v PRJBASE ];
 then
 	echo "PRJ BASE already set to "${PRJBASE}
 else
-	export PRJBASE="/afs/cern.ch/user/w/welmeten/public/IDEA/DriftChamberPLUSVertex"
+	export PRJBASE="/afs/cern.ch/work/l/llavezzi/IDEA/DRIFT_CH/gitIDEA"
 fi
 export PATH=$PRJBASE/analyzer/GMC:$PATH
 
@@ -21,7 +21,7 @@ if [ -v GENFIT2SYS ];
 then
         echo "GENFIT2SYS already set to "${GENFIT2SYS}
 else
-	export GENFIT2SYS=/afs/cern.ch/work/w/welmeten/public/IDEA-sw/GenFit/master20191106/install
+	export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/IDEA/GENFIT/master20191106/install
 	export LD_LIBRARY_PATH=${GENFIT2SYS}/lib64:${LD_LIBRARY_PATH}
 	if [ -n "$ROOT_INCLUDE_PATH" ] ; then
 	    export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
@@ -42,7 +42,7 @@ then
 	echo "ROME already set to "${ROMESYS}
 else
 #	export ROMESYS=/mnt/c/workSpace/sw/ROME/rome-master20180921
-	export ROMESYS=/afs/cern.ch/work/w/welmeten/public/IDEA-sw/ROME/rome3-master20191106
+	export ROMESYS=/afs/cern.ch/work/l/llavezzi/IDEA/gianfranco/rome-v3.2.15.1
 	export PATH=$ROMESYS/bin:${PATH}
 	export LIBROME=yes
 fi
@@ -74,3 +74,7 @@ fi
 #export MIDAS_EXPT_NAME=FIRB_DAQ
 #export PATH=${MIDASSYS}/linux/bin:$PATH
 #export LD_LIBRARY_PATH=${MIDASSYS}/linux/lib:${LD_LIBRARY_PATH}
+
+export G4WORKDIR=$SIM_INSTAL_DIR
+export LD_LIBRARY_PATH=${G4WORKDIR}/lib:${LD_LIBRARY_PATH}
+

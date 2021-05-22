@@ -13,6 +13,7 @@
 #	$(RM) your_file.h
 #
 CC  = g++
+GMCLDFLAGS += -Wl,--start-group
 ifdef GENFIT2SYS
    GMCLDFLAGS += -L${GENFIT2SYS}/lib -lgenfit2
    GMCSOFLAGS += -L${GENFIT2SYS}/lib -lgenfit2
@@ -20,25 +21,40 @@ ifdef GENFIT2SYS
    Flags      += -DHAVE_GENFIT -L${GENFIT2SYS}/lib 
 endif
 ifdef G4WORKDIR
-   GMCLDFLAGS += -L${G4WORKDIR}/lib -lEXCEP -lGEOMSRVC -lCDCH -lSVX -lPSHW -lPHCV -L${G4WORKDIR}/../ConfigReader/lib -lSCrd
-   Includes   += -I${G4INCLUDE} -I${G4WORKDIR}/EXCEP/include -I${G4WORKDIR}/GEOMSRVC/include -I${G4WORKDIR}/CDCH/include -I${G4WORKDIR}/SVX/include -I${G4WORKDIR}/PSHW/include -I${G4WORKDIR}/PHCV/include -I${G4WORKDIR}/../ConfigReader/include -I${GMCDIR}/include
-   GMCLDFLAGS += -L${G4LIB}/${G4SYSTEM} -lG4global 
-   GMCLDFLAGS += -lG4Tree -lG4FR -lG4GMocren -lG4visHepRep -lG4RayTracer -lG4VRML -lG4OpenGL -lG4gl2ps -lG4vis_management -lG4modeling -lG4interfaces
+#   Includes   += -I${G4INCLUDE} -I${G4WORKDIR}/EXCEP/include -I${G4WORKDIR}/GEOMSRVC/include -I${G4WORKDIR}/CDCH/include -I${G4WORKDIR}/SVX/include -I${G4WORKDIR}/PSHW/include -I${G4WORKDIR}/PHCV/include -I${G4WORKDIR}/../ConfigReader/include -I${GMCDIR}/include
+   Includes   += -I${G4INCLUDE} -I${G4WORKDIR}/include/EXCEP -I${G4WORKDIR}/include/DRFPIC -I${G4WORKDIR}/include/GEOMSRVC -I${G4WORKDIR}/include/CDCH -I${G4WORKDIR}/include/SVX -I${G4WORKDIR}/include/PSHW -I${G4WORKDIR}/include/PHCV -I${G4WORKDIR}/include/ConfigReader -I${GMCDIR}/include
+#   GMCLDFLAGS += -L${G4WORKDIR}/lib -lEXCEP -lGEOMSRVC -lCDCH -lSVX -lPSHW -lPHCV -L${G4WORKDIR}/../ConfigReader/lib -lSCrd
+   GMCLDFLAGS += -L${G4WORKDIR}/lib -lGMCG4ClassesDict -lSCrd -lEXCEP -lDRFPIC -lGEOMSRVC -lSVX -lPSHW -lCDCH -lPHCV	
+   GMCLDFLAGS += -L${G4LIB} -lG4global 
+   GMCLDFLAGS += -lG4Tree -lG4FR -lG4GMocren -lG4visHepRep -lG4RayTracer -lG4VRML -lG4vis_management -lG4modeling -lG4interfaces
    GMCLDFLAGS += -lG4persistency -lG4analysis -lG4error_propagation -lG4readout -lG4physicslists -lG4run -lG4event -lG4tracking -lG4parmodels
+   # -lG4tasking
    GMCLDFLAGS += -lG4processes -lG4digits_hits -lG4track -lG4particles -lG4geometry -lG4materials -lG4graphics_reps -lG4intercoms -lG4global
+   # -lG4ptl
+   ifndef CLHEP_BASE_DIR
+      GMCLDFLAGS += -lG4clhep
+   endif
 #   GMCLDFLAGS += -lPhysics
 #   GMCLDFLAGS += -L/mnt/sndhd/sw/xerces-c/xerces-c-3.1.4/lib -lxerces-c
 #   GMCLDFLAGS += -lCintex 
 #   Includes   += -I${G4INCLUDE}
-   Flags      += -std=c++11 -fdiagnostics-color=always
+   Flags      += -std=c++17 -fdiagnostics-color=always
 endif
 ifdef CLHEP_BASE_DIR
    GMCLDFLAGS += -L${CLHEP_LIB_DIR} -lCLHEP
    Includes   += -I${CLHEP_INCLUDE_DIR}
 endif
+   GMCLDFLAGS += -L$(shell $(ROOTCONFIG) --libdir)  -lGeom
 
+GMCLDFLAGS += -Wl,--end-group
 
 userclean:
 	@echo ''
 userdistclean:
 	@echo ''
+
+
+#    -lG4Tree -lG4FR -lG4GMocren -lG4visHepRep -lG4RayTracer -lG4VRML -lG4OpenGL -lG4gl2ps -lG4vis_management -lG4modeling -lG4interfaces
+#	-lG4persistency -lG4error_propagation -lG4readout -lG4physicslists 
+#	-lG4tasking 
+#	-lG4parmodels -lG4run -lG4event -lG4tracking -lG4processes -lG4analysis -lG4digits_hits -lG4track -lG4particles -lG4geometry -lG4materials -lG4zlib -lG4graphics_reps -lG4intercoms -lG4global -lG4clhep -lG4ptl

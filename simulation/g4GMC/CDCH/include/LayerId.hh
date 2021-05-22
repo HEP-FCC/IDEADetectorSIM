@@ -2,8 +2,8 @@
 // Original author G. Tassielli
 //
 
-#ifndef CDCH_LayerId_hh
-#define CDCH_LayerId_hh
+#ifndef LayerId_hh
+#define LayerId_hh
 
 #include "SuperLayerId.hh"
 #include <iostream>
@@ -57,4 +57,4 @@ inline std::ostream& operator<<(std::ostream& ost,
 }
 
 }
-#endif /* CDCH_LayerId_hh */
+#endif /* LayerId_hh */

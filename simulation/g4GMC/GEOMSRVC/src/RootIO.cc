@@ -44,6 +44,7 @@
 #include "Riostream.h"
 #include "TSystem.h"
 
+#include "DRCaloIO.hh"
 
 //#include "TClonesArray.h"
 //
@@ -53,7 +54,7 @@
 static RootIO* instance = 0;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-RootIO::RootIO(Int_t runN, TString outFold):fNevents(0),fMCStep(NULL),fMCTracks(NULL){
+RootIO::RootIO(Int_t runN, TString outFold, bool hasDRFPIC):fHasDRFPIC(hasDRFPIC),fNevents(0),fMCStep(NULL),fMCTracks(NULL){
 
   // initialize ROOT
   TSystem ts;
@@ -71,6 +72,9 @@ void RootIO::CreateTreeObject() {
 
  fMCStep =  new TTree("MCStep","MCStep");
  fMCTracks =  new TTree("MCTracks","MCTracks");
+ if (fHasDRFPIC) {
+	 fDRCalo = new TTree("B4", "edep");
+ }
  
 // fMCStep->Branch("HitsStepCh","std::vector<GMCG4TrackerHit*>",&fHitsVectorCh);
 // fMCStep->Branch("HitsStepPx","std::vector<GMCG4TrackerHit*>",&fHitsVectorPx);
@@ -90,15 +94,45 @@ void RootIO::CreateMCStepBranches(std::string key, const char *branchName) {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-RootIO::~RootIO(){
+void RootIO::CreateDRCaloBranches() {
+	if (fHasDRFPIC) {
+		drc::DRCaloIO* clIo = drc::DRCaloIO::GetInstance();
+
+		fDRCalo->Branch("Energyem",&clIo->GetEnergyem(),"Energyem/D");
+		fDRCalo->Branch("EnergyScin",&clIo->GetEnergyScin(),"EnergyScin/D");
+		fDRCalo->Branch("EnergyCher",&clIo->GetEnergyCher(),"EnergyCher/D");
+		fDRCalo->Branch("NofCherenkovDetected",&clIo->GetNofCherenkovDetected(),"NofCherenkovDetected/I");
+		fDRCalo->Branch("EnergyTot",&clIo->GetEnergyTot(),"EnergyTot/D");
+		fDRCalo->Branch("PrimaryParticleEnergy",&clIo->GetPrimaryParticleEnergy(),"PrimaryParticleEnergy/D");
+//		fDRCalo->Branch("PrimaryParticleName","G4String",&clIo->GetPrimaryParticleName());
+		fDRCalo->Branch("PrimaryParticleName",const_cast<char*>(clIo->GetPrimaryParticleName().data() ),"PrimaryParticleName/C");
+		fDRCalo->Branch("neutrinoleakage",&clIo->Getneutrinoleakage(),"neutrinoleakage/D");
+		fDRCalo->Branch("leakage",&clIo->Getleakage(),"leakage/D");
+		fDRCalo->Branch("VectorSignalsR","std::vector<double>",&clIo->GetVectorSignalsR());
+		fDRCalo->Branch("VectorSignalsL","std::vector<double>",&clIo->GetVectorSignalsL());
+		fDRCalo->Branch("VectorSignalsCherR","std::vector<double>",&clIo->GetVectorSignalsCherR());
+		fDRCalo->Branch("VectorSignalsCherL","std::vector<double>",&clIo->GetVectorSignalsCherL());
+		fDRCalo->Branch("VectorL","std::vector<double>", &clIo->GetVectorL());
+		fDRCalo->Branch("VectorR","std::vector<double>", &clIo->GetVectorR());
+		fDRCalo->Branch("VectorL_loop","std::vector<double>", &clIo->GetVectorL_loop());
+		fDRCalo->Branch("VectorR_loop","std::vector<double>", &clIo->GetVectorR_loop());
+	}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-RootIO* RootIO::GetInstance(Int_t runN, TString outFold){
+RootIO::~RootIO(){
+	if (instance!=0) {
+		delete instance;
+		instance=0;
+	}
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+RootIO* RootIO::GetInstance(Int_t runN, TString outFold, bool hasDRFPIC){
 
   if (instance == 0 ){
 
-    instance = new RootIO(runN,outFold);
+    instance = new RootIO(runN,outFold,hasDRFPIC);
   }
   
   return instance;
@@ -142,6 +176,9 @@ void RootIO::FillEvent(){
 
  fMCStep->Fill();
  fMCTracks->Fill();
+ if (fHasDRFPIC) {
+	 fDRCalo->Fill();
+ }
 
 }
 
@@ -150,6 +187,9 @@ void RootIO::Close(){
 
   fMCStep->Write();
   fMCTracks->Write(); 
+  if (fHasDRFPIC) {
+ 	 fDRCalo->Write();
+  }
   fFile->Close();
 
 }
