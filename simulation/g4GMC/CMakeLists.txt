@@ -205,24 +205,24 @@ target_link_libraries(convertHits PUBLIC
 #--------------------------------------------------------------------
 # convertTracks.cc
 #
-add_executable(convertTracks convertTracks.cc)
+#add_executable(convertTracks convertTracks.cc)
 
-target_link_libraries(convertTracks PUBLIC
-                      G4GMC
-                      GMCG4ClassesDict
-                      SCrd
-                      ${BASE_FLD}
-                      ${DET_FLD}
-                      ${Geant4_LIBRARIES}
-                      ${HEPMC_LIBRARIES}
-                      ${HEPMC_FIO_LIBRARIES}
-                      ${PYTHIA6_LIBRARIES}
-                      ${ROOT_LIBRARIES}
-                      ${${PROJECT_NAME}_LIB}
-                      gfortran
-                      EDM4HEP::edm4hep
-                      podio::podioRootIO
-                      )
+#target_link_libraries(convertTracks PUBLIC
+#                      G4GMC
+#                      GMCG4ClassesDict
+#                      SCrd
+#                      ${BASE_FLD}
+#                      ${DET_FLD}
+#                      ${Geant4_LIBRARIES}
+#                      ${HEPMC_LIBRARIES}
+#                      ${HEPMC_FIO_LIBRARIES}
+#                      ${PYTHIA6_LIBRARIES}
+#                      ${ROOT_LIBRARIES}
+#                      ${${PROJECT_NAME}_LIB}
+#                      gfortran
+#                     EDM4HEP::edm4hep
+#                     podio::podioRootIO
+#                     )
 
 #--------------------------------------------------------------------
 # Copy local headers for this project
