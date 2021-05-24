@@ -52,7 +52,29 @@ mkdir -p $SIM_OUTPUT_DIR
 ./bin/g4GMC ./g4mac/runPFix-1.mac geom_IDEA.txt 0 $SIM_OUTPUT_DIR
 
 ```
+## directory converter/
+compile only after simulation and analyzer. </br>
+
+To compile
+
+```
+cd converter
+cmake .
+make
+```
+To run
+
+```
+./readHits $SIM_OUTPUT_DIR/<inout_file.root>
+```
+or
+```
+./ConvertHits.sh 1 0 .
+```
+
 ## Converter G4hits to EDM
+will be ported to directory converter/ </br>
+
 It is contained in the file convertHits.cc, compiled together with the rest. </br>
 !!!FOR NOW!!! (to be done):
 - the binary file is inside build/bin, it is not moved to the right place
