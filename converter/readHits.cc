@@ -29,6 +29,7 @@
 /// \brief Main program of the persistency/P01 example
 //
 // Include files
+
 #include "TROOT.h"
 #include "TFile.h"
 #include "TSystem.h"
@@ -38,8 +39,6 @@
 #include "TVector3.h"
 #include "TClonesArray.h"
 #include "Riostream.h"
-//
-//
 #include "generated/GMCDCGeantStep.h"
 #include "generated/GMCPXGeantStep.h"
 #include "generated/GMCSVXGeantStep.h"
@@ -55,6 +54,9 @@ using namespace std;
 
 int main(int argc,char** argv) 
 {
+
+  std::cout<< "************** MAIN ****************" << std::endl;
+  
   // initialize ROOT
   TSystem ts;
   gSystem->Load("$PRJBASE/simulation/g4GMC/lib/libGMCG4ClassesDict");
@@ -65,7 +67,8 @@ int main(int argc,char** argv)
    
   TString br1("MCStep");
   TString br2("MCTracks");
-  
+
+
   TTree *a;
   TTree *b;
   std::vector<GMCG4TrackerHit*> *hitsch = new std::vector<GMCG4TrackerHit*>();
@@ -187,7 +190,6 @@ int main(int argc,char** argv)
   TClonesArray *myBr_phcvrd = new TClonesArray("GMCPHCVRadGeantStep",0);
   TClonesArray &ptrBr_phcvrd = *myBr_phcvrd;
   if (hitPHCVRadIsPresent) { tr->Branch("MCPHCVRadStep",&myBr_phcvrd); }
-
 
   for (int i=0;i<b->GetEntries();i++) {
 
@@ -387,7 +389,7 @@ int main(int argc,char** argv)
 
      tr->Fill();
   }
-  
+
   tr->Write();
   fOutput.Close();
   

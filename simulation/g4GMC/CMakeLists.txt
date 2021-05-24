@@ -139,8 +139,6 @@ target_link_libraries(g4GMC PUBLIC
 		      ${HEPMC_FIO_LIBRARIES}
               	      ${PYTHIA6_LIBRARIES}
 		      ${ROOT_LIBRARIES}
-#		      ${${PROJECT_NAME}_LIB}
-#		      gfortran
 		      EDM4HEP::edm4hep
 		      podio::podioRootIO
 		      )
@@ -152,34 +150,6 @@ add_custom_command(TARGET g4GMC POST_BUILD
 		   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/config ${PROJECT_BINARY_DIR}/config
 		   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/g4mac ${PROJECT_BINARY_DIR}/g4mac
 		   )
-
-#--------------------------------------------------------------------
-# readHits.cc
-#
-#add_executable(readHits readHits.cc)
-
-#target_include_directories(readHits PUBLIC
-#	${PROJECT_SOURCE_DIR}/../../analyzer/GMC/include
-# 	$ENV{ROMESYS}/include/
-# )
-
-#target_link_libraries(readHits PUBLIC
-#                      G4GMC
-#                      GMCG4ClassesDict
-#                      SCrd
-#                      ${BASE_FLD}
-#                      ${DET_FLD}
-#                      ${Geant4_LIBRARIES}
-#                      ${HEPMC_LIBRARIES}
-#                      ${HEPMC_FIO_LIBRARIES}
-#                      ${PYTHIA6_LIBRARIES}
-#                      ${ROOT_LIBRARIES}
-#                      ${${PROJECT_NAME}_LIB}
-#                      gfortran
-#		      $ENV{ROMESYS}/obj
-#		      $ENV{ROMESYS}
-#		      ${PROJECT_SOURCE_DIR}/../../analyzer/GMC/obj
-#	)	      
 
 #--------------------------------------------------------------------
 # convertHits.cc
@@ -197,7 +167,6 @@ target_link_libraries(convertHits PUBLIC
                       ${HEPMC_FIO_LIBRARIES}
                       ${PYTHIA6_LIBRARIES}
                       ${ROOT_LIBRARIES}
-                      ${${PROJECT_NAME}_LIB}
                       gfortran
                       EDM4HEP::edm4hep
                       podio::podioRootIO

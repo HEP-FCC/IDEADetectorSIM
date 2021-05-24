@@ -14,8 +14,8 @@ while [ $nl -lt $nRuns ]; do
     printf -v hitsFlNum "%05d" $iRun
 #    echo "hitsFlNum ${hitsFlNum}"
    
-    nohup ${PRJBASE}/simulation/g4GMC/bin/Linux-g++/readHits hits${hitsFlNum}.root >& rdhits_${iRun}.log &
-
+#    nohup ${PRJBASE}/simulation/g4GMC/bin/readHits hits${hitsFlNum}.root >& rdhits_${iRun}.log &
+    nohup ${PRJBASE}/converter/readHits hits${hitsFlNum}.root >& rdhits_${iRun}.log &
 done
 
 echo -e " **** Conversion loop is successfully done!!! \n "
