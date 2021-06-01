@@ -42,7 +42,7 @@ then
 	echo "ROME already set to "${ROMESYS}
 else
 #	export ROMESYS=/mnt/c/workSpace/sw/ROME/rome-master20180921
-	export ROMESYS=/afs/cern.ch/work/l/llavezzi/IDEA/gianfranco/rome-v3.2.15.1
+	export ROMESYS=/afs/cern.ch/work/l/llavezzi/IDEA/gianfranco/rome-v3.2.15.1.new
 	export PATH=$ROMESYS/bin:${PATH}
 	export LIBROME=yes
 fi
