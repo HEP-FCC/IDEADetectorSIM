@@ -94,6 +94,7 @@ add_library(GMCG4ClassesDict SHARED
 	    ${PROJECT_SOURCE_DIR}/GEOMSRVC/include/GMCG4Classes.hh
 	    ClassesDict.cxx
 	    )
+target_include_directories(GMCG4ClassesDict PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_custom_command(TARGET GMCG4ClassesDict POST_BUILD
 			  COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libClassesDict* ${PROJECT_BINARY_DIR}/lib

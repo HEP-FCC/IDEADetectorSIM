@@ -4,7 +4,7 @@
 # Setup the project
 #
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(g4GMC_simulation)
+project(g4GMC_converter)
 
 set(BASE_FLD
 	EXCEP
@@ -57,6 +57,23 @@ find_package(ROOT REQUIRED COMPONENTS RIO EG)
 include(${ROOT_USE_FILE})
 include_directories(${ROOT_INCLUDE_DIRS})
 
+#----------------------------------------------------------------------------
+# THIS PROJECT
+#--------------------------------------------------------------------
+# headers
+# Locate sources and headers for this project
+# NB: headers are included so they will show up in IDEs
+#
+include_directories(${PROJECT_SOURCE_DIR}/include
+                    ${Geant4_INCLUDE_DIR}
+                    ${HEPMC_INCLUDE_DIR}
+                    ${PROJECT_SOURCE_DIR}/../ConfigReader/include
+		    )
+
+foreach(basefld ${BASE_FLD})
+include_directories(${PROJECT_SOURCE_DIR}/${basefld}/include)
+endforeach()
+
 #--------------------------------------------------------------------
 # readHits.cc
 #
@@ -66,36 +83,71 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(readHits readHits.cc)
 
 target_include_directories(readHits PUBLIC
-#	$ENV{ROOTSYS}/include/
-#	$ENV{G4INCLUDE}
+	$ENV{ROOTSYS}/include/
+	$ENV{G4INCLUDE}
         $ENV{ROMESYS}/include/
         $ENV{PRJBASE}/analyzer/GMC/include
-$ENV{PRJBASE}/analyzer/GMC/include/generated
-$ENV{PRJBASE}/simulation/g4GMC
-#	$ENV{CLHEP_INCLUDE_DIR}
+        $ENV{PRJBASE}/simulation/g4GMC/include
+	$ENV{PRJBASE}/simulation/g4GMC
+	$ENV{CLHEP_INCLUDE_DIR}
 )
-
 
 target_link_libraries(readHits PUBLIC
-                      G4GMC
-                      GMCG4ClassesDict
-                      SCrd
-                      ${BASE_FLD}
-                      ${DET_FLD}
-                      ${Geant4_LIBRARIES}
-                      ${HEPMC_LIBRARIES}
-                      ${HEPMC_FIO_LIBRARIES}
-                      ${PYTHIA6_LIBRARIES}
-                      ${ROOT_LIBRARIES}
-                      gfortran
-                      EDM4HEP::edm4hep
-                      podio::podioRootIO
-                      )
+		G4GMC
+		GMCG4ClassesDict
+ 		GMCAnalyzer
+ 		stdc++
+		SCrd
+		${BASE_FLD}
+                ${DET_FLD}
+                ${Geant4_LIBRARIES}
+                ${HEPMC_LIBRARIES}
+                ${HEPMC_FIO_LIBRARIES}
+                ${PYTHIA6_LIBRARIES}
+                ${ROOT_LIBRARIES}
+		Core
+		Imt
+		RIO
+		Geom
+		Net
+		Hist
+		Graf
+		Graf3d
+		Gpad
+		ROOTVecOps
+		Tree
+		TreePlayer
+		Rint
+		Postscript
+		Matrix
+		Physics
+		Minuit
+		Html
+		Gui
+		MathCore
+		Thread
+		MultiProc
+		ROOTDataFrame
+		pthread
+		GL
+		GLU
+		Xrandr
+		Xext
+		X11
+		)
 
 target_link_directories(readHits PUBLIC
-#                $ENV{CLHEP_LIB_DIR}
-                $ENV{G4LIB}
-                $ENV{SIM_INSTAL_DIR}/lib
-#		$ENV{PRJBASE}/analyzer/GMC/obj
-#               $ENV{GENFIT2SYS}/lib
-)
+		$ENV{CLHEP_LIB_DIR}
+		$ENV{G4LIB}
+		$ENV{SIM_INSTAL_DIR}/lib
+		$ENV{PRJBASE}/analyzer/GMC/obj
+#		$ENV{GENFIT2SYS}/lib
+)	      
+
+
+#--------------------------------------------------------------------
+# Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
+#
+#install(TARGETS g4GMC DESTINATION bin)
+#install(DIRECTORY ${PROJECT_BINARY_DIR}/lib DESTINATION .)
+
