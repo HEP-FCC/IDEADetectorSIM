@@ -56,10 +56,11 @@ int main(int argc,char** argv)
 {
 
   std::cout<< "************** MAIN ****************" << std::endl;
-  
+  /**
+
   // initialize ROOT
   TSystem ts;
-  gSystem->Load("$PRJBASE/simulation/g4GMC/lib/libGMCG4ClassesDict");
+  gSystem->Load("$PRJBASE/simulation/build/lib/libGMCG4ClassesDict");
 
   if(argc<2) cout << "Missing name of the file to read!" << endl;
  
@@ -71,6 +72,7 @@ int main(int argc,char** argv)
 
   TTree *a;
   TTree *b;
+  
   std::vector<GMCG4TrackerHit*> *hitsch = new std::vector<GMCG4TrackerHit*>();
   std::vector<GMCG4TrackerHit*> *hitspx = new std::vector<GMCG4TrackerHit*>();
   std::vector<GMCG4TrackerHit*> *hitssvx = new std::vector<GMCG4TrackerHit*>();
@@ -392,7 +394,7 @@ int main(int argc,char** argv)
 
   tr->Write();
   fOutput.Close();
-  
+  **/
 }
 
 

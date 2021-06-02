@@ -59,38 +59,33 @@ include_directories(${ROOT_INCLUDE_DIRS})
 
 #----------------------------------------------------------------------------
 # THIS PROJECT
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 #--------------------------------------------------------------------
 # headers
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
 #
-include_directories(${PROJECT_SOURCE_DIR}/include
-                    ${Geant4_INCLUDE_DIR}
-                    ${HEPMC_INCLUDE_DIR}
-                    ${PROJECT_SOURCE_DIR}/../ConfigReader/include
-		    )
+include_directories($ENV{PRJBASE}/simulation/g4GMC/include
+		$ENV{PRJBASE}/simulation/g4GMC/GEOMSRV/include
+ 		$ENV{PRJBASE}/analyzer/GMC/include
+                ${Geant4_INCLUDE_DIR}
+                ${HEPMC_INCLUDE_DIR}
+                $ENV{PRJBASE}/simulation/ConfigReader/include
+		$ENV{ROOTSYS}/include/
+		$ENV{G4INCLUDE}
+		$ENV{ROMESYS}/include/
+		$ENV{PRJBASE}/simulation/g4GMC
+		$ENV{CLHEP_INCLUDE_DIR}
+)
 
 foreach(basefld ${BASE_FLD})
-include_directories(${PROJECT_SOURCE_DIR}/${basefld}/include)
+include_directories($ENV{PRJBASE}/simulation/${basefld}/include)
 endforeach()
 
-#--------------------------------------------------------------------
-# readHits.cc
-#
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+# -------------------------------------
 add_executable(readHits readHits.cc)
-
-target_include_directories(readHits PUBLIC
-	$ENV{ROOTSYS}/include/
-	$ENV{G4INCLUDE}
-        $ENV{ROMESYS}/include/
-        $ENV{PRJBASE}/analyzer/GMC/include
-        $ENV{PRJBASE}/simulation/g4GMC/include
-	$ENV{PRJBASE}/simulation/g4GMC
-	$ENV{CLHEP_INCLUDE_DIR}
-)
 
 target_link_libraries(readHits PUBLIC
 		G4GMC
