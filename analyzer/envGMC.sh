@@ -21,7 +21,7 @@ if [ -v GENFIT2SYS ];
 then
         echo "GENFIT2SYS already set to "${GENFIT2SYS}
 else
-	export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/IDEA/GENFIT/master20191106/install
+	export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/IDEA/LOCAL/GENFIT/master20191106/build
 	export LD_LIBRARY_PATH=${GENFIT2SYS}/lib64:${LD_LIBRARY_PATH}
 	if [ -n "$ROOT_INCLUDE_PATH" ] ; then
 	    export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
@@ -42,7 +42,7 @@ then
 	echo "ROME already set to "${ROMESYS}
 else
 #	export ROMESYS=/mnt/c/workSpace/sw/ROME/rome-master20180921
-	export ROMESYS=/afs/cern.ch/work/l/llavezzi/IDEA/gianfranco/rome-v3.2.15.1.new
+	export ROMESYS=/afs/cern.ch/work/l/llavezzi/IDEA/LOCAL/ROME/rome-v3.2.15.1
 	export PATH=$ROMESYS/bin:${PATH}
 	export LIBROME=yes
 fi
