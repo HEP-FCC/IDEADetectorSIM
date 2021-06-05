@@ -48,6 +48,7 @@ find_package(HepMC REQUIRED)
 #
 find_package(EDM4HEP)
 find_package(podio)
+find_package(DD4hep)
 
 #----------------------------------------------------------------------------
 # Find ROOT
@@ -78,6 +79,7 @@ include_directories($ENV{PRJBASE}/simulation/g4GMC/include
 		$ENV{ROMESYS}/include/
 		$ENV{PRJBASE}/simulation/g4GMC
 		$ENV{CLHEP_INCLUDE_DIR}
+		$ENV{DD4hepINSTALL}
 )
 
 foreach(basefld ${BASE_FLD})
@@ -139,6 +141,35 @@ target_link_directories(readHits PUBLIC
 #		$ENV{GENFIT2SYS}/lib
 )	      
 
+#--------------------------------------------------------------------
+# convertTracks.cc
+
+add_executable(convertTracks convertTracks.cc)
+
+target_link_libraries(convertTracks PUBLIC
+	              G4GMC
+                      GMCG4ClassesDict
+                      SCrd
+                      ${BASE_FLD}
+                      ${DET_FLD}
+                      ${Geant4_LIBRARIES}
+                      ${HEPMC_LIBRARIES}
+                      ${HEPMC_FIO_LIBRARIES}
+                      ${PYTHIA6_LIBRARIES}
+                      ${ROOT_LIBRARIES}
+             #         ${${PROJECT_NAME}_LIB}
+                      gfortran
+                     EDM4HEP::edm4hep
+                     podio::podioRootIO
+                     )
+
+target_link_directories(convertTracks PUBLIC
+                $ENV{CLHEP_LIB_DIR}
+                $ENV{G4LIB}
+		$ENV{SIM_INSTAL_DIR}/lib
+                $ENV{PRJBASE}/analyzer/GMC/obj
+#               $ENV{GENFIT2SYS}/lib
+)
 
 #--------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
