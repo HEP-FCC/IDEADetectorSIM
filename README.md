@@ -62,14 +62,19 @@ cd converter
 cmake .
 make
 ```
-To run
+
+## conversion from G4 based hit to ROME readable hit
+run in converter/
 
 ```
 ./readHits $SIM_OUTPUT_DIR/<inout_file.root>
 ```
-or
+
+## conversion from GMCRecoTrack to Track
+run in converter/
+
 ```
-./ConvertHits.sh 1 0 .
+./convertTracks $SIM_OUTPUT_DIR/<reco_data_file.root>
 ```
 
 ## Converter G4hits to EDM
@@ -85,3 +90,14 @@ To run
 ```
 ./bin/convertHits $SIM_OUTPUT_DIR/<inout_file.root>
 ```
+
+## Everything is working with these versions
+<ul>
+   <li> key4hep-stack/2021-06-02:
+   <li> gcc8.3.0
+   <li> geant4-10.7.1
+   <li> clhep-2.4.4.0
+   <li> root-6.24.00
+   <li> genfit master20191106
+   <li> rome-v3.2.15.1
+</ul>
