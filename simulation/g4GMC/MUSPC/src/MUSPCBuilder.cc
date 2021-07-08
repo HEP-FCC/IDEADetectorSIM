@@ -1,14 +1,14 @@
 //
-// PSHWtrackerBuilder builder class for the PSHW in geant4
+// MUSPCBuilder builder class for the MUSPC in geant4
 //
 // Original author G. Tassielli
 //
 
-#include <PSHWBuilder.hh>
-#include "PSHWtracker.hh"
+#include <MUSPCBuilder.hh>
+#include "MUSPCtracker.hh"
 #include "Layer.hh"
-#include "PSHWLadderSD.hh"
-#include "PSHWRadiator.hh"
+#include "MUSPCLadderSD.hh"
+#include "MUSPCRadiator.hh"
 
 //#include "G4Hype.hh"
 #include "G4PVPlacement.hh"
@@ -30,29 +30,29 @@
 using namespace std;
 using namespace svx;
 
-namespace pshw {
+namespace muspc {
 
 bool checkOverlap, detailedCheck;
-string pshwName("PSHWMother");
+string muspcName("MUSPCMother");
 
-VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff*/ ){
+VolumeInfo MUSPCBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff*/ ){
 
   // Master geometry for the tracker.
-  GeomHandle<PSHWtracker> pshwtracker;
+  GeomHandle<MUSPCtracker> muspctracker;
   crd::SimpleConfig const& config  = GeomService::Instance()->getConfig();
 
-  VolumeInfo pshwInfo;
+  VolumeInfo muspcInfo;
 
-  double z0    = CLHEP::mm * pshwtracker->z0();
+  double z0    = CLHEP::mm * muspctracker->z0();
   G4ThreeVector trackerOffset(0.,0.,z0/*-zOff*/);
 
   checkOverlap = config.getBool("g4.doSurfaceCheck",false);
-  detailedCheck = checkOverlap&&config.getBool("pshw.doDetailedSurfCheck",false);
+  detailedCheck = checkOverlap&&config.getBool("muspc.doDetailedSurfCheck",false);
 
-  if (pshwtracker->isExternal()) {
+  if (muspctracker->isExternal()) {
 //                throw cet::exception("GEOM") <<"This GDML file option is temporarily disabled\n";
     exc::exceptionG4 e("GEOM","Fatal Error in Argument",1);
-    e<<"PSHW: This GDML file option is temporarily disabled\n";
+    e<<"MUSPC: This GDML file option is temporarily disabled\n";
     e.error();
   } else {
 
@@ -62,21 +62,21 @@ VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff
     visAtt->SetVisibility(false);
     visAtt->SetDaughtersInvisible(false);
 
-    G4Material* matMother = gmc::findMaterialOrThrow( config.getString("pshw.motherVolMat","G4_AIR") );
+    G4Material* matMother = gmc::findMaterialOrThrow( config.getString("muspc.motherVolMat","G4_AIR") );
 
-    if (pshwtracker->nFwdLayers()>0) {
-      double maxZ = pshwtracker->zPos_FW()+pshwtracker->zHalfLength_Fw();
-      if ( pshwtracker->zHalfLength()>maxZ ) { maxZ = pshwtracker->zHalfLength(); }
-      double maxR = pshwtracker->rOut();
-      if ( pshwtracker->rOut_FW()>maxR ) { maxR = pshwtracker->rOut_FW(); }
-      G4Tubs *mothOut = new G4Tubs("PreShowerOut",pshwtracker->r0_Fw()-0.001 ,maxR+0.001,maxZ+0.001,0.0,360.0*CLHEP::degree);
-      G4Tubs *mothIn = new G4Tubs("PreShowerIn", pshwtracker->r0_Fw()-0.0015,pshwtracker->r0()-0.001,pshwtracker->zPos_FW()-pshwtracker->zHalfLength_Fw()-0.001,0.0,360.0*CLHEP::degree);
-      pshwInfo.solid = new G4SubtractionSolid("PreShower",mothOut,mothIn);
+    if (muspctracker->nFwdLayers()>0) {
+      double maxZ = muspctracker->zPos_FW()+muspctracker->zHalfLength_Fw();
+      if ( muspctracker->zHalfLength()>maxZ ) { maxZ = muspctracker->zHalfLength(); }
+      double maxR = muspctracker->rOut();
+      if ( muspctracker->rOut_FW()>maxR ) { maxR = muspctracker->rOut_FW(); }
+      G4Tubs *mothOut = new G4Tubs("MuonSpectOut",muspctracker->r0_Fw()-0.001 ,maxR+0.001,maxZ+0.001,0.0,360.0*CLHEP::degree);
+      G4Tubs *mothIn = new G4Tubs("MuonSpectIn", muspctracker->r0_Fw()-0.0015,muspctracker->r0()-0.001,muspctracker->zPos_FW()-muspctracker->zHalfLength_Fw()-0.001,0.0,360.0*CLHEP::degree);
+      muspcInfo.solid = new G4SubtractionSolid("MuonSpect",mothOut,mothIn);
     } else {
-      pshwInfo.solid = new G4Tubs("PreShower", pshwtracker->r0()-0.001,pshwtracker->rOut()+0.001,pshwtracker->zHalfLength()+0.001,0.0,360.0*CLHEP::degree);
+      muspcInfo.solid = new G4Tubs("MuonSpect", muspctracker->r0()-0.001,muspctracker->rOut()+0.001,muspctracker->zHalfLength()+0.001,0.0,360.0*CLHEP::degree);
     }
-    pshwInfo.logical = new G4LogicalVolume(pshwInfo.solid , matMother, pshwName,0,0,0);
-    pshwInfo.logical->SetVisAttributes(visAtt);
+    muspcInfo.logical = new G4LogicalVolume(muspcInfo.solid , matMother, muspcName,0,0,0);
+    muspcInfo.logical->SetVisAttributes(visAtt);
 
     G4VisAttributes* visAttLay = new G4VisAttributes(true, G4Colour::Cyan() );
     visAttLay->SetForceSolid(true);
@@ -84,21 +84,21 @@ VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff
     visAttLay->SetVisibility(true);
     visAttLay->SetDaughtersInvisible(false);
 
-    bool debugLayer =  config.getBool("pshw.debugLayer",false);
+    bool debugLayer =  config.getBool("muspc.debugLayer",false);
 
     char shape[50], vol[50];
 
-    if (pshwtracker->geomType()==0) {
+    if (muspctracker->geomType()==0) {
 
-      for (int iLy = 0; iLy < pshwtracker->nLayers(); ++iLy){
+      for (int iLy = 0; iLy < muspctracker->nLayers(); ++iLy){
 
-        Layer *ily = pshwtracker->getLayer(iLy);
+        Layer *ily = muspctracker->getLayer(iLy);
         if ( debugLayer ) {
-          cout<<"PSHW Layer: "<<ily->Id()<<endl;
+          cout<<"MUSPC Layer: "<<ily->Id()<<endl;
         }
         VolumeInfo LayerInfo;
-        sprintf(shape,"pswly-L%d",iLy);
-        sprintf(vol,"pswlyvol-L%03d",iLy);
+        sprintf(shape,"musly-L%d",iLy);
+        sprintf(vol,"muslyvol-L%03d",iLy);
 
         LayerInfo.solid = new G4Tubs(shape, ily->getDetail()->InnerRadius()-0.0005,
             ily->getDetail()->OuterRadius()+0.0005,
@@ -117,7 +117,7 @@ VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff
 
         boost::shared_ptr<Ladder> ild = ily->getLadder(0);
         VolumeInfo LadderInfo = buildLadder(*ild);
-        sprintf(vol,"pswldvol-L%03dLd%05ld",ild->Id().getLayer(),ild->Id().getLadder());
+        sprintf(vol,"musldvol-L%03dLd%05ld",ild->Id().getLayer(),ild->Id().getLadder());
 //        ily->nLaddersPerSector();
 
         for (unsigned long iLd=0; iLd < ily->nLadders(); ++iLd ){
@@ -127,7 +127,7 @@ VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff
 
           if (isFw && (ild->Id().getLadder()/100)==1 &&(ild->Id().getLadder()%100)>0 ) {
             LadderInfo = buildLadder(*ild);
-            sprintf(vol,"pswldvol-L%03dLd%05ld",ild->Id().getLayer(),ild->Id().getLadder());
+            sprintf(vol,"musldvol-L%03dLd%05ld",ild->Id().getLayer(),ild->Id().getLadder());
           }
 
           //if (ild->Id().getLadder()/100>1) continue;
@@ -160,7 +160,7 @@ VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff
                 checkOverlap);
 
             if (ild->getLadderType() == Ladder::pixel) {
-              G4VSensitiveDetector *sd = G4SDManager::GetSDMpointer()->FindSensitiveDetector(SensitiveDetectorName::PSHWTrackerRO());
+              G4VSensitiveDetector *sd = G4SDManager::GetSDMpointer()->FindSensitiveDetector(SensitiveDetectorName::MUSPCTrackerRO());
               if(sd) {
                 if (ild->getDetail()->nShells()>1) {
                   //for (int ishell=0; ishell<ild->getDetail()->nShells(); ++ishell){
@@ -178,7 +178,7 @@ VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff
 
           } else {
             exc::exceptionG4 e("GEOM","Fatal Error in Argument",1);
-            e<<"PSHW: Only plane ladder geometry is implemented yet\n";
+            e<<"MUSPC: Only plane ladder geometry is implemented yet\n";
             e.error();
 
           }
@@ -188,7 +188,7 @@ VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff
             G4ThreeVector(0,0,ily->getDetail()->zPosition()),         // at (x,y,z)
             LayerInfo.logical,       // its logical volume
             vol,                     // its name
-            pshwInfo.logical,     // its mother  volume
+            muspcInfo.logical,     // its mother  volume
             false,                   // no boolean operations
             0,                       // copy number
             checkOverlap);
@@ -198,26 +198,26 @@ VolumeInfo PSHWBuilder::constructTracker( G4LogicalVolume* mother/*, double zOff
     } // geom 00
 
 
-    pshwInfo.physical =  new G4PVPlacement( 0,
+    muspcInfo.physical =  new G4PVPlacement( 0,
                     trackerOffset,
-                    pshwInfo.logical,
-                    pshwName,
+                    muspcInfo.logical,
+                    muspcName,
                     mother,
                     0,
                     0,
                     checkOverlap);
 
-    if ( checkOverlap ) { cout<<"PSHW Overlap Checking "<<pshwInfo.physical->CheckOverlaps(100000,0.0001,true)<<endl; }
+    if ( checkOverlap ) { cout<<"MUSPC Overlap Checking "<<muspcInfo.physical->CheckOverlaps(100000,0.0001,true)<<endl; }
 
 
   }
 
-  return pshwInfo;
+  return muspcInfo;
 
 }
 
-//VolumeInfo PSHWtrackerBuilder::buildLadder(float radius, float length, char *shapeName, char *volName, const std::vector<std::string> &materialName, const std::vector<double> &thicknesses, bool activeWireSD, bool isSense){
-VolumeInfo PSHWBuilder::buildLadder(Ladder &tld){
+//VolumeInfo MUSPCtrackerBuilder::buildLadder(float radius, float length, char *shapeName, char *volName, const std::vector<std::string> &materialName, const std::vector<double> &thicknesses, bool activeWireSD, bool isSense){
+VolumeInfo MUSPCBuilder::buildLadder(Ladder &tld){
 
   crd::SimpleConfig const& config  = GeomService::Instance()->getConfig();
 
@@ -236,8 +236,8 @@ VolumeInfo PSHWBuilder::buildLadder(Ladder &tld){
   VolumeInfo LadderInfo;
   char shapeName[50],volName[50];
 //  sprintf(shapeName,"%ld",tld.Id().getLadder());
-  sprintf(shapeName,"pswld-L%dLd%ld",tld.Id().getLayer(),tld.Id().getLadder());
-  sprintf(volName,"pswldvol-L%03dLd%05ld",tld.Id().getLayer(),tld.Id().getLadder());
+  sprintf(shapeName,"musld-L%dLd%ld",tld.Id().getLayer(),tld.Id().getLadder());
+  sprintf(volName,"musldvol-L%03dLd%05ld",tld.Id().getLayer(),tld.Id().getLadder());
 
 //  if (debugLayer ) {
 //    cout<<"Ladder "<< tld.Id()<<" geom type "<<tld.getLadderGeomType()<<" type "<<tld.getLadderType()<<" nROs "<<tld.nReadOuts()<<endl;
@@ -261,7 +261,7 @@ VolumeInfo PSHWBuilder::buildLadder(Ladder &tld){
       LadderInfo.logical = new G4LogicalVolume(LadderInfo.solid,gmc::findMaterialOrThrow( tld.getDetail()->materialName(0).c_str() ),volName,0,0,0);
     }
     else {
-      G4Material* matMother = gmc::findMaterialOrThrow( config.getString("pshw.motherVolMat","G4_AIR") );
+      G4Material* matMother = gmc::findMaterialOrThrow( config.getString("muspc.motherVolMat","G4_AIR") );
       LadderInfo.logical = new G4LogicalVolume(LadderInfo.solid,matMother/*gmc::findMaterialOrThrow( "G4_Galactic" )*/,volName,0,0,0);
       char tShapeName[100], tVolName[100];
 
@@ -306,7 +306,7 @@ VolumeInfo PSHWBuilder::buildLadder(Ladder &tld){
   return LadderInfo;
 }
 
-void PSHWBuilder::instantiateSensitiveDetectors( const std::string hitsCollectionName){
+void MUSPCBuilder::instantiateSensitiveDetectors( const std::string hitsCollectionName){
 
   crd::SimpleConfig const& config  = GeomService::Instance()->getConfig();
 
@@ -314,29 +314,29 @@ void PSHWBuilder::instantiateSensitiveDetectors( const std::string hitsCollectio
 
   // G4 takes ownership and will delete the detectors at the job end
 
-  GeomHandle<PSHWtracker> pshwtracker;
-  G4ThreeVector pshwPos(0.,0.,CLHEP::mm * pshwtracker->z0()/*-zOff*/);
+  GeomHandle<MUSPCtracker> muspctracker;
+  G4ThreeVector muspcPos(0.,0.,CLHEP::mm * muspctracker->z0()/*-zOff*/);
 
-  PSHWLadderSD* pshwtrackerSD=0x0;
-  pshwtrackerSD = new PSHWLadderSD(SensitiveDetectorName::PSHWTrackerRO(), hitsCollectionName,  config);
-  pshwtrackerSD->setPSHWCenterInDetSys(pshwPos);
-  SDman->AddNewDetector(pshwtrackerSD);
+  MUSPCLadderSD* muspctrackerSD=0x0;
+  muspctrackerSD = new MUSPCLadderSD(SensitiveDetectorName::MUSPCTrackerRO(), hitsCollectionName,  config);
+  muspctrackerSD->setMUSPCCenterInDetSys(muspcPos);
+  SDman->AddNewDetector(muspctrackerSD);
 
 }
 
-void PSHWBuilder::constructRadiator( G4LogicalVolume* pshwmother/*, double zOff*/ ){
+void MUSPCBuilder::constructRadiator( G4LogicalVolume* muspcmother/*, double zOff*/ ){
 
   // Master geometry for the tracker.
-  GeomHandle<PSHWtracker> pshwtracker;
-  GeomHandle<PSHWRadiator> pshwradiator;
+  GeomHandle<MUSPCtracker> muspctracker;
+  GeomHandle<MUSPCRadiator> muspcradiator;
   crd::SimpleConfig const& config  = GeomService::Instance()->getConfig();
 
   checkOverlap = config.getBool("g4.doSurfaceCheck",false);
 
-  if (pshwtracker->isExternal()) {
+  if (muspctracker->isExternal()) {
 //                throw cet::exception("GEOM") <<"This GDML file option is temporarily disabled\n";
     exc::exceptionG4 e("GEOM","Fatal Error in Argument",1);
-    e<<"PSHW: This GDML file option is temporarily disabled\n";
+    e<<"MUSPC: This GDML file option is temporarily disabled\n";
     e.error();
   } else {
 
@@ -352,40 +352,40 @@ void PSHWBuilder::constructRadiator( G4LogicalVolume* pshwmother/*, double zOff*
 //    visAtt1->SetVisibility(true);
 //    visAtt1->SetDaughtersInvisible(false);
 
-    G4Material* matMother = gmc::findMaterialOrThrow( config.getString("pshw.motherVolMat","G4_AIR") );
-//    bool debugLayer =  config.getBool("pshw.debugLayer",false);
+    G4Material* matMother = gmc::findMaterialOrThrow( config.getString("muspc.motherVolMat","G4_AIR") );
+//    bool debugLayer =  config.getBool("muspc.debugLayer",false);
 
     char shape[50], vol[50];
 
-//    if (pshwtracker->geomType()==0) {
+//    if (muspctracker->geomType()==0) {
 
-      for (int iLy = 0; iLy < pshwradiator->getRadiatLayers(); ++iLy){
+      for (int iLy = 0; iLy < muspcradiator->getRadiatLayers(); ++iLy){
 
         VolumeInfo LayerInfo;
-        sprintf(shape,"pswradly-L%d",iLy);
-        sprintf(vol,"pswradlyvol-L%02d",iLy);
-        if (pshwradiator->getRadiatType()[iLy]==0) { //Barrel layers
+        sprintf(shape,"musradly-L%d",iLy);
+        sprintf(vol,"musradlyvol-L%02d",iLy);
+        if (muspcradiator->getRadiatType()[iLy]==0) { //Barrel layers
 
-          LayerInfo.solid = new G4Tubs(shape,pshwradiator->getRadiatInRasius()[iLy],
-              pshwradiator->getRadiatInRasius()[iLy]+pshwradiator->getRadiatorsThickness()[iLy],
-              pshwradiator->getRadiatHalfLengths()[iLy],
+          LayerInfo.solid = new G4Tubs(shape,muspcradiator->getRadiatInRasius()[iLy],
+              muspcradiator->getRadiatInRasius()[iLy]+muspcradiator->getRadiatorsThickness()[iLy],
+              muspcradiator->getRadiatHalfLengths()[iLy],
               0.0,360.0*CLHEP::degree);
           LayerInfo.logical = new G4LogicalVolume(LayerInfo.solid,matMother,vol,0,0,0);
 
           char tShapeName[100], tVolName[100];
 
-          double iInRad = pshwradiator->getRadiatInRasius()[iLy];
+          double iInRad = muspcradiator->getRadiatInRasius()[iLy];
 
-          for (int ishell=0; ishell<pshwradiator->getRadiatNmShells()[iLy]; ++ishell){
+          for (int ishell=0; ishell<muspcradiator->getRadiatNmShells()[iLy]; ++ishell){
             sprintf(tShapeName,"%s_sub%i",shape,ishell);
             sprintf(tVolName,"%s_sub%i",vol,ishell);
 
             G4Tubs *tradsh = new G4Tubs(tShapeName,iInRad,
-                iInRad+pshwradiator->getRadiatShellsThick()[iLy][ishell],
-                pshwradiator->getRadiatHalfLengths()[iLy],
+                iInRad+muspcradiator->getRadiatShellsThick()[iLy][ishell],
+                muspcradiator->getRadiatHalfLengths()[iLy],
                 0.0,360.0*CLHEP::degree);
 
-            G4LogicalVolume *tlogicRadSh = new G4LogicalVolume(tradsh,gmc::findMaterialOrThrow(pshwradiator->getRadiatShellsMaterial()[iLy][ishell]),tVolName,0,0,0);
+            G4LogicalVolume *tlogicRadSh = new G4LogicalVolume(tradsh,gmc::findMaterialOrThrow(muspcradiator->getRadiatShellsMaterial()[iLy][ishell]),tVolName,0,0,0);
 
             G4VPhysicalVolume *tphysRadSh = new G4PVPlacement(0,
                 G4ThreeVector(0,0,0),
@@ -397,41 +397,41 @@ void PSHWBuilder::constructRadiator( G4LogicalVolume* pshwmother/*, double zOff*
                 checkOverlap);
             tphysRadSh->GetCopyNo(); //just to remove the warning during compiling
             tlogicRadSh->SetVisAttributes(visAtt);
-            iInRad += pshwradiator->getRadiatShellsThick()[iLy][ishell];
+            iInRad += muspcradiator->getRadiatShellsThick()[iLy][ishell];
           }
 
           LayerInfo.physical = new G4PVPlacement(0,               // no rotation
               G4ThreeVector(0,0,0),    // at (x,y,z)
               LayerInfo.logical,       // its logical volume
               vol,                     // its name
-              pshwmother,              // its mother volume
+              muspcmother,              // its mother volume
               false,                   // no boolean operations
               0,                       // copy number
               checkOverlap);
-        } else if (pshwradiator->getRadiatType()[iLy]==1) { //Forward layers
+        } else if (muspcradiator->getRadiatType()[iLy]==1) { //Forward layers
 
-          LayerInfo.solid = new G4Tubs(shape,pshwradiator->getRadiatInRasius()[iLy],
-              pshwradiator->getRadiatOutRasius()[iLy],
-              0.5*pshwradiator->getRadiatorsThickness()[iLy],
+          LayerInfo.solid = new G4Tubs(shape,muspcradiator->getRadiatInRasius()[iLy],
+              muspcradiator->getRadiatOutRasius()[iLy],
+              0.5*muspcradiator->getRadiatorsThickness()[iLy],
               0.0,360.0*CLHEP::degree);
           LayerInfo.logical = new G4LogicalVolume(LayerInfo.solid,matMother,vol,0,0,0);
 
           char tShapeName[100], tVolName[100];
 
-          double iZpos = -0.5*pshwradiator->getRadiatorsThickness()[iLy];
+          double iZpos = -0.5*muspcradiator->getRadiatorsThickness()[iLy];
 
-          for (int ishell=0; ishell<pshwradiator->getRadiatNmShells()[iLy]; ++ishell){
+          for (int ishell=0; ishell<muspcradiator->getRadiatNmShells()[iLy]; ++ishell){
             sprintf(tShapeName,"%s_sub%i",shape,ishell);
             sprintf(tVolName,"%s_sub%i",vol,ishell);
 
-            iZpos += 0.5*pshwradiator->getRadiatShellsThick()[iLy][ishell];
+            iZpos += 0.5*muspcradiator->getRadiatShellsThick()[iLy][ishell];
 
-            G4Tubs *tradsh = new G4Tubs(tShapeName,pshwradiator->getRadiatInRasius()[iLy],
-                pshwradiator->getRadiatOutRasius()[iLy],
-                0.5*pshwradiator->getRadiatShellsThick()[iLy][ishell],
+            G4Tubs *tradsh = new G4Tubs(tShapeName,muspcradiator->getRadiatInRasius()[iLy],
+                muspcradiator->getRadiatOutRasius()[iLy],
+                0.5*muspcradiator->getRadiatShellsThick()[iLy][ishell],
                 0.0,360.0*CLHEP::degree);
 
-            G4LogicalVolume *tlogicRadSh = new G4LogicalVolume(tradsh,gmc::findMaterialOrThrow(pshwradiator->getRadiatShellsMaterial()[iLy][ishell]),tVolName,0,0,0);
+            G4LogicalVolume *tlogicRadSh = new G4LogicalVolume(tradsh,gmc::findMaterialOrThrow(muspcradiator->getRadiatShellsMaterial()[iLy][ishell]),tVolName,0,0,0);
 
             G4VPhysicalVolume *tphysRadSh = new G4PVPlacement(0,
                 G4ThreeVector(0,0,iZpos),
@@ -444,22 +444,22 @@ void PSHWBuilder::constructRadiator( G4LogicalVolume* pshwmother/*, double zOff*
             tphysRadSh->GetCopyNo(); //just to remove the warning during compiling
             /*if (ishell==0)*/ tlogicRadSh->SetVisAttributes(visAtt);
 //            if (ishell==1) tlogicRadSh->SetVisAttributes(visAtt1);
-            iZpos += 0.5*pshwradiator->getRadiatShellsThick()[iLy][ishell];
+            iZpos += 0.5*muspcradiator->getRadiatShellsThick()[iLy][ishell];
           }
 
           LayerInfo.physical = new G4PVPlacement(0,               // no rotation
-              G4ThreeVector(0,0,pshwradiator->getRadiatHalfLengths()[iLy]),    // at (x,y,z)
+              G4ThreeVector(0,0,muspcradiator->getRadiatHalfLengths()[iLy]),    // at (x,y,z)
               LayerInfo.logical,       // its logical volume
               vol,                     // its name
-              pshwmother,              // its mother volume
+              muspcmother,              // its mother volume
               false,                   // no boolean operations
               0,                       // copy number
               checkOverlap);
-          HepGeom::Transform3D posBckw(HepGeom::TranslateZ3D(-pshwradiator->getRadiatHalfLengths()[iLy])*HepGeom::RotateY3D(CLHEP::pi));
+          HepGeom::Transform3D posBckw(HepGeom::TranslateZ3D(-muspcradiator->getRadiatHalfLengths()[iLy])*HepGeom::RotateY3D(CLHEP::pi));
           LayerInfo.physical = new G4PVPlacement(posBckw,
               LayerInfo.logical,       // its logical volume
               vol,                     // its name
-              pshwmother,              // its mother volume
+              muspcmother,              // its mother volume
               false,                   // no boolean operations
               1,                       // copy number
               checkOverlap);
@@ -471,4 +471,4 @@ void PSHWBuilder::constructRadiator( G4LogicalVolume* pshwmother/*, double zOff*
 
 }
 
-} // end namespace pshw
+} // end namespace muspc

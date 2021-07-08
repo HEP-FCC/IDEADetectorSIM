@@ -22,6 +22,9 @@
 namespace pshw {
 class PSHWMaker;
 }
+namespace muspc {
+class MUSPCMaker;
+}
 
 namespace svx {
 
@@ -29,6 +32,7 @@ class ROGeometryHandle {
 
         friend class SVXMaker;
         friend class pshw::PSHWMaker;
+        friend class muspc::MUSPCMaker;
 //        friend class SVXtracker;
 
 protected:

@@ -713,7 +713,7 @@ VolumeInfo CDCHtrackerBuilder::buildWall(Wall *wall, CDCHtracker::EnCapType endc
         }
         else {
                 wallInfo.logical = new G4LogicalVolume(wallInfo.solid,gmc::findMaterialOrThrow( "G4_Galactic" ),volName,0,0,0);
-                char tShapeName[50], tVolName[50];
+                char tShapeName[100], tVolName[100];
                 double oldRadius = wall->getRmin();
                 double iRadius = oldRadius;
                 double iZpos=-wall->getDz();

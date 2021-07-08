@@ -68,6 +68,12 @@
 #include <PSHWBuilder.hh>
 #include "PSHWRadiator.hh"
 
+// MUSPC includes
+#include "MUSPCMaker.hh"
+#include "MUSPCtracker.hh"
+#include <MUSPCBuilder.hh>
+#include "MUSPCRadiator.hh"
+
 // PHCV includes
 #include "PHCVMaker.hh"
 #include "PHCVtcounter.hh"
@@ -252,6 +258,8 @@ void GMCG4DetectorConstruction::DefineVolumes() {
 
   ConstructFPiCalo();
 
+  ConstructMuonSpectrometer();
+
   //export geometry in GDML file
   if (cRd->getBool("writeGDML",false)) {
     G4GDMLParser parser;
@@ -369,6 +377,26 @@ void GMCG4DetectorConstruction::ConstructPreShower() {
 
     GeomService::Instance()->addDetector( pshwtm.getPSHWradiatorPtr() );
     pshw::PSHWBuilder::constructRadiator( pshwvolinf.logical );
+
+  }
+
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::ConstructMuonSpectrometer() {
+
+  if (cRd->getBool("hasMUSPC",false)) {
+
+    RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::MUSPCTrackerRO(),"MUSPCHitsStepCh");
+
+    muspc::MUSPCMaker muspctm( *cRd );
+    GeomService::Instance()->addDetector( muspctm.getMUSPCtrackerPtr() );
+
+    muspc::MUSPCBuilder::instantiateSensitiveDetectors("MUSPCTrackerHitsCollection");
+    VolumeInfo muspcvolinf = muspc::MUSPCBuilder::constructTracker( fTheWorld->GetLogicalVolume() );
+
+    GeomService::Instance()->addDetector( muspctm.getMUSPCradiatorPtr() );
+    muspc::MUSPCBuilder::constructRadiator( muspcvolinf.logical );
 
   }
 

@@ -21,6 +21,9 @@
 namespace pshw {
 class PSHWMaker;
 }
+namespace muspc {
+class MUSPCMaker;
+}
 
 namespace svx {
 
@@ -31,6 +34,7 @@ class Layer{
   friend class SVXMaker;
 
   friend class pshw::PSHWMaker;
+  friend class muspc::MUSPCMaker;
 
 public:
 

@@ -26,6 +26,10 @@ namespace pshw {
 class PSHWMaker;
 }
 
+namespace muspc {
+class MUSPCMaker;
+}
+
 namespace svx {
 
 class Ladder{
@@ -36,6 +40,7 @@ class Ladder{
 //  friend class SVXtrackerBuilder;
 
   friend class pshw::PSHWMaker;
+  friend class muspc::MUSPCMaker;
 
 public:
 
