@@ -129,8 +129,8 @@ int main(int argc,char** argv)
       // detector ID 
       // int subDetectorHitNumbers CHECK
       // number of hits in particular subdetectors. Check/set collection variable TrackSubdetectorNames for decoding the indices
-      std::cout << "podio " << l_track.getSubDetectorHitNumbers().size() << std::endl;
-      std::cout << "nhits " << nhits << " nhitsdch " << nhitsdch << " nhitssvx " << nhitssvx << " nhitspshw " << nhitspshw << std::endl;
+      // std::cout << "podio " << l_track.getSubDetectorHitNumbers().size() << std::endl;
+      // std::cout << "nhits " << nhits << " nhitsdch " << nhitsdch << " nhitssvx " << nhitssvx << " nhitspshw " << nhitspshw << std::endl;
       // std::cout << "hitindex " << hitindex.size() << " detid " << detid.size() << std::endl;
       // for(int ihit = 0; ihit < hitindex.size(); ihit++) {
       //	std::cout << "hit " << hitindex.at(ihit) << " detector id " << detid.at(ihit) << std::endl;
@@ -189,7 +189,7 @@ int main(int argc,char** argv)
       // e.g. the origin at the IP
       edm4hep::Vector3f referencePoint(0,0,0); // CHECK
 
-      std::array<float, 15> covMatrix // lower triangular covariance matrix of the track parameters.  the order of parameters is  d0, phi, omega, z0, tan(lambda). the array is a row-major flattening of the matrix.
+      std::array<float, 15> covMatrix; // lower triangular covariance matrix of the track parameters.  the order of parameters is  d0, phi, omega, z0, tan(lambda). the array is a row-major flattening of the matrix.
 
 	  
       
