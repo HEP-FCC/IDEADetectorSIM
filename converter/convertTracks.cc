@@ -351,13 +351,17 @@ int main(int argc,char** argv)
       covMatrix[14] = J_cov_JT[4][4];
 
       l_state.covMatrix = covMatrix;
+
+      /*  
+	  VectorMembers:
+	  - edm4hep::TrackState trackStates  //track states
+       */
+      l_track.addToTrackStates(l_state);
       
-           /*
-	VectorMembers:
-	- edm4hep::TrackState trackStates  //track states
-	OneToManyRelations:
-	- edm4hep::TrackerHit trackerHits  //hits that have been used to create this track
-	- edm4hep::Track tracks            //tracks (segments) that have been combined to create this tr
+      /* not filled
+	 OneToManyRelations:
+	 - edm4hep::TrackerHit trackerHits  //hits that have been used to create this track
+	 - edm4hep::Track tracks            //tracks (segments) that have been combined to create this tr
       */
     }
     
