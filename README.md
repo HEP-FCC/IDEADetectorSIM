@@ -137,8 +137,15 @@ to run
    <li> geant4-10.7.1
    <li> clhep-2.4.4.0
    <li> root-6.24.00
-   <li> genfit master20191106
+   <li> genfit master2019110
    <li> rome-v3.2.15.1
+</ul>
+
+# Open Questions
+<ul>
+   <li> 
+   In convertTracks.cc state vector size != hitlist size (from ROME):
+   ERROR, stateVector has size 40 and hitlist has size 52
 </ul>
 
 # Reminder for me (Lia)
