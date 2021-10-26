@@ -10,7 +10,28 @@ It is devoted to move:
    <li> analyzer: need external ROME, GENFIT2 </li>
    <li> analyzer: from standalone tracks to EDM tracks </li>
 </ul>
-Working on VI.
+
+## External software
+The reconstruction needs external ROME and GENFIT2. They are installed in the directory:
+/afs/cern.ch/work/l/llavezzi/public/LOCAL
+and you can either use them from your directory or copy and reinstall them elsewhere.  
+In order to use them from my directory, set the following variables in the file DriftChamberPLUSVertex/analyzer/envGMC.sh
+```
+export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/public/LOCAL/GENFIT/master20191106/build
+export ROMESYS=/afs/cern.ch/work/l/llavezzi/public/LOCAL/ROME/rome-v3.2.15.1
+```
+In order to install them locally copy and compile them (if you want to install it from git check the installation howto on the website)
+```
+cp -r /afs/cern.ch/work/l/llavezzi/public/LOCAL/GENFIT dir_where_you_want_your_genfit
+cd dir_where_you_want_your_genfit/master20191106
+rm -fr build
+mkdir build
+cd GenFit
+(set the GENFIT environmental inside env.sh to dir_where_you_want_your_genfit/master20191106/GenFit)
+source env.sh
+cd ../build
+make
+```
 
 ## Download the code
 To download the most updated version of the code
