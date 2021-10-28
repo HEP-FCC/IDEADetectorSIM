@@ -21,6 +21,7 @@ export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/public/LOCAL/GENFIT/master2019110
 export ROMESYS=/afs/cern.ch/work/l/llavezzi/public/LOCAL/ROME/rome-v3.2.15.1
 ```
 In order to install them locally copy and compile them (if you want to install it from git check the installation howto on the website)
+### GENFIT
 ```
 cp -r /afs/cern.ch/work/l/llavezzi/public/LOCAL/GENFIT dir_where_you_want_your_genfit
 cd dir_where_you_want_your_genfit/master20191106
@@ -32,7 +33,15 @@ source env.sh
 cd ../build
 make
 ```
+### ROME
+Instruction on istallation are on https://bitbucket.org/muegamma/rome3/wiki/Download
 
+```
+export ROMESYS=/directory/where/you/have/rome
+export PATH=$ROMESYS/bin:$PATH
+cd $ROMESYS
+make
+```
 ## Download the code
 To download the most updated version of the code
 ```
@@ -122,7 +131,7 @@ IMPORTANT: run all this in directory analyzer/GMC  </br>
 
 copy the output file from previous step, of the form MCData00001.root, from converter/ to analyzer/GMC </br>
 
-copy the xml/gdml files from /afs/cern.ch/user/l/llavezzi/IDEA/work/IDEA/IdeaTracker_NEW/geometria/ to analyzer/GMC and change the path in the two xml files (gdml is good as it is) </br>
+copy the xml/gdml files from /afs/cern.ch/work/l/llavezzi/public/geometry to analyzer/GMC and change the path in the two xml files (gdml is good as it is) </br>
 
 run:
 ```
