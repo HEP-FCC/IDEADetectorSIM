@@ -31,6 +31,7 @@ cd GenFit
 (set the GENFIT environmental inside env.sh to dir_where_you_want_your_genfit/master20191106/GenFit)
 source env.sh
 cd ../build
+cmake ../GenFit
 make
 ```
 ### ROME
