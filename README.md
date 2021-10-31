@@ -11,7 +11,16 @@ It is devoted to move:
    <li> analyzer: from standalone tracks to EDM tracks </li>
 </ul>
 
-## External software
+## INSTALLATION via installer
+Instructions:
+<ul>
+   <li> Download the file install_standalone.sh </li>
+   <li> Edit it and set STANDALONE_INSTALL_DIR to the directory where you want to install everythin </li>
+   <li> Make it executable with: chmow u+x install_standalone.sh </li>
+   <li> Execute it with: ./install_standalone.sh </li>
+</ul>
+      
+## External software (not necessary if you used the installer)
 The reconstruction needs external ROME and GENFIT2. They are installed in the directory:
 /afs/cern.ch/work/l/llavezzi/public/LOCAL
 and you can either use them from your directory or copy and reinstall them elsewhere.  
@@ -43,7 +52,7 @@ export PATH=$ROMESYS/bin:$PATH
 cd $ROMESYS
 make
 ```
-## Download the code
+## Download the code (not necessary if you used the installer)
 To download the most updated version of the code
 ```
 git clone https://github.com/lialavezzi/DriftChamberPLUSVertex.git
@@ -52,7 +61,7 @@ git checkout uptodate
 ```
 you will need to compile three directories: simulation, analyzer and converter.
 
-## Compile the code
+## Compile the code (not necessary if you used the installer)
 ### To compile simulation:
 
 ```
@@ -108,7 +117,7 @@ make
 </br>
 Everything is compiled, you can run the simulation and then the reconstruction.
 
-## Run the simulation
+## Run the simulation (if you used the installer, just jump here!)
 IMPORTANT: run this in directory $SIM_INSTAL_DIR </br>
 
 ```
