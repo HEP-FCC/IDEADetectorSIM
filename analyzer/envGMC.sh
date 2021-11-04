@@ -17,44 +17,33 @@ export PATH=$PRJBASE/analyzer/GMC:$PATH
 #export GCCXMLPATH=${GCCXML_FQ_DIR}/bin
 
 #GenFit
-if [ -v GENFIT2SYS ];
-then
-        echo "GENFIT2SYS already set to "${GENFIT2SYS}
+echo "GENFIT2SYS already set to "${GENFIT2SYS}
+export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/IDEA/LOCAL/GENFIT/master20191106/build
+export LD_LIBRARY_PATH=${GENFIT2SYS}/lib64:${LD_LIBRARY_PATH}
+if [ -n "$ROOT_INCLUDE_PATH" ] ; then
+    export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
 else
-	export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/IDEA/LOCAL/GENFIT/master20191106/build
-	export LD_LIBRARY_PATH=${GENFIT2SYS}/lib64:${LD_LIBRARY_PATH}
-	if [ -n "$ROOT_INCLUDE_PATH" ] ; then
-	    export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
-	else
-	    export ROOT_INCLUDE_PATH=${GENFIT2SYS}/include
-	fi
-	#Eigen
-	export EIGEN3SYS=/usr
-	export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${EIGEN3SYS}/include/eigen3
+    export ROOT_INCLUDE_PATH=${GENFIT2SYS}/include
 fi
+#Eigen
+export EIGEN3SYS=/usr
+export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${EIGEN3SYS}/include/eigen3
+echo "GENFIT2SYS is set to "${GENFIT2SYS}
 
 #geant4
 #source /data/softlib/geant/geant41002p01_gcc531/share/Geant4-10.2.1/geant4make/geant4make.sh
 
 #rome
-if [ -v ROMESYS ]
-then
-	echo "ROME already set to "${ROMESYS}
-else
 #	export ROMESYS=/mnt/c/workSpace/sw/ROME/rome-master20180921
-	export ROMESYS=/afs/cern.ch/work/l/llavezzi/IDEA/LOCAL/ROME/rome-v3.2.15.1
-	export PATH=$ROMESYS/bin:${PATH}
-	export LIBROME=yes
-fi
+export ROMESYS=/afs/cern.ch/work/l/llavezzi/IDEA/LOCAL/ROME/rome-v3.2.15.1
+export PATH=$ROMESYS/bin:${PATH}
+export LIBROME=yes
+echo "ROME is set to "${ROMESYS}
 
 #GMC
-if [ -v GMCDIR ]
-then
-	echo "GMCDIR already set to "${GMCDIR}
-else
-	export GMCDIR=${PRJBASE}/analyzer/GMC
-	export LD_LIBRARY_PATH=${GMCDIR}/obj:${LD_LIBRARY_PATH}
-fi
+export GMCDIR=${PRJBASE}/analyzer/GMC
+export LD_LIBRARY_PATH=${GMCDIR}/obj:${LD_LIBRARY_PATH}
+echo "GMCDIR is set to "${GMCDIR}
 
 #root
 if [ -v ROOTSYS ]

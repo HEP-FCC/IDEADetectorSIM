@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export STANDALONE_INSTALL_DIR="/afs/cern.ch/work/l/llavezzi/IDEA/test"
+export STANDALONE_INSTALL_DIR="/afs/cern.ch/work/l/llavezzi/IDEA2/test"
 
 # -----------------------------------------------
 echo "installing in $STANDALONE_INSTALL_DIR"
@@ -40,9 +40,8 @@ echo "download the genfit release"
 git clone https://github.com/GenFit/GenFit.git
 cd $STANDALONE_INSTALL_DIR/LOCAL/GENFIT/GenFit
 git checkout release-01-00-00
-export GENFIT2SYS=$STANDALONE_INSTALL_DIR/LOCAL/GENFIT/build
-export GENFIT=$STANDALONE_INSTALL_DIR/LOCAL/GENFIT/GenFit
-cd $GENFIT
+export GENFIT=$STANDALONE_INSTALL_DIR/LOCAL/GENFIT
+cd $GENFIT/GenFit
 ./makeEnv.sh
 source env.sh
 cd ..
@@ -61,11 +60,11 @@ cd $STANDALONE_INSTALL_DIR/LOCAL/ROME/rome
 #git checkout master
 #git tag
 git checkout v3.2.15.1
-
 export ROMESYS=$STANDALONE_INSTALL_DIR/LOCAL/ROME/rome
 export PATH=$ROMESYS/bin:$PATH
 cd $ROMESYS
 make
+ln -s $ROMESYS/src/strlcpy.cxx $ROMESYS/src/strlcpy.c
 cd $STANDALONE_INSTALL_DIR
 
 # -------------------
@@ -77,13 +76,14 @@ string2="export PRJBASE=\"$STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex\""
 sed -i "s|$string1|$string2|g" ./envGMC.sh
 # set the right GENFIT2SYS in analyzer/envGMC.sh
 string1="export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/IDEA/LOCAL/GENFIT/master20191106/build"
-string2="export GENFIT2SYS=$GENFIT2SYS"
+string2="export GENFIT2SYS=$GENFIT/build"
 sed -i "s|$string1|$string2|g" ./envGMC.sh
 # set the right ROMESYS in analyzer/envGMC.sh
 string1="export ROMESYS=/afs/cern.ch/work/l/llavezzi/IDEA/LOCAL/ROME/rome-v3.2.15.1"
 string2="export ROMESYS=$ROMESYS"
 sed -i "s|$string1|$string2|g" ./envGMC.sh
 #
+source ./envGMC.sh
 echo "compile analyzer"
 cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC
 $ROMESYS/bin/romebuilder.exe -i GMC.xml
