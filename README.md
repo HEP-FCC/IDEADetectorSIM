@@ -1,4 +1,6 @@
 # THIS SPECIFIC VERSION OF THE CODE
+On 2021-12-01 I forced the key4hep stack to be used to 2021-09-01 as with the latest version it does not work :(
+
 Since the master analyzer does not compile I moved to Gianfranco's version of the code (May 2021)
 
 It is devoted to move:
@@ -14,8 +16,8 @@ It is devoted to move:
 ## INSTALLATION via installer
 Instructions:
 <ul>
-   <li> Download the file install_standalone.sh </li>
-   <li> Edit it and set STANDALONE_INSTALL_DIR to the directory where you want to install everythin </li>
+   <li> Download the file <a href="https://github.com/lialavezzi/DriftChamberPLUSVertex/blob/uptodate/install_standalone.sh">install_standalone.sh</a> </li>
+   <li> Edit it and set STANDALONE_INSTALL_DIR to the directory where you want to install everything </li>
    <li> Make it executable with: chmow u+x install_standalone.sh </li>
    <li> Execute it with: ./install_standalone.sh </li>
 </ul>
