@@ -1,6 +1,7 @@
 #!/bin/bash
 
-export STANDALONE_INSTALL_DIR="/afs/cern.ch/work/l/llavezzi/IDEA2/test"
+# set STANDALONE_INSTALL_DIR="your_complete_installation_path", e.g.:
+export STANDALONE_INSTALL_DIR="/afs/cern.ch/work/l/llavezzi/IDEA/test"
 
 # -----------------------------------------------
 echo "installing in $STANDALONE_INSTALL_DIR"
@@ -19,6 +20,10 @@ cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/simulation/
 # set the right PRJBASE in simulation/env.sh
 string1="export PRJBASE=\"/afs/cern.ch/work/l/llavezzi/IDEA/DRIFT_CH/gitIDEA\""
 string2="export PRJBASE=\"$STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex\""
+sed -i "s|$string1|$string2|g" ./env.sh
+# CHECK this is to run with a specific release of key4hep stack
+string1="source /cvmfs/sw.hsf.org/key4hep/setup.sh"
+string2="source $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/key4hep_setup.sh"
 sed -i "s|$string1|$string2|g" ./env.sh
 source ./env.sh
 mkdir build $SIM_INSTAL_DIR $SIM_OUTPUT_DIR
