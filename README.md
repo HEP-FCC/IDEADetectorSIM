@@ -1,5 +1,6 @@
 # THIS SPECIFIC VERSION OF THE CODE
-On 2021-12-01 I forced the key4hep stack to be used to 2021-09-01 as with the latest version it does not work :(
+
+**On 2021-12-01 I forced the key4hep stack to be used to 2021-09-01 as with the latest version it does not work :(**
 
 Since the master analyzer does not compile I moved to Gianfranco's version of the code (May 2021)
 
@@ -9,7 +10,8 @@ It is devoted to move:
    <li> simulation: from GNUmakefile to CMakeList.txt </li>
    <li> simulation: from standalone hits to EDM hits </li>
    <li> analyzer: adapt env to new installation of simulation </li>
-   <li> analyzer: need external ROME, GENFIT2 </li>
+   <li> analyzer: need external ROME
+   <li> analyzer: needs GENFIT2 (since 2021-12-03 the installationon the stack is used, before it was locally installed) </li>
    <li> analyzer: from standalone tracks to EDM tracks </li>
 </ul>
 
@@ -18,21 +20,24 @@ Instructions:
 <ul>
    <li> Download the file <a href="https://github.com/lialavezzi/DriftChamberPLUSVertex/blob/uptodate/install_standalone.sh">install_standalone.sh</a> </li>
    <li> Edit it and set STANDALONE_INSTALL_DIR to the directory where you want to install everything </li>
-   <li> Make it executable with: chmow u+x install_standalone.sh </li>
+   <li> Make it executable with: chmod u+x install_standalone.sh </li>
    <li> Execute it with: ./install_standalone.sh </li>
 </ul>
       
 ## External software (not necessary if you used the installer)
-The reconstruction needs external ROME and GENFIT2. They are installed in the directory:
+The reconstruction needs external ROME and GENFIT2. </br>
+GENFIT2 is already available on the stack -> since 2021-12-03 the common intallation is used and GENFIT2 is no more installed as external.</br>
+</br>
+ROME is installed in the directory:
 /afs/cern.ch/work/l/llavezzi/public/LOCAL
-and you can either use them from your directory or copy and reinstall them elsewhere.  
-In order to use them from my directory, set the following variables in the file DriftChamberPLUSVertex/analyzer/envGMC.sh
+and you can either use that from your directory or copy and reinstall them elsewhere.  
+In order to use it from my directory, set the following variables in the file DriftChamberPLUSVertex/analyzer/envGMC.sh
 ```
-export GENFIT2SYS=/afs/cern.ch/work/l/llavezzi/public/LOCAL/GENFIT/master20191106/build
 export ROMESYS=/afs/cern.ch/work/l/llavezzi/public/LOCAL/ROME/rome-v3.2.15.1
 ```
 In order to install them locally copy and compile them (if you want to install it from git check the installation howto on the website)
 ### GENFIT
+It is **not installed by hand anymore**, but I keep here the old HOWTO: 
 ```
 cp -r /afs/cern.ch/work/l/llavezzi/public/LOCAL/GENFIT dir_where_you_want_your_genfit
 cd dir_where_you_want_your_genfit/master20191106
@@ -179,7 +184,7 @@ to run
    <li> geant4-10.7.1
    <li> clhep-2.4.4.0
    <li> root-6.24.00
-   <li> genfit master2019110
+   <li> genfit/02-00-00 since 2021-12-03, before it was genfit master2019110 locally installed
    <li> rome-v3.2.15.1
 </ul>
 
