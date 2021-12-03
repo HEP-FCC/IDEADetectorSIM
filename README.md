@@ -159,6 +159,8 @@ run:
 ## Converter from GMCRecoTrack to Track
 IMPORTANT: run this in directory converter/  </br>
 
+copy the output file from previous step, of the form RecoData00001.root, analyzer/GMC to $SIM_OUTPUT_DIR </br>
+
 ```
 ./convertTracks $SIM_OUTPUT_DIR/<reco_data_file.root>
 ```
