@@ -1,8 +1,13 @@
+# CHANGE LOG
+
+**On 2021-12-05, restored compatibility with latest key4hep stack** </br>
+On 2021-12-05, rome moved from tagged branch to master branch </br>
+On 2021-12-03, genfit2 installationon on the stack is used (before it was locally installed) </br>
+<s>On 2021-12-01 I forced the key4hep stack to be used to 2021-09-01 as with the latest version it does not work</s> </br>
+On 2021-05, since the master analyzer does not compile I moved to Gianfranco's version of the code </br>
+
+
 # THIS SPECIFIC VERSION OF THE CODE
-
-**On 2021-12-01 I forced the key4hep stack to be used to 2021-09-01 as with the latest version it does not work :(**
-
-Since the master analyzer does not compile I moved to Gianfranco's version of the code (May 2021)
 
 It is devoted to move:
 <ul>
@@ -11,7 +16,7 @@ It is devoted to move:
    <li> simulation: from standalone hits to EDM hits </li>
    <li> analyzer: adapt env to new installation of simulation </li>
    <li> analyzer: need external ROME
-   <li> analyzer: needs GENFIT2 (since 2021-12-03 the installationon the stack is used, before it was locally installed) </li>
+   <li> analyzer: needs GENFIT2 (since 2021-12-03 the installationon the stack is used) </li>
    <li> analyzer: from standalone tracks to EDM tracks </li>
 </ul>
 
