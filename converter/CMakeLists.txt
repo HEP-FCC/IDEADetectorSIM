@@ -49,7 +49,7 @@ find_package(HepMC REQUIRED)
 #
 find_package(EDM4HEP)
 find_package(podio)
-find_package(DD4hep)
+#find_package(DD4hep)
 
 #----------------------------------------------------------------------------
 # Find ROOT
