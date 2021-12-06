@@ -29,6 +29,8 @@ Instructions:
    <li> Execute it with: ./install_standalone.sh </li>
 </ul>
       
+In order to run the code, go directly <a href="https://github.com/lialavezzi/DriftChamberPLUSVertex/blob/uptodate/README.md#run-the-simulation-if-you-used-the-installer-just-jump-here">here</a>
+
 ## External software (not necessary if you used the installer)
 The reconstruction needs external ROME and GENFIT2. </br>
 GENFIT2 is already available on the stack -> since 2021-12-03 the common intallation is used and GENFIT2 is no more installed as external.</br>
