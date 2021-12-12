@@ -29,6 +29,8 @@ Instructions:
    <li> Execute it with: ./install_standalone.sh </li>
 </ul>
       
+In order to run the code, go directly <a href="https://github.com/lialavezzi/DriftChamberPLUSVertex/blob/uptodate/README.md#run-the-simulation-if-you-used-the-installer-just-jump-here">here</a>
+
 ## External software (not necessary if you used the installer)
 The reconstruction needs external ROME and GENFIT2. </br>
 GENFIT2 is already available on the stack -> since 2021-12-03 the common intallation is used and GENFIT2 is no more installed as external.</br>
@@ -186,12 +188,23 @@ to run
 
 ## Everything is working with these versions
 <ul>
+   <li> key4hep-stack/2021-11-26:
+   <li> gcc8.3.0
+   <li> geant4-10.7.2
+   <li> clhep-2.4.4.0
+   <li> root-6.24.06
+   <li> genfit/02-00-00 (on the stack)
+   <li> rome master
+</ul>
+
+Previously:
+<ul>
    <li> key4hep-stack/2021-09-01:
    <li> gcc8.3.0
    <li> geant4-10.7.1
    <li> clhep-2.4.4.0
    <li> root-6.24.00
-   <li> genfit/02-00-00 since 2021-12-03, before it was genfit master2019110 locally installed
+   <li> genfit master2019110 (locally)
    <li> rome-v3.2.15.1
 </ul>
 
