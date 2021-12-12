@@ -183,7 +183,7 @@ it is contained in the file convertHits.cc, compiled together with the rest. </b
 to run
 
 ```
-./bin/convertHits $SIM_OUTPUT_DIR/<inout_file.root>
+./convertHits $SIM_OUTPUT_DIR/<inout_file.root>
 ```
 
 ## Everything is working with these versions
