@@ -143,8 +143,37 @@ target_link_directories(readHits PUBLIC
 )	      
 
 #--------------------------------------------------------------------
-# convertTracks.cc
+# convertHits.cc
+#
+add_executable(convertHits convertHits.cc)
 
+target_link_libraries(convertHits PUBLIC
+                      G4GMC
+                      GMCG4ClassesDict
+                      SCrd
+                      ${BASE_FLD}
+                      ${DET_FLD}
+                      ${Geant4_LIBRARIES}
+                      ${HEPMC_LIBRARIES}
+                      ${HEPMC_FIO_LIBRARIES}
+                      ${PYTHIA6_LIBRARIES}
+                      ${ROOT_LIBRARIES}
+                      gfortran
+                      EDM4HEP::edm4hep
+                      podio::podioRootIO
+                      )
+
+target_link_directories(convertHits PUBLIC
+                $ENV{CLHEP_LIB_DIR}
+                $ENV{G4LIB}
+                $ENV{SIM_INSTAL_DIR}/lib
+		$ENV{PRJBASE}/analyzer/GMC/obj
+#               $ENV{GENFIT2SYS}/lib
+)
+
+#--------------------------------------------------------------------
+# convertTracks.cc
+#
 add_executable(convertTracks convertTracks.cc)
 
 target_link_libraries(convertTracks PUBLIC

@@ -156,23 +156,23 @@ add_custom_command(TARGET g4GMC POST_BUILD
 #--------------------------------------------------------------------
 # convertHits.cc
 #
-add_executable(convertHits convertHits.cc)
+#add_executable(convertHits convertHits.cc)
 
-target_link_libraries(convertHits PUBLIC
-                      G4GMC
-                      GMCG4ClassesDict
-                      SCrd
-                      ${BASE_FLD}
-                      ${DET_FLD}
-                      ${Geant4_LIBRARIES}
-                      ${HEPMC_LIBRARIES}
-                      ${HEPMC_FIO_LIBRARIES}
-                      ${PYTHIA6_LIBRARIES}
-                      ${ROOT_LIBRARIES}
-                      gfortran
-                      EDM4HEP::edm4hep
-                      podio::podioRootIO
-                      )
+#target_link_libraries(convertHits PUBLIC
+#                      G4GMC
+#                      GMCG4ClassesDict
+#                      SCrd
+#                      ${BASE_FLD}
+#                      ${DET_FLD}
+#                      ${Geant4_LIBRARIES}
+#                      ${HEPMC_LIBRARIES}
+#                      ${HEPMC_FIO_LIBRARIES}
+#                      ${PYTHIA6_LIBRARIES}
+#                      ${ROOT_LIBRARIES}
+#                      gfortran
+#                      EDM4HEP::edm4hep
+#                      podio::podioRootIO
+#                      )
 #--------------------------------------------------------------------
 # convertTracks.cc
 #
