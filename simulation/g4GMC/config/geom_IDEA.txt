@@ -24,6 +24,7 @@ string GDMLFileName     = "g4-IDEA.gdml";
 #include "pshw_v00-IDEA_CEPC.txt"
 #include "bmpipe_v00-IDEA_CEPC.txt"
 #include "drfpic_v00-IDEA_CEPC.txt"
+//#include "muspc_v00-IDEA_CEPC.txt"
 
 // Uncomment max one vertex tracker.
 //#include "config/ModPxVertex.txt"

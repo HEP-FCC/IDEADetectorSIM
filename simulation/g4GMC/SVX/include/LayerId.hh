@@ -6,16 +6,16 @@
 // Original author G. Tassielli
 //
 
-#ifndef LayerId_hh
-#define LayerId_hh
+#ifndef SVX_LayerId_hh
+#define SVX_LayerId_hh
 
 #include <iostream>
 
 namespace svx {
 
-class LayerId;
-  std::ostream& operator<<(std::ostream& ost,
-                                  const LayerId& s );
+//class LayerId;
+//  std::ostream& operator<<(std::ostream& ost,
+//                                  const LayerId& s );
 
 class LayerId{
 
@@ -31,8 +31,8 @@ public:
 
   bool operator==(const LayerId s) const;
 
-  friend std::ostream& operator<<(std::ostream& ost,
-                                  const LayerId& s );
+//  friend std::ostream& operator<<(std::ostream& ost,
+//                                  const LayerId& s );
 
 private:
 
@@ -40,6 +40,12 @@ private:
 
 };
 
+inline std::ostream& operator<<(std::ostream& ost,
+                                const LayerId& s ){
+  ost << "Layer Id: "<<s.getLayer() << " ";
+  return ost;
+}
+
 } //namespace svx
 
-#endif /* LayerId_hh */
+#endif /* SVX_LayerId_hh */

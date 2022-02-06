@@ -5,16 +5,13 @@
 #ifndef LayerId_hh
 #define LayerId_hh
 
-//#include "SuperLayerId.hh"
+#include "SuperLayerId.hh"
 #include <iostream>
 
 namespace cdch {
 
-class SuperLayerId;
-class LayerId;
-
-std::ostream& operator<<(std::ostream& ost,
-                                const LayerId& l );
+//class SuperLayerId;
+//class LayerId;
 
 class LayerId{
 
@@ -36,8 +33,10 @@ public:
 
   bool operator==(const LayerId& l) const;
 
-  friend std::ostream& operator<<(std::ostream& ost,
-                                  const LayerId& l );
+//  friend std::ostream& operator<<(std::ostream& ost,
+//                                  const LayerId& l );
+
+//  std::ostream& operator<<(std::ostream& ost) const;
 
 private:
 
@@ -45,6 +44,17 @@ private:
   int _id;
 
 };
+
+//std::ostream& operator<<(std::ostream& ost,
+//                                const LayerId& l );
+inline std::ostream& operator<<(std::ostream& ost,
+                                const LayerId& l ){
+  ost << "Layer Id: ("
+      << l.getSuperLayerId() << " "
+      << l.getLayer()
+      << " )";
+  return ost;
+}
 
 }
 #endif /* LayerId_hh */

@@ -1,5 +1,5 @@
 //
-// Defines sensitive detector for a typicaly numbered volume using mu2e reference frame
+// Defines sensitive detector for a typicaly numbered volume using reference frame
 //
 // $Id: SensitiveDetector.cc,v 1.6 2013/09/06 16:14:00 gandr Exp $
 // $Author: gandr $

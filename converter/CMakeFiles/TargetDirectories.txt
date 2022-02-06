@@ -1,0 +1,5 @@
+/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/DriftChamberPLUSVertex/converter/CMakeFiles/edit_cache.dir
+/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/DriftChamberPLUSVertex/converter/CMakeFiles/convertTracks.dir
+/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/DriftChamberPLUSVertex/converter/CMakeFiles/rebuild_cache.dir
+/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/DriftChamberPLUSVertex/converter/CMakeFiles/readHits.dir
+/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/DriftChamberPLUSVertex/converter/CMakeFiles/convertHits.dir

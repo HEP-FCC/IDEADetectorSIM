@@ -45,6 +45,10 @@ class GMCG4EventAction : public G4UserEventAction
 
     virtual void  BeginOfEventAction(const G4Event* );
     virtual void    EndOfEventAction(const G4Event* );
+
+  private:
+    bool _hasDRFPIC;
+    bool _wrtASCIIDR;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

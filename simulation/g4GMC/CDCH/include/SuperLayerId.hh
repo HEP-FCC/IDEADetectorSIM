@@ -13,9 +13,7 @@
 
 namespace cdch {
 
-  class SuperLayerId;
-  std::ostream& operator<<(std::ostream& ost,
-                                  const SuperLayerId& s );
+//  class SuperLayerId;
 
 class SuperLayerId{
 
@@ -31,14 +29,22 @@ public:
 
   bool operator==(const SuperLayerId s) const;
 
-  friend std::ostream& operator<<(std::ostream& ost,
-                                  const SuperLayerId& s );
+//  friend std::ostream& operator<<(std::ostream& ost,
+//                                  const SuperLayerId& s );
 
 private:
 
   int _id;
 
 };
+
+//std::ostream& operator<<(std::ostream& ost,
+//                                const SuperLayerId& s );
+inline std::ostream& operator<<(std::ostream& ost,
+                                const SuperLayerId& s ){
+  ost << "SuperLayer Id: "<<s.getSuperLayer() << " )";
+  return ost;
+}
 
 } //namespace cdch
 

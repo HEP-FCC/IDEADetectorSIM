@@ -3,9 +3,9 @@
 // Original author G. Tassielli
 //
 
-#include <Layer.hh>
+#include "Layer.hh"
 
-#ifndef __CINT__
+//#ifndef __CINT__
 
 using namespace std;
 
@@ -86,5 +86,5 @@ namespace cdch {
 
 } // namespace cdch
 
-#endif
+//#endif
 

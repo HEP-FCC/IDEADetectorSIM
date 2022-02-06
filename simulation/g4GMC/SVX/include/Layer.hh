@@ -3,13 +3,13 @@
 // Original author G. Tassielli
 //
 
-#ifndef Layer_hh
-#define Layer_hh
+#ifndef SVX_Layer_hh
+#define SVX_Layer_hh
 
-#include <LayerId.hh>
-#include <LayerDetail.hh>
-#include <Ladder.hh>
-//#include <LadderId.hh>
+#include "LayerId.hh"
+#include "LayerDetail.hh"
+#include "Ladder.hh"
+//#include "LadderId.hh"
 
 #include <deque>
 #include <vector>
@@ -21,6 +21,9 @@
 namespace pshw {
 class PSHWMaker;
 }
+namespace muspc {
+class MUSPCMaker;
+}
 
 namespace svx {
 
@@ -31,6 +34,7 @@ class Layer{
   friend class SVXMaker;
 
   friend class pshw::PSHWMaker;
+  friend class muspc::MUSPCMaker;
 
 public:
 
@@ -133,4 +137,4 @@ protected:
 
 }  // namespace svx
 
-#endif /* Layer_hh */
+#endif /* SVX_Layer_hh */

@@ -1,0 +1,54 @@
+# Macro file for example B2
+# 
+# Can be run in batch, without graphic
+# or interactively: Idle> /control/execute run1.mac
+#
+# Change the default number of workers (in multi-threading mode) 
+#/run/numberOfWorkers 4
+# set seeds
+/random/setSeeds 575841909 838392975 
+#
+# Initialize kernel
+/run/initialize
+#
+# Primary Particle kinematics using GPS: 
+/gps/verbose 0
+/gps/particle e-
+/gps/number 1
+#/gps/pos/centre 0 0 0 cm
+#/gps/pos/sigma_r 50 um
+#/gps/pos/sigma_x 50 um
+#/gps/pos/sigma_yx 50 um
+/gps/ang/type iso
+/gps/ang/mintheta 12.9 deg
+/gps/ang/maxtheta 13.1 deg
+#/gps/ang/minphi 0 deg
+#/gps/ang/maxphi 360 deg
+/gps/energy 105 MeV
+#/gps/ene/type Lin
+#/gps/ene/min 50 MeV
+#/gps/ene/max 100000 MeV
+#/gps/ene/gradient 0
+#/gps/ene/intercept 1.
+
+# Magnetic Field
+/field/update
+#/field/setStepperType 4
+#/field/setMinStep 0.1 mm  
+/field/setFieldZ 1.0 tesla
+/field/setMaxRho 1050.0 mm
+#/field/setField 0.0 0.0 1.0 kG 
+
+#
+#/tracking/verbose 1
+#/run/beamOn 5
+#
+# 1 event with printing hits
+#
+/vis/modeling/trajectories/create/generic
+#
+/tracking/verbose 0
+#/tracking/verbose 1
+#/hits/verbose 0
+#/hits/verbose 2
+/run/beamOn 10

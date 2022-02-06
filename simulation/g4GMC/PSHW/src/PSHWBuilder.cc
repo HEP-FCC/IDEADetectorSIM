@@ -263,7 +263,7 @@ VolumeInfo PSHWBuilder::buildLadder(Ladder &tld){
     else {
       G4Material* matMother = gmc::findMaterialOrThrow( config.getString("pshw.motherVolMat","G4_AIR") );
       LadderInfo.logical = new G4LogicalVolume(LadderInfo.solid,matMother/*gmc::findMaterialOrThrow( "G4_Galactic" )*/,volName,0,0,0);
-      char tShapeName[50], tVolName[50];
+      char tShapeName[100], tVolName[100];
 
       double iYpos = -0.5*tld.getDetail()->thickness();
 
@@ -372,7 +372,7 @@ void PSHWBuilder::constructRadiator( G4LogicalVolume* pshwmother/*, double zOff*
               0.0,360.0*CLHEP::degree);
           LayerInfo.logical = new G4LogicalVolume(LayerInfo.solid,matMother,vol,0,0,0);
 
-          char tShapeName[50], tVolName[50];
+          char tShapeName[100], tVolName[100];
 
           double iInRad = pshwradiator->getRadiatInRasius()[iLy];
 
@@ -416,7 +416,7 @@ void PSHWBuilder::constructRadiator( G4LogicalVolume* pshwmother/*, double zOff*
               0.0,360.0*CLHEP::degree);
           LayerInfo.logical = new G4LogicalVolume(LayerInfo.solid,matMother,vol,0,0,0);
 
-          char tShapeName[50], tVolName[50];
+          char tShapeName[100], tVolName[100];
 
           double iZpos = -0.5*pshwradiator->getRadiatorsThickness()[iLy];
 

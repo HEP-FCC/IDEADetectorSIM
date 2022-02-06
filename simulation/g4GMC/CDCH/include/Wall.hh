@@ -12,12 +12,20 @@
 //#include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Geometry/Transform3D.h"
 
+namespace tdch {
+class TDCHMaker;
+class TDCHBuilder;
+}
+
 namespace cdch {
 
 class Wall{
 
         friend class CDCHMaker;
         friend class CDCHtrackerBuilder;
+
+        friend class tdch::TDCHMaker;
+        friend class tdch::TDCHBuilder;
 
 public:
 

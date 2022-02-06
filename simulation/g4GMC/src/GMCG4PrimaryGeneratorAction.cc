@@ -29,42 +29,67 @@
 /// \brief Implementation of the GMCG4PrimaryGeneratorAction class
 
 #include "GMCG4PrimaryGeneratorAction.hh"
+#include "GMCG4PrimaryGeneratorMessenger.hh"
 
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4Box.hh"
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
+#include "G4GeneralParticleSource.hh"
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
+
+#include "HepMCG4AsciiReader.hh"
+#include "HepMCG4PythiaInterface.hh"
 
 #include "Randomize.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 GMCG4PrimaryGeneratorAction::GMCG4PrimaryGeneratorAction()
-  : G4VUserPrimaryGeneratorAction(),
-    fPrimVertex(0),
-    fPrimDirection(0) {
+  : G4VUserPrimaryGeneratorAction()
+//    ,fPrimVertex(0)
+//    ,fPrimDirection(0)
+{
   
-  G4int nofParticles = 1;
-  fParticleGun = new G4ParticleGun(nofParticles);
+//  G4int nofParticles = 1;
+//  fCurrentGenerator = fParticleGun = new G4ParticleGun(nofParticles);
+//  fCurrentGeneratorName = "fParticleGun";
 
-  // default particle kinematic
+	fCurrentGenerator= fParticleGun= new G4GeneralParticleSource();
+	fCurrentGeneratorName= "gps";
 
-  G4ParticleDefinition* particleDefinition 
-    = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+	fHepmcAscii = new HepMCG4AsciiReader();
+#ifdef G4LIB_USE_PYTHIA
+  fPythiaGen = new HepMCG4PythiaInterface();
+#else
+  fPythiaGen = 0;
+#endif
+//  fGentypeMap["particleGun"] = fParticleGun;
+  fGentypeMap["gps"] = fParticleGun;
+  fGentypeMap["hepmcAscii"] = fHepmcAscii;
+  fGentypeMap["pythia"] = fPythiaGen;
 
-  fParticleGun->SetParticleDefinition(particleDefinition);
+  fMessenger= new GMCG4PrimaryGeneratorMessenger(this);
+
+//  // default particle kinematic
+//
+//  G4ParticleDefinition* particleDefinition
+//    = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+//
+//  fParticleGun->SetParticleDefinition(particleDefinition);
 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 GMCG4PrimaryGeneratorAction::~GMCG4PrimaryGeneratorAction() {
-  delete fParticleGun;
-
+  if (fParticleGun) delete fParticleGun;
+  if (fHepmcAscii) delete fHepmcAscii;
+  if (fPythiaGen) delete fPythiaGen;
+  delete fMessenger;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -74,55 +99,66 @@ void GMCG4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get world volume
   // from G4LogicalVolumeStore.
-
-  GenerateVertexPosition();
-
-  GenerateDirection();
-//  G4double worldZHalfLength = 0;
-  G4LogicalVolume* worldLV
-    = G4LogicalVolumeStore::GetInstance()->GetVolume("World");
-  G4Box* worldBox = NULL;
-  if ( worldLV ) { worldBox = dynamic_cast<G4Box*>(worldLV->GetSolid()); }
-  if ( worldBox ) { /* worldZHalfLength = worldBox->GetZHalfLength(); */ }
-  else  {
-    G4cerr << "World volume of box not found." << G4endl;
-    G4cerr << "Perhaps you have changed geometry." << G4endl;
-    G4cerr << "The gun will be place in the center." << G4endl;
-  }
-
-  fParticleGun->SetParticlePosition(fPrimVertex);
-  fParticleGun->SetParticleMomentumDirection(fPrimDirection);
-  G4double aMomentum = 500.*MeV;
-  fParticleGun->SetParticleMomentum(aMomentum);
-  //  fParticleGun->SetParticleEnergy(500.*MeV);
-
-  fParticleGun->GeneratePrimaryVertex(anEvent);
+	if(fCurrentGenerator) {
+//		if(fCurrentGeneratorName=="fParticleGun") {
+//
+//			GenerateVertexPosition();
+//
+//			GenerateDirection();
+//			//  G4double worldZHalfLength = 0;
+//			G4LogicalVolume* worldLV
+//			= G4LogicalVolumeStore::GetInstance()->GetVolume("World");
+//			G4Box* worldBox = NULL;
+//			if ( worldLV ) { worldBox = dynamic_cast<G4Box*>(worldLV->GetSolid()); }
+//			if ( worldBox ) { /* worldZHalfLength = worldBox->GetZHalfLength(); */ }
+//			else  {
+//				G4cerr << "World volume of box not found." << G4endl;
+//				G4cerr << "Perhaps you have changed geometry." << G4endl;
+//				G4cerr << "The gun will be place in the center." << G4endl;
+//			}
+//
+//			fParticleGun->SetParticlePosition(fPrimVertex);
+//			fParticleGun->SetParticleMomentumDirection(fPrimDirection);
+//			G4double aMomentum = 500.*MeV;
+//			fParticleGun->SetParticleMomentum(aMomentum);
+//			//  fParticleGun->SetParticleEnergy(500.*MeV);
+//
+//			fParticleGun->GeneratePrimaryVertex(anEvent);
+//		}
+//		else {
+			fCurrentGenerator->GeneratePrimaryVertex(anEvent);
+//		}
+	} else {
+		G4Exception("ExN04PrimaryGeneratorAction::GeneratePrimaries",
+		                "PrimaryGeneratorAction001", FatalException,
+		                "generator is not instanciated." );
+	}
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....
-void GMCG4PrimaryGeneratorAction::GenerateVertexPosition(){
-
-  G4double size = 5.5*mm; 
-  G4double x0 = size * (2.*G4UniformRand() - 1.);
-  G4double y0 = size * (2* G4UniformRand() - 1.);
-  G4double z0 = -500*mm;
-
-  fPrimVertex = G4ThreeVector(x0,y0,z0);
-
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void GMCG4PrimaryGeneratorAction::GenerateDirection(){
-
-  G4double theta = 0.;//0.02*(2.*G4UniformRand() - 1.)*rad;
-  G4double phi = std::acos(-1)*(2.*G4UniformRand() - 1.)*rad;
-
-  G4double px0 = std::sin(theta)*std::cos(phi);
-  G4double py0 = std::sin(theta)*std::sin(phi);
-  G4double pz0 = std::cos(theta);
-
-  fPrimDirection = G4ThreeVector(px0,py0,pz0);
-
-}
+//
+////....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....
+//void GMCG4PrimaryGeneratorAction::GenerateVertexPosition(){
+//
+//  G4double size = 5.5*mm;
+//  G4double x0 = size * (2.*G4UniformRand() - 1.);
+//  G4double y0 = size * (2* G4UniformRand() - 1.);
+//  G4double z0 = -500*mm;
+//
+//  fPrimVertex = G4ThreeVector(x0,y0,z0);
+//
+//}
+//
+////....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//void GMCG4PrimaryGeneratorAction::GenerateDirection(){
+//
+//  G4double theta = 0.;//0.02*(2.*G4UniformRand() - 1.)*rad;
+//  G4double phi = std::acos(-1)*(2.*G4UniformRand() - 1.)*rad;
+//
+//  G4double px0 = std::sin(theta)*std::cos(phi);
+//  G4double py0 = std::sin(theta)*std::sin(phi);
+//  G4double pz0 = std::cos(theta);
+//
+//  fPrimDirection = G4ThreeVector(px0,py0,pz0);
+//
+//}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

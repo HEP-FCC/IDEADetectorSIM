@@ -42,6 +42,7 @@
 #include <GMCG4ModupixTrkrBuilder.hh>
 #include "GMCG4DetectorMessenger.hh"
 #include "GMCG4FieldSetup.hh"
+#include <SensitiveDetectorName.hh>
 
 // Beam Pipe
 #include "GMCG4BeamPipeBuilder.hh"
@@ -50,7 +51,11 @@
 #include "CDCHMaker.hh"
 //#include "CDCHtracker.hh"
 #include <CDCHtrackerBuilder.hh>
-#include <SensitiveDetectorName.hh>
+
+// TDCH includes
+#include "TDCHMaker.hh"
+#include "TDCHtracker.hh"
+#include <TDCHBuilder.hh>
 
 // SVX includes
 #include "SVXMaker.hh"
@@ -63,6 +68,12 @@
 #include <PSHWBuilder.hh>
 #include "PSHWRadiator.hh"
 
+// MUSPC includes
+#include "MUSPCMaker.hh"
+#include "MUSPCtracker.hh"
+#include <MUSPCBuilder.hh>
+#include "MUSPCRadiator.hh"
+
 // PHCV includes
 #include "PHCVMaker.hh"
 #include "PHCVtcounter.hh"
@@ -72,6 +83,7 @@
 #include "DRFPICMaker.hh"
 #include "DRFPIcalorimeter.hh"
 #include "DRFPICBuilder.hh"
+#include "DRCaloIO.hh"
 
 // MEG Target
 #include "GMCG4MegTAR.hh"
@@ -92,6 +104,9 @@
 #include "G4GeometryTolerance.hh"
 #include "G4GeometryManager.hh"
 
+#include "G4Region.hh"
+#include "G4ProductionCuts.hh"
+//#include "G4RegionStore.hh"
 #include "G4UserLimits.hh"
 
 #include "G4VisAttributes.hh"
@@ -132,7 +147,11 @@ GMCG4DetectorConstruction::GMCG4DetectorConstruction(G4String fGeomConfName, int
   ReadConfigGeomFile(fGeomConfName);
 
   //Load data saver
-  RootIO::GetInstance(runNum,dataOutFold);
+  bool hasDRFPIC = GeomService::Instance()->getConfig().getBool("hasDRFPIC",false);
+  RootIO::GetInstance(runNum,dataOutFold,hasDRFPIC);
+  if ( hasDRFPIC ) {
+	  drc::DRCaloIO::GetInstance(dataOutFold);
+  }
 
 }
 
@@ -225,7 +244,11 @@ void GMCG4DetectorConstruction::DefineVolumes() {
 
   ConstructSStopTarget();
 
-  ConstructCentralTracker();
+  ConstructTrackerProto();
+
+  ConstructCDCHTracker();
+
+  ConstructTDCHTracker();
 
   ConstructVertexTracker();
 
@@ -234,6 +257,8 @@ void GMCG4DetectorConstruction::DefineVolumes() {
   ConstructPhotnConveters();
 
   ConstructFPiCalo();
+
+  ConstructMuonSpectrometer();
 
   //export geometry in GDML file
   if (cRd->getBool("writeGDML",false)) {
@@ -270,11 +295,15 @@ void GMCG4DetectorConstruction::ConstructSStopTarget() {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void GMCG4DetectorConstruction::ConstructCentralTracker() {
+void GMCG4DetectorConstruction::ConstructTrackerProto() {
 
   if (cRd->getBool("hasRMproto",false)) GMCG4RomaProtoBuilder::constructTracker(fTheWorld->GetLogicalVolume());
   else if (cRd->getBool("hasLEproto",false)) GMCG4LecceProtoBuilder::constructTracker(fTheWorld->GetLogicalVolume());
 
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::ConstructCDCHTracker() {
   if (cRd->getBool("hasCDCH",false)) {
 
     RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::TrackerGas(),"HitsStepCh");
@@ -292,6 +321,26 @@ void GMCG4DetectorConstruction::ConstructCentralTracker() {
     fCDCHmother = cdch::CDCHtrackerBuilder::constructTracker(fTheWorld->GetLogicalVolume()).logical;
   }
 
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::ConstructTDCHTracker() {
+  if (cRd->getBool("hasTDCH",false)) {
+
+    RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::TrackerGas(),"HitsStepCh");
+    if (cRd->getBool("tdch.ActiveWiresSD",false)) {
+      RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::TrackerSWires(),"HitsStepChSW");
+      if(cRd->getBool("tdch.ActiveFWiresSD",false)) {
+        RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::TrackerFWires(),"HitsStepChFW");
+      }
+    }
+
+    tdch::TDCHMaker tdchtm( *cRd );
+    GeomService::Instance()->addDetector( tdchtm.getTDCHtrackerPtr() );
+
+    tdch::TDCHBuilder::instantiateSensitiveDetectors("TDriftTrackerHitsCollection");
+    tdch::TDCHBuilder::construct(fTheWorld->GetLogicalVolume());
+  }
 
 }
 
@@ -334,6 +383,26 @@ void GMCG4DetectorConstruction::ConstructPreShower() {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::ConstructMuonSpectrometer() {
+
+  if (cRd->getBool("hasMUSPC",false)) {
+
+    RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::MUSPCTrackerRO(),"MUSPCHitsStepCh");
+
+    muspc::MUSPCMaker muspctm( *cRd );
+    GeomService::Instance()->addDetector( muspctm.getMUSPCtrackerPtr() );
+
+    muspc::MUSPCBuilder::instantiateSensitiveDetectors("MUSPCTrackerHitsCollection");
+    VolumeInfo muspcvolinf = muspc::MUSPCBuilder::constructTracker( fTheWorld->GetLogicalVolume() );
+
+    GeomService::Instance()->addDetector( muspctm.getMUSPCradiatorPtr() );
+    muspc::MUSPCBuilder::constructRadiator( muspcvolinf.logical );
+
+  }
+
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void GMCG4DetectorConstruction::ConstructPhotnConveters() {
 	  if (cRd->getBool("hasPHCV",false)) {
 
@@ -355,13 +424,22 @@ void GMCG4DetectorConstruction::ConstructPhotnConveters() {
 void GMCG4DetectorConstruction::ConstructFPiCalo() {
 	  if (cRd->getBool("hasDRFPIC",false)) {
 
-	    RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::DRFPICalorimeter(),"DRCHitsStepCh");
+//	    RootIO::GetInstance()->CreateMCStepBranches(SensitiveDetectorName::DRFPICalorimeter(),"DRCHitsStepCh");
+	    RootIO::GetInstance()->CreateDRCaloBranches();
 
 	    drc::DRFPICMaker drfpic( *cRd );
 	    GeomService::Instance()->addDetector( drfpic.getDRFPIcalorimeterPtr() );
 
 	    drc::DRFPICBuilder::instantiateSensitiveDetectors("DRFPICHitsCollection");
-	    drc::DRFPICBuilder::construct(fTheWorld->GetLogicalVolume());
+	    VolumeInfo drcInfo = drc::DRFPICBuilder::construct(fTheWorld->GetLogicalVolume());
+	    G4double tmpRngCut = cRd->getDouble("drc.rangeCut", -1)*mm;
+	    if (tmpRngCut>0.0) {
+	    	DefRegionCuts("DRFPICrange",drcInfo.logical,tmpRngCut);
+	    }
+	    G4double tmpStepCut = cRd->getDouble("drc.freePath", -1)*mm;
+	    if (tmpStepCut>=0.0) {
+	    	DefRegionStep("DRFPICrange",drcInfo.logical,tmpStepCut);
+	    }
 	  }
 
 }
@@ -423,10 +501,49 @@ void GMCG4DetectorConstruction::SetMaxStep(G4double maxStep)
     fTheWorld->GetLogicalVolume()->SetUserLimits(fStepLimit);
   }
   if (cRd->getBool("hasCDCH",false)) { cdch::CDCHtrackerBuilder::constructStepLimiters(); }
+  if (cRd->getBool("hasTDCH",false)) { tdch::TDCHBuilder::constructStepLimiters(); }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::DefRegionCuts(G4String regName, G4LogicalVolume* regVol, G4double rangeCut)
+{
+//	G4Region* tmpReg = G4RegionStore::GetInstance()->FindOrCreateRegion(regName);
+	G4Region* tmpReg = new G4Region(regName);
+	tmpReg->AddRootLogicalVolume(regVol);
+	G4ProductionCuts *cuts = new G4ProductionCuts();
+	cuts->SetProductionCut(rangeCut,"gamma");
+	cuts->SetProductionCut(rangeCut,"e-");
+	cuts->SetProductionCut(rangeCut,"e+");
+	tmpReg->SetProductionCuts(cuts);
+}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::DefRegionAllCuts(G4String regName, G4LogicalVolume* regVol, G4double rangeCut)
+{
+//	G4Region* tmpReg = G4RegionStore::GetInstance()->FindOrCreateRegion(regName);
+	G4Region* tmpReg = new G4Region(regName);
+	tmpReg->AddRootLogicalVolume(regVol);
+	G4ProductionCuts *cuts = new G4ProductionCuts();
+	cuts->SetProductionCut(rangeCut,"gamma");
+	cuts->SetProductionCut(rangeCut,"e-");
+	cuts->SetProductionCut(rangeCut,"e+");
+	cuts->SetProductionCut(rangeCut,"proton");
+	tmpReg->SetProductionCuts(cuts);
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void GMCG4DetectorConstruction::DefRegionStep(G4String regName, G4LogicalVolume* regVol, G4double maxStep)
+{
+//	G4Region* tmpReg = G4RegionStore::GetInstance()->FindOrCreateRegion(regName);
+	G4Region* tmpReg = new G4Region(regName);
+	tmpReg->AddRootLogicalVolume(regVol);
+	if (maxStep>0.0) {
+		G4UserLimits* stepLimit = new G4UserLimits(maxStep);
+		tmpReg->SetUserLimits(stepLimit);
+	}
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void GMCG4DetectorConstruction::SetCheckOverlaps(G4bool checkOverlaps)
 {
   fCheckOverlaps = checkOverlaps;

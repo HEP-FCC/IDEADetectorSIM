@@ -32,7 +32,7 @@
 
 #include <GMCG4FieldMessenger.hh>
 #include <GMCG4FieldSetup.hh>
-//#include "G4MagneticField.hh"
+#include "G4MagneticField.hh"
 #include "GMCG4MagneticField.hh"
 #include "G4FieldManager.hh"
 #include "G4TransportationManager.hh"

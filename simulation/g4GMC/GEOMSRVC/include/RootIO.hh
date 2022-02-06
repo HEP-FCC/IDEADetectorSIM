@@ -58,10 +58,11 @@ public:
 
   virtual ~RootIO();
   
-  static RootIO* GetInstance(Int_t runN=0, TString outFold=".");
+  static RootIO* GetInstance(Int_t runN=0, TString outFold=".", bool hasDRFPIC=false);
   void Close();
 //  void CreateTreeObject();
   void CreateMCStepBranches(std::string , const char *);
+  void CreateDRCaloBranches();
   void FillEvent();  
 //  void PutMCStepHitCh(std::vector<GMCG4TrackerHit*>&);
 //  void PutMCStepHitPx(std::vector<GMCG4TrackerHit*>&);
@@ -70,11 +71,12 @@ public:
   void PutMCTracks(std::vector<GMCG4Particle*>&);
 
 protected:
-  RootIO(Int_t runN=0, TString outFold=".");
+  RootIO(Int_t runN=0, TString outFold=".", bool hasDRFPIC=false);
   
 private:
 
   void CreateTreeObject();
+  bool fHasDRFPIC;
 
   TFile* fFile;
   int fNevents;
@@ -86,6 +88,7 @@ private:
   
   TTree *fMCStep;
   TTree *fMCTracks;
+  TTree *fDRCalo;
   
 };
 #endif // INCLUDE_ROOTIO_HH
