@@ -1,0 +1,3 @@
+[submodule "external/rome3"]
+	path = external/rome3
+	url = https://bitbucket.org/muegamma/rome3.git
