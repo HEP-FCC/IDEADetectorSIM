@@ -9,12 +9,13 @@ set(ROMESYS "$ENV{ROMESYS}")
 
 message( STATUS "Install path ${CMAKE_INSTALL_PREFIX}" )
 
-add_subdirectory(simulation/g4GMC)
+#add_subdirectory(simulation/g4GMC)
 
 
 include(ExternalProject)
 
 ExternalProject_Add(rome3
+    GIT_REPOSITORY https://bitbucket.org/muegamma/rome3.git	
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/rome3    
     INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/rome3
     CONFIGURE_COMMAND ""
