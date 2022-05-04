@@ -27,11 +27,11 @@ for path in ${CMAKE_PREFIX_PATH//:/ }; do
         export GENFIT=$path
     fi
 
-    ROMESYS=${PWD}/external/rome3
-    export PATH=$ROMESYS/bin:$PATH
-
 done
 
+
+ROMESYS=${PWD}/external/rome3
+export PATH=$ROMESYS/bin:$PATH
 
 echo "GEANT4 is set to $G4BASE"
 echo "CLHEP is set to $CLHEP_BASE_DIR"
