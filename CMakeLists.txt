@@ -9,7 +9,7 @@ set(ROMESYS "$ENV{ROMESYS}")
 
 message( STATUS "Install path ${CMAKE_INSTALL_PREFIX}" )
 
-#add_subdirectory(simulation/g4GMC)
+add_subdirectory(simulation/g4GMC)
 
 
 include(ExternalProject)
