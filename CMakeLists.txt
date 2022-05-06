@@ -6,7 +6,6 @@ set( CMAKE_CXX_STANDARD 17)
 set( CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set( ROME_INST_DIR ${CMAKE_CURRENT_BINARY_DIR}/LOCAL/rome )
-set( ROMESYS ${ROME_INST_DIR} )
 set( GMC_INST_DIR ${CMAKE_SOURCE_DIR}/analyzer/GMC )
 
 
@@ -16,11 +15,15 @@ message( STATUS "Romesys is ${ROMESYS}" )
 message( STATUS "GMC_INST_DIR is ${GMC_INST_DIR}")
 
 
-add_subdirectory(simulation/g4GMC)
+#add_subdirectory(simulation/g4GMC)
 
 
 include(ExternalProject)
 
+ExternalProject_Add(g4simulation
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/simulation/g4GMC
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF"
+)
 
 ExternalProject_Add(rome3
     GIT_REPOSITORY https://bitbucket.org/muegamma/rome3.git	
@@ -30,6 +33,8 @@ ExternalProject_Add(rome3
     BUILD_COMMAND ${CMAKE_COMMAND} -E env ROMESYS=${ROME_INST_DIR} make 
     BUILD_IN_SOURCE TRUE
 )
+
+add_dependencies(rome3 g4simulation)
 
 ExternalProject_Add(GMC
       SOURCE_DIR ${GMC_INST_DIR}
@@ -44,5 +49,7 @@ ExternalProject_Add(GMC
       ${ROME_INST_DIR}/bin/romebuilder.exe -i GMC.xml
       BUILD_IN_SOURCE TRUE
 )
+
+add_dependencies(GMC rome3)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/env.sh ${CMAKE_CURRENT_BINARY_DIR} @ONLY) 

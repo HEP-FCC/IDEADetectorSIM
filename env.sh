@@ -36,7 +36,7 @@ for path in ${CMAKE_PREFIX_PATH//:/ }; do
 
 done
 
-MYG4LIB=@CMAKE_INSTALL_PREFIX@/lib
+MYG4LIB=/its/home/iv41/workarea/FullIDEASim_improveSetup2/build/instal_dir/lib
 
 if [[ $MYG4LIB == *CMAKE_INSTALL_PREFIX* ]]
 then
@@ -47,7 +47,7 @@ fi
 
 
 
-ROMESYS=@ROME_INST_DIR@
+ROMESYS=/its/home/iv41/workarea/testrome/DriftChamberPLUSVertex/LOCAL/rome
 
 if [[ $ROMESYS == *ROME_INST_DIR* ]]
 then
@@ -71,7 +71,7 @@ export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
 
 export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${EIGEN3SYS}/include/eigen3
 
-export GMCDIR=@GMC_INST_DIR@
+export GMCDIR=/its/home/iv41/workarea/testrome/DriftChamberPLUSVertex/analyzer/GMC
 
 if [[ $GMCDIR == *GMC_INST_DIR* ]]
 then
