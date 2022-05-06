@@ -511,7 +511,7 @@ Bool_t GMCTTrackFitCDCH::Fit(GMCRecoTracks *aTrack) {
     fitter->setMultipleMeasurementHandling(genfit::weightedClosestToPredictionWire);
   }*/
   
-  if(kDebug>20){
+  if(ROMEPrint::kDebug>20){
     fitter->setDebugLvl(10);
     rep->setDebugLvl(10);
   }
@@ -1038,7 +1038,7 @@ Bool_t GMCTTrackFitCDCH::Fit2(GMCRecoTracks *aTrack) {
     fitter->setMultipleMeasurementHandling(genfit::weightedClosestToPredictionWire);
   }*/
 
-  if(kDebug>20){
+  if(ROMEPrint::kDebug>20){
     fitter->setDebugLvl(10);
     rep->setDebugLvl(10);
   }
