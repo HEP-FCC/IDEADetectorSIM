@@ -1,6 +1,7 @@
 # CHANGE LOG
 
 **On 2021-12-05, restored compatibility with latest key4hep stack** </br>
+On 2022-05-06, Developed a full cmake configuration 
 On 2021-12-05, rome moved from tagged branch to master branch </br>
 On 2021-12-03, genfit2 installationon on the stack is used (before it was locally installed) </br>
 <s>On 2021-12-01 I forced the key4hep stack to be used to 2021-09-01 as with the latest version it does not work</s> </br>
@@ -20,7 +21,20 @@ It is devoted to move:
    <li> analyzer: from standalone tracks to EDM tracks </li>
 </ul>
 
+
+## RECOMMENDED use of the package
+
+Use this repository as any other git repositories 
+
+<ul>                                                                                     
+   <li> Fork and check out the repository. </li>                                                                                               
+   <li> Make a build directory at the same level as the repository.</li>                    
+   <li>  Sit back and enjoy.</li>                                                        
+   <li> Execute it with: ./install_standalone.sh </li>                                                                        
+</ul>      
+
 ## INSTALLATION via installer
+
 Instructions:
 <ul>
    <li> Download the file <a href="https://github.com/lialavezzi/DriftChamberPLUSVertex/blob/uptodate/install_standalone.sh">install_standalone.sh</a> </li>
