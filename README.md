@@ -1,7 +1,7 @@
 # CHANGE LOG
 
 **On 2021-12-05, restored compatibility with latest key4hep stack** </br>
-On 2022-05-06, Developed a full cmake configuration 
+On 2022-05-06, Developed a full cmake configuration. </br>
 On 2021-12-05, rome moved from tagged branch to master branch </br>
 On 2021-12-03, genfit2 installationon on the stack is used (before it was locally installed) </br>
 <s>On 2021-12-01 I forced the key4hep stack to be used to 2021-09-01 as with the latest version it does not work</s> </br>
