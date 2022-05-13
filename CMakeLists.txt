@@ -20,6 +20,7 @@ include(ExternalProject)
 ExternalProject_Add(g4simulation
     PREFIX G4GMC
     SOURCE_DIR ${CMAKE_SOURCE_DIR}/simulation/g4GMC
+    BUILD_ALWAYS 1
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF"
 )
 

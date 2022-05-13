@@ -11,6 +11,8 @@
 #include <iostream>
 #include <cstddef>
 
+#include <B4PodioManager.hh>
+
 namespace drc {
 
 static DRCaloIO* instance = 0;
@@ -42,7 +44,12 @@ DRCaloIO::DRCaloIO(std::string outFold)
 	 VectorL(0.),
 	 fNbOfBarrel(0),
 	 fNbOfEndcap(0),
-	 fNbOfZRot(0)
+         fNbOfZRot(0),
+         s_caloHits(NULL),
+         c_caloHits(NULL),
+         aux_infoHits(NULL),
+         s_caloHitContributions(NULL),
+         c_caloHitContributions(NULL)
 {
 }
 
@@ -165,6 +172,97 @@ void DRCaloIO::newEvent(G4int evId, bool writeASCII) {
 	for(int k=0;k<=fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);k++){
 		if(VectorSignalsCherL.size() <= fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
 			VectorSignalsCherL.push_back(0.);}}
+}
+
+void DRCaloIO::writePodio(G4int evId){
+  
+  B4PodioManager * l_podioManager = B4PodioManager::Instance();
+  podio::EventStore * l_store = l_podioManager->GetEvtStore();
+  podio::ROOTWriter * l_writer = l_podioManager->GetWriter();
+
+  if (l_store == NULL){
+    std::cerr << "Error in DRCaloIO::writePodio, cannot access podio event store" << std::endl;
+    return;
+  }
+  
+  if (l_writer == NULL){
+    std::cerr << "Error in DRCaloIO::writePodio, cannot access podio writer" << std::endl;
+    return;
+  }
+
+  if (s_caloHits == NULL){
+  
+    s_caloHits = new edm4hep::SimCalorimeterHitCollection();
+    l_store->registerCollection("S_caloHits",s_caloHits);
+    l_writer->registerForWrite("S_caloHits");
+
+    c_caloHits = new edm4hep::SimCalorimeterHitCollection();
+    l_store->registerCollection("C_caloHits",c_caloHits);
+    l_writer->registerForWrite("C_caloHits");
+
+    aux_infoHits = new edm4hep::SimCalorimeterHitCollection();
+    l_store->registerCollection("Auxiliary_infoHits",aux_infoHits);
+    l_writer->registerForWrite("Auxiliary_infoHits");
+
+    s_caloHitContributions = new edm4hep::CaloHitContributionCollection();
+    l_store->registerCollection("S_caloHitContrib",s_caloHitContributions);
+    l_writer->registerForWrite("S_caloHitContrib");
+
+    c_caloHitContributions = new edm4hep::CaloHitContributionCollection();
+    l_store->registerCollection("C_caloHitContrib",c_caloHitContributions);
+    l_writer->registerForWrite("C_caloHitContrib");
+
+  }
+
+  for (auto fiber : Fibers){
+    
+    std::cout << "Fiber  type " << fiber.Type << " energy " << fiber.E << std::endl;
+    if (fiber.Type == 1){
+      auto l_hit = s_caloHits->create();
+      l_hit.setCellID((fiber.ID));
+      l_hit.setEnergy(fiber.E);
+      l_hit.setPosition({fiber.Pos.x(),fiber.Pos.y(),fiber.Pos.z()});
+    } 
+    else if (fiber.Type == 0){
+      auto l_hit = c_caloHits->create();              
+      l_hit.setCellID((fiber.ID));
+      l_hit.setEnergy(fiber.E);
+      l_hit.setPosition({fiber.Pos.x(),fiber.Pos.y(),fiber.Pos.z()});
+    }
+
+  }
+  
+  auto l_hit = aux_infoHits->create();
+  l_hit.setCellID(0);
+  l_hit.setEnergy(Energyem);
+  l_hit = aux_infoHits->create();
+  l_hit.setCellID(1);
+  l_hit.setEnergy(EnergyScin);
+  l_hit = aux_infoHits->create();
+  l_hit.setCellID(2);
+  l_hit.setEnergy(EnergyCher);
+  l_hit = aux_infoHits->create();
+  l_hit.setCellID(3);
+  l_hit.setEnergy(0); //previsouly allocated for NumberofCherenkovDetected (now storing 0, to be removed)
+  l_hit = aux_infoHits->create();
+  l_hit.setCellID(4);
+  l_hit.setEnergy(EnergyTot);
+  l_hit = aux_infoHits->create();
+  l_hit.setCellID(5);
+  l_hit.setEnergy(PrimaryParticleEnergy);
+  l_hit = aux_infoHits->create();
+  l_hit.setCellID(6);
+  l_hit.setEnergy(0); // Not sure what PrimaryParticleEnergy actually is (if needed PDGID can be stored here)
+  l_hit = aux_infoHits->create();
+  l_hit.setCellID(7);
+  l_hit.setEnergy(neutrinoleakage);
+  l_hit = aux_infoHits->create();
+  l_hit.setCellID(8);
+  l_hit.setEnergy(leakage);
+
+  if (l_writer != NULL) l_writer->writeEvent();
+  if (l_store != NULL) l_store->clearCollections();
+
 }
 
 void DRCaloIO::writeASCIIEvent(G4int evId) {

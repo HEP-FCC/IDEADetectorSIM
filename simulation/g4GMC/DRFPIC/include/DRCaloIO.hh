@@ -8,6 +8,11 @@
 #include "globals.hh"
 #include "G4ThreeVector.hh"
 
+//podio includes 
+
+#include "edm4hep/SimCalorimeterHitCollection.h"
+#include "edm4hep/CaloHitContributionCollection.h"
+
 namespace drc {
 
 class DRCaloIO {
@@ -18,6 +23,7 @@ public:
   static DRCaloIO* GetInstance(std::string outFold=".");
 
   void newEvent(G4int evId, bool writeASCII=false);
+  void writePodio(G4int evId);
   void writeASCIIEvent(G4int evId);
 //  void fillAnlysis();
 
@@ -137,6 +143,16 @@ private:
   int fNbOfEndcap;
   int fNbOfZRot;
 
+  //define edm4hep calo hits + auxiliary info
+  edm4hep::SimCalorimeterHitCollection * s_caloHits;
+  edm4hep::SimCalorimeterHitCollection * c_caloHits;
+  edm4hep::SimCalorimeterHitCollection * aux_infoHits;
+  
+  // detailed information for timing of the signal
+  
+  edm4hep::CaloHitContributionCollection * s_caloHitContributions;
+  edm4hep::CaloHitContributionCollection * c_caloHitContributions;
+ 
 };
 
 } //namespace drc

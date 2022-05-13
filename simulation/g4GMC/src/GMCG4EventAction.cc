@@ -106,6 +106,7 @@ void GMCG4EventAction::EndOfEventAction(const G4Event* event) {
 	drc::DRCaloIO::GetInstance()->writeASCIIEvent( G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID() );
   }
 
+  drc::DRCaloIO::GetInstance()->writePodio( G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID() );
   // periodic printing
 
   G4int eventID = event->GetEventID();

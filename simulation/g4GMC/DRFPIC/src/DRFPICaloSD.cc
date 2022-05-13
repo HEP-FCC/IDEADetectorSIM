@@ -1,4 +1,4 @@
-//
+////
 // Original author G. Tassielli
 //
 
@@ -46,7 +46,7 @@ DRFPICaloSD::~DRFPICaloSD(){ }
 
 G4bool DRFPICaloSD::ProcessHits(G4Step* step, G4TouchableHistory* ){
 
-//    std::cout<<"DRcaloSD_code in"<<std::endl;
+
     bool status=false;
 
     DRCaloIO *ascIO = DRCaloIO::GetInstance();
@@ -77,7 +77,7 @@ G4bool DRFPICaloSD::ProcessHits(G4Step* step, G4TouchableHistory* ){
 
     std::uniform_real_distribution<> angle_distribution(cosmaxangle,1.);
 
-//    std::cout<<"DRcaloSD 2 "<<std::endl;
+
     //Add energy deposited in towers (copper only)
     if (PreStepVolume->GetName() != "DRFPIMother"){
         ascIO->Addenergy(energydeposited);
@@ -94,7 +94,7 @@ G4bool DRFPICaloSD::ProcessHits(G4Step* step, G4TouchableHistory* ){
             }
         }
     }
-//    std::cout<<"DRcaloSD 3 "<<std::endl;
+
 
     //compute leak
     //	  if (PreStepVolume->GetName() == "leakageabsorber"){
@@ -112,7 +112,7 @@ G4bool DRFPICaloSD::ProcessHits(G4Step* step, G4TouchableHistory* ){
             status=true;
         }
     };
-//    std::cout<<"DRcaloSD 4 "<<std::endl;
+
 
     //compute em fraction
     if (PreStepVolume->GetName() != "DRFPIMother" ) {
@@ -121,7 +121,7 @@ G4bool DRFPICaloSD::ProcessHits(G4Step* step, G4TouchableHistory* ){
             status=true;
         }
     }
-//    std::cout<<"DRcaloSD 5 "<<std::endl;
+
 
     //primary particle energy
     if ( step->GetTrack()->GetTrackID() == 1 && step->GetTrack()->GetCurrentStepNumber() == 1){
@@ -135,7 +135,7 @@ G4bool DRFPICaloSD::ProcessHits(G4Step* step, G4TouchableHistory* ){
     std::string C_fiber = "fiberCoreChere";
     Fiber = PreStepVolume->GetName(); //name of current step fiber
 
-//    std::cout<<"DRcaloSD 6 "<<std::endl;
+
 
     if ( strstr(Fiber.c_str(),S_fiber.c_str())){          //in a scintillating fiber
         //		  std::cout<<"In FIber vol: "<<Fiber<<std::endl;
@@ -178,6 +178,8 @@ G4bool DRFPICaloSD::ProcessHits(G4Step* step, G4TouchableHistory* ){
         }
 
         //Fill vector of Fibers
+
+	
         if (saturatedenergydeposited>0.){
             //local to global transformation
             G4TouchableHandle theTouchable = step->GetPreStepPoint()->GetTouchableHandle();
@@ -207,7 +209,6 @@ G4bool DRFPICaloSD::ProcessHits(G4Step* step, G4TouchableHistory* ){
                     time_travel = distance/(speed_s_fiber*angle_distribution(generator));
                     phtimes.push_back(step->GetTrack()->GetGlobalTime() + time_distribution(generator) + time_travel);
                 }
-
                 ascIO->appendfiber(S_fiber_ID, 1, copynumberslice, copynumbertower, s_signal, vectPostip, phtimes);
                 // Extract info for z time
                 //std::ofstream TimeFile;
