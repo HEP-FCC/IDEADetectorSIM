@@ -3,7 +3,7 @@
 //
 
 #include "CellId.hh"
-#include "LayerId.hh"
+//#include "LayerId.hh"
 #include "WireId.hh"
 
 namespace cdch {
@@ -31,6 +31,10 @@ namespace cdch {
     return _swid->getLayerId();
   }
 
+  int CellId::getWireN() const{
+	return _swid->getWire();
+  }
+
   int CellId::getLayer() const{
     return _swid->getLayer();
   }
@@ -43,13 +47,13 @@ namespace cdch {
     return ( (*_swid) == (*(c._swid)) );
   }
 
-  std::ostream& operator<<(std::ostream& ost,
-                                  const CellId& c ){
-    ost << "Cell Id: ("
-        << c.getLayerId() << " "
-        << c._swid->getWire()
-        << " )";
-    return ost;
-  }
+//  std::ostream& operator<<(std::ostream& ost,
+//                                  const CellId& c ){
+//    ost << "Cell Id: ("
+//        << c.getLayerId() << " "
+//        << c.getWireN()
+//        << " )";
+//    return ost;
+//  }
 
 }

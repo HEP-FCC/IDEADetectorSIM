@@ -614,7 +614,8 @@ Bool_t GMCTTrackFit::Fit(GMCRecoTracks *aTrack) {
   // ---- end of hit info filling ------------------------
 
   
-  assert(fitTrack.checkConsistency());
+//  assert(fitTrack.checkConsistency());
+  fitTrack.checkConsistency();
   genfit::FitStatus* fitStatus=fitTrack.getFitStatus(rep);
   if(fDebug){
     std::cout<<" init chi2 "<<fitStatus->getChi2()<<" nfailed "<<fitStatus->getNFailedPoints()
@@ -642,7 +643,7 @@ Bool_t GMCTTrackFit::Fit(GMCRecoTracks *aTrack) {
     fitter->setMultipleMeasurementHandling(genfit::weightedClosestToPredictionWire);
   }*/
   
-  if(kDebug>20){
+  if(ROMEPrint::kDebug>20){
     fitter->setDebugLvl(10);
     rep->setDebugLvl(10);
   }

@@ -72,6 +72,9 @@ class GMCG4DetectorConstruction : public G4VUserDetectorConstruction
     // Set methods
     void ReadConfigGeomFile(G4String fGeomConfName);
     void SetMaxStep (G4double );
+    void DefRegionCuts(G4String regName, G4LogicalVolume* regVol, G4double rangeCut);
+    void DefRegionAllCuts(G4String regName, G4LogicalVolume* regVol, G4double rangeCut);
+    void DefRegionStep(G4String regName, G4LogicalVolume* regVol, G4double maxStep);
     void SetCheckOverlaps(G4bool );
 //    void ConstructRomaProto();
 //    void ConstructLecceProto();
@@ -85,9 +88,12 @@ class GMCG4DetectorConstruction : public G4VUserDetectorConstruction
     void ConstructBeamPipe();
     void ConstructMEGTarget();
     void ConstructSStopTarget();
-    void ConstructCentralTracker();
+    void ConstructTrackerProto();
+    void ConstructCDCHTracker();
+    void ConstructTDCHTracker();
     void ConstructVertexTracker();
     void ConstructPreShower();
+    void ConstructMuonSpectrometer();
     void ConstructPhotnConveters();
     void ConstructFPiCalo();
   

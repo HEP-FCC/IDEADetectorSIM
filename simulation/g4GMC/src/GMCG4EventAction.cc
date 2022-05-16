@@ -28,7 +28,6 @@
 /// \file GMCG4EventAction.cc
 /// \brief Implementation of the GMCG4EventAction class
 
-#include "GMCG4EventAction.hh"
 #include "G4Event.hh"
 #include "G4EventManager.hh"
 #include "G4TrajectoryContainer.hh"
@@ -40,15 +39,22 @@
 
 #include "G4ios.hh"
 
-#include "GMCG4Particle.hh"
+// GMC includes
+#include "GMCG4EventAction.hh"
+
+#include "DRCaloIO.hh"
 #include "RootIO.hh"
+#include "GMCG4Particle.hh"
+#include "GeomService.hh"
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 GMCG4EventAction::GMCG4EventAction()
 : G4UserEventAction() {
-
+	GeomService *geoms = GeomService::Instance();
+	_hasDRFPIC = geoms->getConfig().getBool("hasDRFPIC",false);
+	_wrtASCIIDR = geoms->getConfig().getBool("drc.writeASCII",false);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -58,6 +64,9 @@ GMCG4EventAction::~GMCG4EventAction() {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void GMCG4EventAction::BeginOfEventAction(const G4Event*) {
+	  if (_hasDRFPIC){
+		  drc::DRCaloIO::GetInstance()->newEvent( G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID(), _wrtASCIIDR );
+	  }
 
 }
 
@@ -93,7 +102,11 @@ void GMCG4EventAction::EndOfEventAction(const G4Event* event) {
 
   RootIO::GetInstance()->FillEvent();
 
+  if (_hasDRFPIC && _wrtASCIIDR){
+	drc::DRCaloIO::GetInstance()->writeASCIIEvent( G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID() );
+  }
 
+  drc::DRCaloIO::GetInstance()->writePodio( G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID() );
   // periodic printing
 
   G4int eventID = event->GetEventID();

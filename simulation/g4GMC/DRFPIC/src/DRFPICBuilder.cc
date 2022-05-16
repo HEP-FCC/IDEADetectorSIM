@@ -29,7 +29,7 @@
 #include "GeomHandle.hh"
 #include "findMaterialOrThrow.hh"
 #include <SensitiveDetectorName.hh>
-#include "DRFPICscntSD.hh"
+#include "DRFPICaloSD.hh"
 #include "DRFPIcalorimeter.hh"
 //#include "Tower.hh"
 
@@ -97,6 +97,7 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
   detailedCheck = checkOverlap&&config.getBool("drc.doDetailedSurfCheck",false);
   debug =  config.getBool("drc.debug",false);
 
+  G4VSensitiveDetector *sd = G4SDManager::GetSDMpointer()->FindSensitiveDetector(SensitiveDetectorName::DRFPICalorimeter());
 
   if (drfpic->isExternal()) {
 //                throw cet::exception("GEOM") <<"This GDML file option is temporarily disabled\n";
@@ -177,6 +178,7 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
 
       //drcInfo.logical = new G4LogicalVolume(drcInfo.solid , MATmother, drcName,0,0,0);
       drcInfo.logical = new G4LogicalVolume(drcInfo.solid , matMother, drcName,0,0,0);
+//      if(sd) drcInfo.logical->SetSensitiveDetector(sd);
 
       drcInfo.logical->SetVisAttributes(visAtt);
 
@@ -252,6 +254,7 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
       visAttrS->SetDaughtersInvisible(true);
       visAttrS->SetForceWireframe(true);
       visAttrS->SetForceSolid(true);
+
       for(int length=1;length<=tower_height;length++){ //from 1 to 20000
           double half=0.5*length; //half to build objects with proper dimensions
 //          char name[80];
@@ -270,10 +273,10 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
           G4LogicalVolume* fiberCoreSLog = new G4LogicalVolume(fiberS,_core_S_Material,"fiberCoreS");
           new G4PVPlacement(0,G4ThreeVector(0,0,0),fiberCoreCLog,"fiberCoreCherePhys",fiberCLog[length],false,0,detailedCheck);
           new G4PVPlacement(0,G4ThreeVector(0,0,0),fiberCoreSLog,"fiberCoreScintPhys",fiberSLog[length],false,0,detailedCheck);
-          /*if(sd){
-           fiberCoreCLog->SetSensitiveDetector(sd);
-           fiberCoreSLog->SetSensitiveDetector(sd);
-           }*/
+          if(sd){
+        	  fiberCoreCLog->SetSensitiveDetector(sd);
+        	  fiberCoreSLog->SetSensitiveDetector(sd);
+          }
       }
       //Final logical volumes of fibers
       //fiberCladCLog = fiberCLog[2500];
@@ -392,6 +395,9 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
 		  sprintf(name,"tower%d",iTw+1); //To be CHECK if it is a problem (is diffrent from original code)
 	      G4Trap* towerTrap = new G4Trap("TowerBR",tower->getPt());
 	      G4LogicalVolume *towerLogical = new G4LogicalVolume(towerTrap,_cu,name);
+          if(sd) {
+        	  towerLogical->SetSensitiveDetector(sd);
+          }
 
           G4RotationMatrix* rm = new G4RotationMatrix(tower->getRotM());
 
@@ -403,20 +409,24 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
 			  if (tower->getTowerSide()==Tower::right){
         		 sprintf(name,"tower%d",iTw+1);
         		 //placing towers in barrel R
-		  	  	 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiBLog,false,iTw+1,detailedCheck);
+        		 i=iTw;
+//		  	  	 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiBLog,false,iTw+1,detailedCheck);
+		  	  	 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiBLog,false,i+1,detailedCheck);
 
 		  	  	 sprintf(name,"fiber%d",volnum);
 		         //VERY IMPORTANT TO PLACE FIBERS
-		  	  	 i=iTw;
+//		  	  	 i=iTw;
 		         fiberBR(i, tower, towerTrap, towerLogical);
 
 			  }	
 			  else if (tower->getTowerSide()==Tower::left){
 			     sprintf(name,"tower%d",-iTw-1);
-		  	  	 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiBLog,false,-iTw-1,detailedCheck);
+			     i=iTw-NbOfBarrel;
+//		  	  	 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiBLog,false,-iTw-1,detailedCheck);
+		  	  	 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiBLog,false,-i-1,detailedCheck);
 
 		     	sprintf(name,"fiber%d",volnum);
-		     	i=iTw-NbOfBarrel;
+//		     	i=iTw-NbOfBarrel;
 		     	fiberBL(i, tower, towerTrap, towerLogical);
 
 			  }
@@ -429,7 +439,8 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
         		 sprintf(name,"tower%d",iTw+1);
         		 i=iTw-2*NbOfBarrel;
 //        		 if(i<35) {
-        			 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiERLog,false,iTw+1,detailedCheck);
+//        		     new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiERLog,false,iTw+1,detailedCheck);
+        			 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiERLog,false,NbOfBarrel+i+1,detailedCheck);
         			 fiberER(i, tower, towerTrap, towerLogical);
 //        		 }
 			  }	
@@ -437,7 +448,8 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
 			     sprintf(name,"tower%d",-iTw-1);
 			     i=iTw-2*NbOfBarrel-NbOfEndcap;
 //			     if(i<35) {
-			    	 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiELLog,false,-iTw-1,detailedCheck);
+// 		    	     new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiELLog,false,-iTw-1,detailedCheck);
+			    	 new G4PVPlacement(rm,tower->getCenter(),towerLogical,name,phiELLog,false,-NbOfBarrel-i-1,detailedCheck);
 			    	 fiberEL(i, tower, towerTrap, towerLogical);
 //			     }
 			  }
@@ -505,6 +517,9 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
 //
 //		  }
 	  }
+
+//	  G4VSensitiveDetector *sd = G4SDManager::GetSDMpointer()->FindSensitiveDetector(SensitiveDetectorName::DRFPICalorimeter());
+//	  if(sd) drcInfo.logical->SetSensitiveDetector(sd);
 
 
 	  drcInfo.physical =  new G4PVPlacement( 0,
@@ -697,8 +712,8 @@ void DRFPICBuilder::instantiateSensitiveDetectors( const std::string hitsCollect
   GeomHandle<DRFPIcalorimeter> drfpic;
   G4ThreeVector drcPos(0.,0.,CLHEP::mm * drfpic->z0()/*-zOff*/);
 
-  DRFPICscntSD* drfpicSD=0x0;
-  drfpicSD = new DRFPICscntSD(SensitiveDetectorName::DRFPICalorimeter(), hitsCollectionName,  config);
+  DRFPICaloSD* drfpicSD=0x0;
+  drfpicSD = new DRFPICaloSD(SensitiveDetectorName::DRFPICalorimeter(), hitsCollectionName,  config);
   drfpicSD->setDRFPICenterInDetSys(drcPos);
   SDman->AddNewDetector(drfpicSD);
 

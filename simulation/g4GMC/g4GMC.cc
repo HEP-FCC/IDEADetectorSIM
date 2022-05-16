@@ -28,14 +28,18 @@
 /// \file exampleGMCG4.cc
 /// \brief Main program of the GMCG4 example
 
-#include "GMCG4DetectorConstruction.hh"
-#include "GMCG4ActionInitialization.hh"
+//#include "GMCG4DetectorConstruction.hh"
+//#include "GMCG4ActionInitialization.hh"
+//#include "G4GlobalConfig.hh"
 
-#ifdef G4MULTITHREADED
+#if defined(G4MULTITHREADED) && !defined(MT_OFF)
 #include "G4MTRunManager.hh"
 #else
 #include "G4RunManager.hh"
 #endif
+
+#include "GMCG4DetectorConstruction.hh"
+#include "GMCG4ActionInitialization.hh"
 
 #include "G4UImanager.hh"
 #include "FTFP_BERT.hh"
@@ -50,6 +54,8 @@
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
+
+#include "PhysicsList.hh"
 
 #include <iostream>
 #include <cstdlib>
@@ -70,7 +76,7 @@ int main(int argc,char** argv)
 
   // Construct the default run manager
   //
-#ifdef G4MULTITHREADED  
+#if defined(G4MULTITHREADED) && !defined(MT_OFF)
   G4MTRunManager* runManager = new G4MTRunManager;
 #else
   G4RunManager* runManager = new G4RunManager;
@@ -83,7 +89,8 @@ int main(int argc,char** argv)
   else if ( argc==5 ) { runManager->SetUserInitialization(new GMCG4DetectorConstruction( argv[2], atoi(argv[3]), argv[4]) ); }
   else { runManager->SetUserInitialization(new GMCG4DetectorConstruction()); }
 
-  G4VModularPhysicsList* physicsList = new QGSP_BERT;
+//  G4VModularPhysicsList* physicsList = new QGSP_BERT;
+  PhysicsList * physicsList = new PhysicsList("FTFP_BERT"); //"QGSP_BERT"
   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   physicsList->RegisterPhysics(new G4EmStandardPhysics_option3());
   physicsList->RegisterPhysics(new G4EmExtraPhysics());

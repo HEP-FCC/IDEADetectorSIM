@@ -256,7 +256,7 @@ VolumeInfo SVXtrackerBuilder::buildLadder(Ladder &tld){
     }
     else {
       LadderInfo.logical = new G4LogicalVolume(LadderInfo.solid,gmc::findMaterialOrThrow( "G4_Galactic" ),volName,0,0,0);
-      char tShapeName[50], tVolName[50];
+      char tShapeName[100], tVolName[100];
 
       double iYpos = -0.5*tld.getDetail()->thickness();
 

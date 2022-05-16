@@ -1,0 +1,12 @@
+/run/initialize
+/gps/particle pi-
+/gps/energy 50 GeV
+/gps/position 0 0 0 cm
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/radius 0.0 cm
+/gps/ang/type beam1d
+/gps/ang/sigma_r 0.200000 deg
+/gps/ang/rot1 -0.017452 0.999848 0.000000
+/gps/ang/rot2 0.013306 0.000232 -0.999911
+/run/beamOn 5000

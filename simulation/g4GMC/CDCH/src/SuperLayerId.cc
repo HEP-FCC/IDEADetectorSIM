@@ -29,10 +29,10 @@ namespace cdch {
     return ( _id == s._id );
   }
 
-  std::ostream& operator<<(std::ostream& ost,
-                                  const SuperLayerId& s ){
-    ost << "SuperLayer Id: "<<s._id << " )";
-    return ost;
-  }
+//  std::ostream& operator<<(std::ostream& ost,
+//                                  const SuperLayerId& s ){
+//    ost << "SuperLayer Id: "<<s.getSuperLayer() << " )";
+//    return ost;
+//  }
 
 } //namespace cdch

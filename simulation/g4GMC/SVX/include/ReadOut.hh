@@ -13,6 +13,9 @@
 namespace pshw {
 class PSHWMaker;
 }
+namespace muspc {
+class MUSPCMaker;
+}
 
 namespace svx {
 
@@ -24,6 +27,7 @@ class ReadOut {
   friend class Ladder;
 
   friend class pshw::PSHWMaker;
+  friend class muspc::MUSPCMaker;
 
 public:
 

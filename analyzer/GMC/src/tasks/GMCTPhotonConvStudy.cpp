@@ -897,7 +897,8 @@ bool GMCTPhotonConvStudy::FitTrack(int iTrk) {
 
 	  // ---- end of hit info filling ------------------------
 
-	  assert(fitTrack.checkConsistency());
+//	  assert(fitTrack.checkConsistency());
+	  fitTrack.checkConsistency();
 	  genfit::FitStatus* fitStatus=fitTrack.getFitStatus(rep);
 	  if(_fDebug){
 	    std::cout<<" init chi2 "<<fitStatus->getChi2()<<" nfailed "<<fitStatus->getNFailedPoints()

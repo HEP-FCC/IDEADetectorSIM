@@ -25,7 +25,7 @@ namespace cdch {
 class Layer{
 
   friend class SuperLayer;
-  friend class CDCHDevice;
+//  friend class CDCHDevice;
   friend class CDCHtracker;
   friend class CDCHMaker;
 

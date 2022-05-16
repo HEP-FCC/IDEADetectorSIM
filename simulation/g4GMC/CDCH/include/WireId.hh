@@ -5,16 +5,16 @@
 #ifndef WireId_hh
 #define WireId_hh
 
-//#include <LayerId.hh>
+#include "LayerId.hh"
 #include <iostream>
 
 namespace cdch {
 
-class LayerId;
-class WireId;
+//class LayerId;
+//class WireId;
 
-std::ostream& operator<<(std::ostream& ost,
-                                const WireId& w );
+//std::ostream& operator<<(std::ostream& ost,
+//                                const WireId& w );
 
 class WireId{
 
@@ -38,8 +38,8 @@ public:
 
   bool operator==(const WireId w) const;
 
-  friend std::ostream& operator<<(std::ostream& ost,
-                                  const WireId& w );
+//  friend std::ostream& operator<<(std::ostream& ost,
+//                                  const WireId& w );
 
 private:
 
@@ -47,6 +47,15 @@ private:
   int _n;
 
 };
+
+inline std::ostream& operator<<(std::ostream& ost,
+                                const WireId& w ){
+  ost << "Wire Id: ("
+      << w.getLayerId() << " "
+      << w.getWire()
+      << " )";
+  return ost;
+}
 
 }
 #endif /* WireId_hh */

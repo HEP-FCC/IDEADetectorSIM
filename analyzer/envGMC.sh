@@ -3,74 +3,48 @@
 #  $Id: envGMC.sh 268 2013-10-31 17:21:49Z tassielli $
 #  $Author:  $
 #  $Revision:  $
+#
+# modified for porting to FCCSW/Key4Hep by lavezzi (2020)
 
-# base PRJ
-if [ -v PRJBASE ];
-then
-	echo "PRJ BASE already set to "${PRJBASE}
-else
-	export PRJBASE="/afs/cern.ch/user/w/welmeten/public/IDEA/DriftChamberPLUSVertex"
-fi
+
+export PRJBASE="/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/DriftChamberPLUSVertex"
 export PATH=$PRJBASE/analyzer/GMC:$PATH
 
-#gcc xml
-#export GCCXMLPATH=${GCCXML_FQ_DIR}/bin
+# genfit2
+export GENFIT2SYS=/cvmfs/sw.hsf.org/spackages4/genfit/02-00-00/x86_64-centos7-gcc8.3.0-opt/l7zbfli
+export LD_LIBRARY_PATH=${GENFIT2SYS}/lib64:${LD_LIBRARY_PATH}
+export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
+echo "GENFIT2SYS is set to "${GENFIT2SYS}
 
-#GenFit
-if [ -v GENFIT2SYS ];
-then
-        echo "GENFIT2SYS already set to "${GENFIT2SYS}
-else
-	export GENFIT2SYS=/afs/cern.ch/work/w/welmeten/public/IDEA-sw/GenFit/master20191106/install
-	export LD_LIBRARY_PATH=${GENFIT2SYS}/lib64:${LD_LIBRARY_PATH}
-	if [ -n "$ROOT_INCLUDE_PATH" ] ; then
-	    export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
-	else
-	    export ROOT_INCLUDE_PATH=${GENFIT2SYS}/include
-	fi
-	#Eigen
-	export EIGEN3SYS=/usr
-	export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${EIGEN3SYS}/include/eigen3
-fi
+# eigen
+export EIGEN3SYS=/usr
+export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${EIGEN3SYS}/include/eigen3
+echo "EIGEN3SYS is set to "${EIGEN3SYS}
 
-#geant4
-#source /data/softlib/geant/geant41002p01_gcc531/share/Geant4-10.2.1/geant4make/geant4make.sh
-
-#rome
-if [ -v ROMESYS ]
-then
-	echo "ROME already set to "${ROMESYS}
-else
-#	export ROMESYS=/mnt/c/workSpace/sw/ROME/rome-master20180921
-	export ROMESYS=/afs/cern.ch/work/w/welmeten/public/IDEA-sw/ROME/rome3-master20191106
-	export PATH=$ROMESYS/bin:${PATH}
-	export LIBROME=yes
-fi
+# rome
+export ROMESYS=/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/LOCAL/ROME/rome
+export PATH=$ROMESYS/bin:${PATH}
+export LIBROME=yes
+echo "ROME is set to "${ROMESYS}
 
 #GMC
-if [ -v GMCDIR ]
-then
-	echo "GMCDIR already set to "${GMCDIR}
-else
-	export GMCDIR=${PRJBASE}/analyzer/GMC
-	export LD_LIBRARY_PATH=${GMCDIR}/obj:${LD_LIBRARY_PATH}
-fi
+export GMCDIR=${PRJBASE}/analyzer/GMC
+export LD_LIBRARY_PATH=${GMCDIR}/obj:${LD_LIBRARY_PATH}
+echo "GMCDIR is set to "${GMCDIR}
 
 #root
-if [ -v ROOTSYS ]
-then
-        echo "ROOT already set to "${ROOTSYS}
-else
-	source /afs/cern.ch/work/w/welmeten/public/IDEA-sw/ROOT/6.14.06/install/bin/thisroot.sh
-#       export ROOTSYS=/pro/root_v5_34_30
-#       export PATH=$ROOTSYS/bin:${PATH}
-#       export LD_LIBRARY_PATH=${ROOTSYS}/lib:${LD_LIBRARY_PATH}
-fi
+export ROOTSYS=path_to_root
+export ROT
 
-#midas
-#export MIDASSYS=/mnt/sndhd/sw/meg/midas
-#export MIDAS_DIR=/mnt/sndhd/sw/meg/midas
-#export MIDAS_EXPTAB=$MIDAS_DIR/exptab
-#export MIDAS_EXPT_NAME=FIRB_DAQ
-#export PATH=${MIDASSYS}/linux/bin:$PATH
-#export LD_LIBRARY_PATH=${MIDASSYS}/linux/lib:${LD_LIBRARY_PATH}
+#zlib
+for path in ${CMAKE_PREFIX_PATH//:/ }; do
+    if  grep -q 'zlib' <<< "$path"  ; then
+    export ZLIB_DIR=$path/lib
+    fi
+done
+echo "ZLIB_DIR is set to "${ZLIB_DIR}
+
+
+export G4WORKDIR=$SIM_INSTAL_DIR
+export LD_LIBRARY_PATH=${G4WORKDIR}/lib:${LD_LIBRARY_PATH}
+

@@ -17,6 +17,10 @@
 
 #include <boost/shared_ptr.hpp>
 
+namespace tdch {
+class TDCHMaker;
+}
+
 namespace cdch {
 
 //class Layer;
@@ -24,7 +28,8 @@ namespace cdch {
 
 class CellGeometryHandle {
 
-        friend class CDCHMaker;
+    friend class CDCHMaker;
+    friend class tdch::TDCHMaker;
 
 protected:
         CellGeometryHandle() {
