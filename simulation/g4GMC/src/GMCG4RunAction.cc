@@ -35,10 +35,7 @@
 
 #include "RootIO.hh"
 
-#include "B4PodioManager.hh"
-#include "podio/EventStore.h"
-#include "podio/ROOTWriter.h"
-
+#include "GMCG4PodioManager.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -70,7 +67,7 @@ void GMCG4RunAction::EndOfRunAction(const G4Run* )
 
 RootIO::GetInstance()->Close();
 
-B4PodioManager * podioManager = B4PodioManager::Instance();
+GMCG4PodioManager * podioManager = GMCG4PodioManager::Instance();
 podioManager->Finish();
 
 }

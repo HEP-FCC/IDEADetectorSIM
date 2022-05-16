@@ -104,6 +104,8 @@ public:
 
   void WriteTracking_Info(G4double T_ID, G4ThreeVector Tpos, G4String Name, G4double Ek);
 
+  void CreateEdm4HepCollections();
+
 protected:
   DRCaloIO(std::string outFold=".");
 

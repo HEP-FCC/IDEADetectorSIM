@@ -1,5 +1,3 @@
-
-
 #include "GeomService.hh"
 #include "GeomHandle.hh"
 
@@ -11,7 +9,7 @@
 #include <iostream>
 #include <cstddef>
 
-#include <B4PodioManager.hh>
+#include <GMCG4PodioManager.hh>
 
 namespace drc {
 
@@ -174,24 +172,22 @@ void DRCaloIO::newEvent(G4int evId, bool writeASCII) {
 			VectorSignalsCherL.push_back(0.);}}
 }
 
-void DRCaloIO::writePodio(G4int evId){
-  
-  B4PodioManager * l_podioManager = B4PodioManager::Instance();
-  podio::EventStore * l_store = l_podioManager->GetEvtStore();
-  podio::ROOTWriter * l_writer = l_podioManager->GetWriter();
+ void DRCaloIO::CreateEdm4HepCollections()
+ {
+   GMCG4PodioManager * l_podioManager = GMCG4PodioManager::Instance();
+   podio::EventStore * l_store = l_podioManager->GetEvtStore();
+   podio::ROOTWriter * l_writer = l_podioManager->GetWriter();
 
-  if (l_store == NULL){
-    std::cerr << "Error in DRCaloIO::writePodio, cannot access podio event store" << std::endl;
-    return;
-  }
-  
-  if (l_writer == NULL){
-    std::cerr << "Error in DRCaloIO::writePodio, cannot access podio writer" << std::endl;
-    return;
-  }
+   if (l_store == NULL){
+     std::cerr << "Error in DRCaloIO::writePodio, cannot access podio event store" << std::endl;
+     return;
+   }
+   
+   if (l_writer == NULL){
+     std::cerr << "Error in DRCaloIO::writePodio, cannot access podio writer" << std::endl;
+     return;
+   }
 
-  if (s_caloHits == NULL){
-  
     s_caloHits = new edm4hep::SimCalorimeterHitCollection();
     l_store->registerCollection("S_caloHits",s_caloHits);
     l_writer->registerForWrite("S_caloHits");
@@ -211,12 +207,25 @@ void DRCaloIO::writePodio(G4int evId){
     c_caloHitContributions = new edm4hep::CaloHitContributionCollection();
     l_store->registerCollection("C_caloHitContrib",c_caloHitContributions);
     l_writer->registerForWrite("C_caloHitContrib");
+ }
 
+void DRCaloIO::writePodio(G4int evId){
+  
+  GMCG4PodioManager * l_podioManager = GMCG4PodioManager::Instance();
+  podio::EventStore * l_store = l_podioManager->GetEvtStore();
+  podio::ROOTWriter * l_writer = l_podioManager->GetWriter();
+
+  if (l_store == NULL){
+    std::cerr << "Error in DRCaloIO::writePodio, cannot access podio event store" << std::endl;
+    return;
+  }
+  
+  if (l_writer == NULL){
+    std::cerr << "Error in DRCaloIO::writePodio, cannot access podio writer" << std::endl;
+    return;
   }
 
-  for (auto fiber : Fibers){
-    
-    std::cout << "Fiber  type " << fiber.Type << " energy " << fiber.E << std::endl;
+  for (auto fiber : Fibers){    
     if (fiber.Type == 1){
       auto l_hit = s_caloHits->create();
       l_hit.setCellID((fiber.ID));
