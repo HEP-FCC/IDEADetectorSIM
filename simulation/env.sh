@@ -2,8 +2,8 @@
 
 #
 echo "sourcing the latext key4hep stack"
-source /cvmfs/sw.hsf.org/key4hep/setup.sh
-#
+#source /cvmfs/sw.hsf.org/key4hep/setup.sh
+#source /cvmfs/sw.hsf.org/spackages2/key4hep-stack/2021-09-01/x86_64-centos7-gcc8.3.0-opt/754pp6lbre5rujdy6t7vc775lpn6soxo/setup.sh
 export PRJBASE="/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/DriftChamberPLUSVertex"
 echo "PRJBASE set $PRJBASE"
 
