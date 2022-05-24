@@ -46,6 +46,7 @@ message( STATUS "G4INCLUDE will be set to ${Geant4_INCLUDE_DIR}" )
 ExternalProject_Add(GMC
       SOURCE_DIR ${GMC_INST_DIR}
       CONFIGURE_COMMAND ""
+      INSTALL_COMMAND ""
       BUILD_COMMAND
       ${CMAKE_COMMAND} -E env "ROMESYS=${ROME_INST_DIR}"
       ${CMAKE_COMMAND} -E env G4WORKDIR=${CMAKE_INSTALL_PREFIX}
@@ -59,5 +60,14 @@ ExternalProject_Add(GMC
 )
 
 add_dependencies(GMC rome3)
+
+#ExternalProject_Add(converter
+#    PREFIX IDEAconverter
+#    SOURCE_DIR ${CMAKE_SOURCE_DIR}/converter
+#    BUILD_ALWAYS 1
+#    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF"
+#)
+
+#add_dependencies(converter GMC)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/env.sh ${CMAKE_CURRENT_BINARY_DIR} @ONLY) 
