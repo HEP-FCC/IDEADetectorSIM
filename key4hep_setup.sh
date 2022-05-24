@@ -1,5 +1,5 @@
-setup_actual=/cvmfs/sw.hsf.org/spackages2/key4hep-stack/2021-09-01/x86_64-centos7-gcc8.3.0-opt/754pp6lbre5rujdy6t7vc775lpn6soxo/setup.sh
-#setup_actual=/cvmfs/sw.hsf.org/spackages4/key4hep-stack/2021-11-26/x86_64-centos7-gcc8.3.0-opt/mynqr2z/setup.sh
+#setup_actual=/cvmfs/sw.hsf.org/spackages2/key4hep-stack/2021-09-01/x86_64-centos7-gcc8.3.0-opt/754pp6lbre5rujdy6t7vc775lpn6soxo/setup.sh
+setup_actual=/cvmfs/sw.hsf.org/spackages4/key4hep-stack/2021-11-26/x86_64-centos7-gcc8.3.0-opt/mynqr2z/setup.sh
 
 export key4hep_stack_version=$(echo "$setup_actual"| grep -Eo 'key4hep-stack[^/]*/[^/]*')
 echo "Setting up the latest Key4HEP software stack from CVMFS ..."

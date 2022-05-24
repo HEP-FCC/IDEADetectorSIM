@@ -2,9 +2,9 @@
 
 #
 echo "sourcing the latext key4hep stack"
-
 #
-export PRJBASE="/its/home/iv41/workarea/FullIDEASim_superdev/DriftChamberPLUSVertex"
+export PRJBASE="/afs/cern.ch/work/w/welmeten/public/IDEA_calo_Key4HEP/DriftChamberPLUSVertex"
+
 echo "PRJBASE set $PRJBASE"
 
 source ${PRJBASE}/key4hep_setup.sh
