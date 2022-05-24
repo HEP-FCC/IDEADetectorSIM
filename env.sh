@@ -5,7 +5,7 @@
 for path in ${CMAKE_PREFIX_PATH//:/ }; do
 
     # GEANT4 --------------------------------------
-    if  grep  -q '/geant4-10.7.1' <<< "$path"  ; then
+    if  grep  -q '/geant4/[0-9]' <<< "$path"  ; then
 	export G4BASE=$path
 	export G4INSTALL=$G4BASE/share/Geant4-10.7.1/geant4make
         export G4LIB=$G4BASE/lib64
@@ -34,7 +34,24 @@ for path in ${CMAKE_PREFIX_PATH//:/ }; do
 	export EIGEN3SYS=$path
     fi
 
-done
+    if  grep -q 'podio' <<< "$path"  ; then                                                                                   
+        export PODIODIR=$path   
+    fi                                                                                                              
+
+    if  grep -q 'edm4hep' <<< "$path"  ; then                                                   
+        export EDMDIR=$path                                             
+    fi                                  
+ 
+done                                                                                                    
+
+echo "ZLIB_DIR is set to "${ZLIB_DIR}                                                                  
+echo "EIGEN3SYS is set to "${EIGEN3SYS}                                                              
+echo "PODIODIR is set to "${PODIODIR}                                                                      
+echo "EDMDIR is set to "${EDMDIR}         
+echo "GEANT4 is set to $G4BASE"
+echo "CLHEP is set to $CLHEP_BASE_DIR"
+echo "GENFIT set to " $GENFIT
+echo  "ZLIB_DIR is set to "${ZLIB_DIR}
 
 MYG4LIB=@CMAKE_INSTALL_PREFIX@/lib
 
@@ -44,8 +61,6 @@ then
 else
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MYG4LIB}
 fi
-
-
 
 ROMESYS=@ROME_INST_DIR@
 
@@ -57,8 +72,6 @@ else
     export PATH=$ROMESYS/bin:$PATH
 fi
 
-
-
 #needed by the analyzer
 ############################
 GENFIT2SYS=${GENFIT}
@@ -68,7 +81,6 @@ then
 fi
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GENFIT2SYS}/lib64
 export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
-
 export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${EIGEN3SYS}/include/eigen3
 
 export GMCDIR=@GMC_INST_DIR@
@@ -84,8 +96,4 @@ fi
 export ROT
 export LIBROME=yes
 
-echo "GEANT4 is set to $G4BASE"
-echo "CLHEP is set to $CLHEP_BASE_DIR"
-echo "GENFIT set to " $GENFIT
-echo "EIGEN3SYS is set to "${EIGEN3SYS}
-echo  "ZLIB_DIR is set to "${ZLIB_DIR}
+
