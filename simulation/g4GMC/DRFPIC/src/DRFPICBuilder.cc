@@ -254,6 +254,7 @@ VolumeInfo DRFPICBuilder::construct( G4LogicalVolume* mother/*, double zOff*/ ){
       visAttrS->SetDaughtersInvisible(true);
       visAttrS->SetForceWireframe(true);
       visAttrS->SetForceSolid(true);
+
       for(int length=1;length<=tower_height;length++){ //from 1 to 20000
           double half=0.5*length; //half to build objects with proper dimensions
 //          char name[80];

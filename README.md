@@ -1,6 +1,7 @@
 # CHANGE LOG
 
 **On 2021-12-05, restored compatibility with latest key4hep stack** </br>
+On 2022-05-06, Developed a full cmake configuration. </br>
 On 2021-12-05, rome moved from tagged branch to master branch </br>
 On 2021-12-03, genfit2 installationon on the stack is used (before it was locally installed) </br>
 <s>On 2021-12-01 I forced the key4hep stack to be used to 2021-09-01 as with the latest version it does not work</s> </br>
@@ -20,7 +21,134 @@ It is devoted to move:
    <li> analyzer: from standalone tracks to EDM tracks </li>
 </ul>
 
+
+## RECOMMENDED use of the package
+
+Use this repository as any other git repositories 
+
+<ul>                                                                                     
+   <li> Fork and clone teh repository. Check out the branch of interest. Say the repository is in /my/dir/ </li>
+   <li> Prepare your environment. </li>
+   
+   ```
+   cd /my/dir/DriftChamberPLUSVertex
+   source key4hep_setup.sh
+   source env.sh
+   ```
+   <li> Make a build directory at the same level as the repository and cd into it. </li> 
+  
+   ```
+      mkdir /my/dir/build
+      cd /my/dir/build
+   ```
+   
+   <li> Configure and compile: </li>
+   
+   ```
+      cmake -DCMAKE_INSTALL_PREFIX=/my/dir/build/instal_dir -DCMAKE_CXX_FLAGS="-DMT_OFF" ../DriftChamberPLUSVertex
+      make
+      make install
+   ```
+   <li>  Sit back and enjoy a coffee. Assuming everything goes well, teh compilation time is easily in the tens of minutes.</li>                                                        
+   <li> Now there is a file env.sh in the build directory </li>
+   
+   ```
+   source env.sh 
+   ```
+   
+   <li> You should be ready to run.</li>
+   <li> Every time you log in again, you should do: </li>
+   
+   ```
+   cd /my/dir/DriftChamberPLUSVertex
+   source key4hep_setup.sh
+   cd ../build
+   source env.sh
+   ```
+   
+   Note that the env.sh to be used is the one in the build directory.
+   
+</ul>      
+
+## Run the simulation (if you used the installer, just jump here!)
+IMPORTANT: run this in directory $SIM_INSTAL_DIR </br>
+
+```
+#cd <installation_directory> 
+cd $SIM_INSTAL_DIR
+# ./bin/g4GMC ./g4mac/runPFix-1.mac geom_IDEA.txt 1 <output_directory>
+mkdir -p $SIM_OUTPUT_DIR
+./bin/g4GMC ./g4mac/runPFix-1.mac geom_IDEA.txt 1 $SIM_OUTPUT_DIR
+```
+
+## Conversion from G4 based hit to ROME readable hit
+IMPORTANT: run this in directory converter/  </br>
+
+```
+./readHits $SIM_OUTPUT_DIR/<inout_file.root>
+```
+(the output file is in the form MCData00001.root)
+
+## Run the ROME reconstruction
+IMPORTANT: run all this in directory analyzer/GMC  </br>
+
+copy the output file from previous step, of the form MCData00001.root, from converter/ to analyzer/GMC </br>
+
+copy the xml/gdml files from /afs/cern.ch/work/l/llavezzi/public/geometry to analyzer/GMC and change the path in the two xml files (gdml is good as it is) </br>
+
+run:
+```
+./LaunchAnalyzer.sh 1 1 geant4MC-IDEA.xml hits
+./LaunchAnalyzer.sh 1 1 geant4MC-IDEA-fit.xml reco
+```
+
+## Converter from GMCRecoTrack to Track
+IMPORTANT: run this in directory converter/  </br>
+
+copy the output file from previous step, of the form RecoData00001.root, analyzer/GMC to $SIM_OUTPUT_DIR </br>
+
+```
+./convertTracks $SIM_OUTPUT_DIR/<reco_data_file.root>
+```
+
+## Converter G4hits to EDM
+will be ported to directory converter/ </br>
+
+it is contained in the file convertHits.cc, compiled together with the rest. </br>
+!!!FOR NOW!!! (to be done):
+- the binary file is inside build/bin, it is not moved to the right place
+- the output file is not int the $SIM_OUTPUT_DIR but it is put in the dir where you run the conversion
+
+to run
+
+```
+./convertHits $SIM_OUTPUT_DIR/<inout_file.root>
+```
+
+## Everything is working with these versions
+<ul>
+   <li> key4hep-stack/2021-11-26:
+   <li> gcc8.3.0
+   <li> geant4-10.7.2
+   <li> clhep-2.4.4.0
+   <li> root-6.24.06
+   <li> genfit/02-00-00 (on the stack)
+   <li> rome master
+</ul>
+
+Previously:
+<ul>
+   <li> key4hep-stack/2021-09-01:
+   <li> gcc8.3.0
+   <li> geant4-10.7.1
+   <li> clhep-2.4.4.0
+   <li> root-6.24.00
+   <li> genfit master2019110 (locally)
+   <li> rome-v3.2.15.1
+</ul>
+
 ## INSTALLATION via installer
+
 Instructions:
 <ul>
    <li> Download the file <a href="https://github.com/lialavezzi/DriftChamberPLUSVertex/blob/uptodate/install_standalone.sh">install_standalone.sh</a> </li>
@@ -131,82 +259,7 @@ make
 </br>
 Everything is compiled, you can run the simulation and then the reconstruction.
 
-## Run the simulation (if you used the installer, just jump here!)
-IMPORTANT: run this in directory $SIM_INSTAL_DIR </br>
 
-```
-#cd <installation_directory> 
-cd $SIM_INSTAL_DIR
-# ./bin/g4GMC ./g4mac/runPFix-1.mac geom_IDEA.txt 1 <output_directory>
-mkdir -p $SIM_OUTPUT_DIR
-./bin/g4GMC ./g4mac/runPFix-1.mac geom_IDEA.txt 1 $SIM_OUTPUT_DIR
-```
-
-## Conversion from G4 based hit to ROME readable hit
-IMPORTANT: run this in directory converter/  </br>
-
-```
-./readHits $SIM_OUTPUT_DIR/<inout_file.root>
-```
-(the output file is in the form MCData00001.root)
-
-## Run the ROME reconstruction
-IMPORTANT: run all this in directory analyzer/GMC  </br>
-
-copy the output file from previous step, of the form MCData00001.root, from converter/ to analyzer/GMC </br>
-
-copy the xml/gdml files from /afs/cern.ch/work/l/llavezzi/public/geometry to analyzer/GMC and change the path in the two xml files (gdml is good as it is) </br>
-
-run:
-```
-./LaunchAnalyzer.sh 1 1 geant4MC-IDEA.xml hits
-./LaunchAnalyzer.sh 1 1 geant4MC-IDEA-fit.xml reco
-```
-
-## Converter from GMCRecoTrack to Track
-IMPORTANT: run this in directory converter/  </br>
-
-copy the output file from previous step, of the form RecoData00001.root, analyzer/GMC to $SIM_OUTPUT_DIR </br>
-
-```
-./convertTracks $SIM_OUTPUT_DIR/<reco_data_file.root>
-```
-
-## Converter G4hits to EDM
-will be ported to directory converter/ </br>
-
-it is contained in the file convertHits.cc, compiled together with the rest. </br>
-!!!FOR NOW!!! (to be done):
-- the binary file is inside build/bin, it is not moved to the right place
-- the output file is not int the $SIM_OUTPUT_DIR but it is put in the dir where you run the conversion
-
-to run
-
-```
-./convertHits $SIM_OUTPUT_DIR/<inout_file.root>
-```
-
-## Everything is working with these versions
-<ul>
-   <li> key4hep-stack/2021-11-26:
-   <li> gcc8.3.0
-   <li> geant4-10.7.2
-   <li> clhep-2.4.4.0
-   <li> root-6.24.06
-   <li> genfit/02-00-00 (on the stack)
-   <li> rome master
-</ul>
-
-Previously:
-<ul>
-   <li> key4hep-stack/2021-09-01:
-   <li> gcc8.3.0
-   <li> geant4-10.7.1
-   <li> clhep-2.4.4.0
-   <li> root-6.24.00
-   <li> genfit master2019110 (locally)
-   <li> rome-v3.2.15.1
-</ul>
 
 # Open Questions
 <ul>

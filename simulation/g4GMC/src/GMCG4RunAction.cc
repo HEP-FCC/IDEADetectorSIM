@@ -35,6 +35,7 @@
 
 #include "RootIO.hh"
 
+#include "GMCG4PodioManager.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -65,6 +66,9 @@ void GMCG4RunAction::EndOfRunAction(const G4Run* )
 
 
 RootIO::GetInstance()->Close();
+
+GMCG4PodioManager * podioManager = GMCG4PodioManager::Instance();
+podioManager->Finish();
 
 }
 

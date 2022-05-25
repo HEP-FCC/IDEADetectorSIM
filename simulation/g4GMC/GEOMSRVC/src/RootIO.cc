@@ -46,6 +46,8 @@
 
 #include "DRCaloIO.hh"
 
+#include "GMCG4PodioManager.hh"
+
 //#include "TClonesArray.h"
 //
 
@@ -64,16 +66,21 @@ RootIO::RootIO(Int_t runN, TString outFold, bool hasDRFPIC):fHasDRFPIC(hasDRFPIC
 
   fFile = new TFile(Form("%s/hits%.5d.root",outFold.Data(),runN),"RECREATE");
   CreateTreeObject();
-
+  GMCG4PodioManager * l_podioManager = GMCG4PodioManager::Instance();
+  l_podioManager->SetFilePrefix(Form("%s/simhits_podio",outFold.Data()));
+  l_podioManager->SetFileSuffix(Form("%.5d.root",runN));
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void RootIO::CreateTreeObject() {
 
+ fFile->cd();
  fMCStep =  new TTree("MCStep","MCStep");
  fMCTracks =  new TTree("MCTracks","MCTracks");
+
  if (fHasDRFPIC) {
-	 fDRCalo = new TTree("B4", "edep");
+	 fDRCalo = new TTree("B4", "edep");	 
  }
  
 // fMCStep->Branch("HitsStepCh","std::vector<GMCG4TrackerHit*>",&fHitsVectorCh);
@@ -116,6 +123,8 @@ void RootIO::CreateDRCaloBranches() {
 		fDRCalo->Branch("VectorR","std::vector<double>", &clIo->GetVectorR());
 		fDRCalo->Branch("VectorL_loop","std::vector<double>", &clIo->GetVectorL_loop());
 		fDRCalo->Branch("VectorR_loop","std::vector<double>", &clIo->GetVectorR_loop());
+
+		clIo->CreateEdm4HepCollections();
 	}
 }
 
@@ -185,6 +194,7 @@ void RootIO::FillEvent(){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void RootIO::Close(){
 
+  fFile->cd();
   fMCStep->Write();
   fMCTracks->Write(); 
   if (fHasDRFPIC) {

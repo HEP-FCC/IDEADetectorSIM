@@ -149,61 +149,11 @@ target_link_libraries(g4GMC PUBLIC
 # Link configure files
 
 add_custom_command(TARGET g4GMC POST_BUILD
-		   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/config ${PROJECT_BINARY_DIR}/config
-		   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/g4mac ${PROJECT_BINARY_DIR}/g4mac
+		   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/config ${PROJECT_BINARY_DIR}/config
+		   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/g4mac ${PROJECT_BINARY_DIR}/g4mac
 		   )
 
-#--------------------------------------------------------------------
-# convertHits.cc
-#
-#add_executable(convertHits convertHits.cc)
-
-#target_link_libraries(convertHits PUBLIC
-#                      G4GMC
-#                      GMCG4ClassesDict
-#                      SCrd
-#                      ${BASE_FLD}
-#                      ${DET_FLD}
-#                      ${Geant4_LIBRARIES}
-#                      ${HEPMC_LIBRARIES}
-#                      ${HEPMC_FIO_LIBRARIES}
-#                      ${PYTHIA6_LIBRARIES}
-#                      ${ROOT_LIBRARIES}
-#                      gfortran
-#                      EDM4HEP::edm4hep
-#                      podio::podioRootIO
-#                      )
-#--------------------------------------------------------------------
-# convertTracks.cc
-#
-#add_executable(convertTracks convertTracks.cc)
-
-#target_link_libraries(convertTracks PUBLIC
-#                      G4GMC
-#                      GMCG4ClassesDict
-#                      SCrd
-#                      ${BASE_FLD}
-#                      ${DET_FLD}
-#                      ${Geant4_LIBRARIES}
-#                      ${HEPMC_LIBRARIES}
-#                      ${HEPMC_FIO_LIBRARIES}
-#                      ${PYTHIA6_LIBRARIES}
-#                      ${ROOT_LIBRARIES}
-#                      ${${PROJECT_NAME}_LIB}
-#                      gfortran
-#                     EDM4HEP::edm4hep
-#                     podio::podioRootIO
-#                     )
-
-#--------------------------------------------------------------------
-# Copy local headers for this project
-#
-# file(COPY
-# ${PROJECT_SOURCE_DIR}/../ConfigReader/include/
-# DESTINATION include/ConfigReader
-# )
 add_custom_command(
-#	linkConfigReader ALL
 	TARGET g4GMC POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/include
 	COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/../ConfigReader/include ${PROJECT_BINARY_DIR}/include/ConfigReader
