@@ -132,6 +132,8 @@ target_link_libraries(readHits PUBLIC
 		Xrandr
 		Xext
 		X11
+		EDM4HEP::edm4hep
+		podio::podioRootIO
 		)
 
 target_link_directories(readHits PUBLIC

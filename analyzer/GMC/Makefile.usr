@@ -34,7 +34,6 @@ ifdef G4WORKDIR
 ifndef CLHEP_BASE_DIR
       GMCLDFLAGS += -lG4clhep
 endif
-
       Flags      += -std=c++17 -fdiagnostics-color=always
 endif
 
@@ -42,7 +41,20 @@ ifdef CLHEP_BASE_DIR
    GMCLDFLAGS += -L${CLHEP_LIB_DIR} -lCLHEP
    Includes   += -I${CLHEP_INCLUDE_DIR}
 endif
-   GMCLDFLAGS += -L$(shell $(ROOTCONFIG) --libdir)  -lGeom
+
+GMCLDFLAGS += -L$(shell $(ROOTCONFIG) --libdir)  -lGeom
+
+ifdef EDMDIR
+   GMCLDFLAGS += -L${EDMDIR}/lib64 -ledm4hep -ledm4hepDict -ledm4hepRDF
+   Includes   += -I${EDMDIR}/include
+endif
+
+ifdef PODIODIR
+   GMCLDFLAGS += -L${PODIODIR}/lib64 -lpodio -lpodioDict -lpodioRootIO
+   Includes   += -I${PODIODIR}/include
+endif
+
+GMCLDFLAGS += $(shell $(ROOTCONFIG) --evelibs)
 
 GMCLDFLAGS += -Wl,--end-group
 
