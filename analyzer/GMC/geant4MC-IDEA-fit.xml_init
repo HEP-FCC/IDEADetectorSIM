@@ -191,7 +191,7 @@
         <SteeringParameterField>
           <!-- additional (optional) folder for configuration file for Geometry Service -->
           <SPName>GSrvAddFold</SPName>
-          <SPValue>/its/home/iv41/workarea/FullIDEASim_superdev/DriftChamberPLUSVertex/simulation/g4GMC/config</SPValue>
+          <SPValue>path_to_simulation</SPValue>
         </SteeringParameterField>
         <SteeringParameterField>
           <!-- GDML file for G4 geometry description -->
