@@ -7,11 +7,11 @@
 # modified for porting to FCCSW/Key4Hep by lavezzi (2020)
 
 
-export PRJBASE="/its/home/iv41/workarea/FullIDEASim_superdev/DriftChamberPLUSVertex"
+export PRJBASE="/its/home/al723/ideafullsim/DriftChamberPLUSVertex"
 export PATH=$PRJBASE/analyzer/GMC:$PATH
 
 # genfit2
-export GENFIT2SYS=/cvmfs/sw.hsf.org/spackages/linux-centos7-x86_64/gcc-8.3.0/genfit-02-00-00-ymoc6wcmzk2lyf637vkxylbyunhwcsfo
+export GENFIT2SYS=/cvmfs/sw.hsf.org/spackages4/genfit/02-00-00/x86_64-centos7-gcc8.3.0-opt/l7zbfli
 export LD_LIBRARY_PATH=${GENFIT2SYS}/lib64:${LD_LIBRARY_PATH}
 export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
 echo "GENFIT2SYS is set to "${GENFIT2SYS}
@@ -20,7 +20,7 @@ echo "GENFIT2SYS is set to "${GENFIT2SYS}
 
 
 # rome
-export ROMESYS=/its/home/iv41/workarea/FullIDEASim_superdev/LOCAL/ROME/rome
+export ROMESYS=/its/home/al723/ideafullsim/LOCAL/ROME/rome
 export PATH=$ROMESYS/bin:${PATH}
 export LIBROME=yes
 echo "ROME is set to "${ROMESYS}
@@ -31,7 +31,7 @@ export LD_LIBRARY_PATH=${GMCDIR}/obj:${LD_LIBRARY_PATH}
 echo "GMCDIR is set to "${GMCDIR}
 
 #root
-export ROOTSYS=/cvmfs/sw.hsf.org/spackages/linux-centos7-x86_64/gcc-8.3.0/root-6.24.00-u7xb6dwwdgx7v3xbdg37tsfvdufauaef
+export ROOTSYS=/cvmfs/sw.hsf.org/spackages4/root/6.24.06/x86_64-centos7-gcc8.3.0-opt/wgcjycj
 export ROT
 
 #zlib
