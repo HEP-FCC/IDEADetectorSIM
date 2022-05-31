@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # set STANDALONE_INSTALL_DIR="your_complete_installation_path", e.g.:
-export STANDALONE_INSTALL_DIR="your_installation_path"
-
+#export STANDALONE_INSTALL_DIR="your_installation_path"
+export STANDALONE_INSTALL_DIR=/its/home/iv41/workarea/FullIDEASim_superdev
 # -----------------------------------------------
 echo "installing in $STANDALONE_INSTALL_DIR"
 mkdir $STANDALONE_INSTALL_DIR 
@@ -98,7 +98,7 @@ $ROMESYS/bin/romebuilder.exe -i GMC.xml
 cd $STANDALONE_INSTALL_DIR
 
 # -------------------
-# COMPILER
+# CONVERTER
 echo "compile converter"
 cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/converter
 cmake .
@@ -115,6 +115,14 @@ string1="<SPValue>path_to_simulation</SPValue>"
 string2="<SPValue>$STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/simulation/g4GMC/config</SPValue>"
 sed "s|$string1|$string2|g" ./geant4MC-IDEA.xml_init > geant4MC-IDEA.xml
 sed "s|$string1|$string2|g" ./geant4MC-IDEA-fit.xml_ini > geant4MC-IDEA-fit.xml
+
+cd $STANDALONE_INSTALL_DIR
+mkdir build
+cd build
+cmake $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/DRCalo/Analysis/Analysis
+make 
+make install
+
 
 cd $STANDALONE_INSTALL_DIR
 echo "finished installation in $STANDALONE_INSTALL_DIR"

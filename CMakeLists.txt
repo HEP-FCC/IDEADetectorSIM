@@ -61,13 +61,25 @@ ExternalProject_Add(GMC
 
 add_dependencies(GMC rome3)
 
-#ExternalProject_Add(converter
-#    PREFIX IDEAconverter
-#    SOURCE_DIR ${CMAKE_SOURCE_DIR}/converter
-#    BUILD_ALWAYS 1
+ExternalProject_Add(converter
+    PREFIX IDEAconverter
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/converter
+    CONFIGURE_COMMAND
+    ${CMAKE_COMMAND} -E env "ROMESYS=${ROME_INST_DIR}"
+    ${CMAKE_COMMAND} -E env G4WORKDIR=${CMAKE_INSTALL_PREFIX}
+    ${CMAKE_COMMAND} -E env GENFIT2SYS=$ENV{GENFIT}
+    ${CMAKE_COMMAND} -E env EIGEN3SYS=$ENV{EIGEN3SYS}
+    ${CMAKE_COMMAND} -E env ZLIB_DIR=$ENV{ZLIB_DIR}
+    ${CMAKE_COMMAND} -E env G4INCLUDE=$ENV{G4INCLUDE}
+    ${CMAKE_COMMAND} -E env G4LIBS=$ENV{G4LIBS}
+    ${CMAKE_COMMAND} -E env SIM_INSTAL_DIR=${CMAKE_INSTALL_PREFIX}
+    ${CMAKE_COMMAND} -E env PRJBASE=${CMAKE_SOURCE_DIR}
+    cmake
+    BUILD_ALWAYS 1
 #    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF"
-#)
+     BUILD_IN_SOURCE TRUE
+)
 
-#add_dependencies(converter GMC)
+add_dependencies(converter GMC)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/env.sh ${CMAKE_CURRENT_BINARY_DIR} @ONLY) 
