@@ -102,7 +102,7 @@ cd $STANDALONE_INSTALL_DIR
 echo "compile converter"
 cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/converter
 cmake .
-make
+make VERBOSE=1
 cd $STANDALONE_INSTALL_DIR
 
 # -------------------
@@ -114,14 +114,30 @@ cp /afs/cern.ch/work/l/llavezzi/public/geometry/* .
 string1="<SPValue>path_to_simulation</SPValue>"
 string2="<SPValue>$STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/simulation/g4GMC/config</SPValue>"
 sed "s|$string1|$string2|g" ./geant4MC-IDEA.xml_init > geant4MC-IDEA.xml
-sed "s|$string1|$string2|g" ./geant4MC-IDEA-fit.xml_ini > geant4MC-IDEA-fit.xml
+sed "s|$string1|$string2|g" ./geant4MC-IDEA-fit.xml_init > geant4MC-IDEA-fit.xml
+
 
 cd $STANDALONE_INSTALL_DIR
-mkdir build
-cd build
-cmake $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/DRCalo/Analysis/Analysis
+mkdir -p build/AnalysisTools
+cd build/AnalysisTools
+cmake -DCMAKE_INSTALL_PREFIX=$STANDALONE_INSTALL_DIR/build $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/DRCalo/Analysis/AnalysisTools
 make 
 make install
+
+##### checkout SiPM digitization package 
+
+
+cd $STANDALONE_INSTALL_DIR
+mkdir -p build/DRCalo_DRDigitization
+cd build/DRCalo_DRDigitization
+cmake -DCMAKE_INSTALL_PREFIX=$STANDALONE_INSTALL_DIR/build $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/DRCalo/Digitization/DRDigitization
+make 
+make install
+
+export PYTHONPATH=${PYTHONPATH}:$STANDALONE_INSTALL_DIR/build/python
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$STANDALONE_INSTALL_DIR/build/lib:$STANDALONE_INSTALL_DIR/build/lib64
+export PATH=${PATH}:$STANDALONE_INSTALL_DIR/build/bin
+
 
 
 cd $STANDALONE_INSTALL_DIR

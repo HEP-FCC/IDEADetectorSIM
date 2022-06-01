@@ -1,3 +1,16 @@
 *~
 *.pdf
 *.root
+\#*\#
+*SimSiPM*
+*converter/CMakeCache.txt
+*converter/CMakeFiles/
+*converter/Makefile
+*converter/cmake_install.cmake
+*converter/convertHits
+*converter/convertTracks
+*converter/readHits
+*simulation/build/
+*simulation/env.sh
+*simulation/instal_dir/
+*analyzer/envGMC.sh

@@ -18,6 +18,10 @@ find_package(podio)
 include(${ROOT_USE_FILE})
 
 include_directories(ROOT_BUG)
+include_directories(${CMAKE_INSTALL_PREFIX}/include/sipm)
+include_directories(${CMAKE_INSTALL_PREFIX}/include/DdAndCalibration)
+link_directories(${CMAKE_INSTALL_PREFIX}/lib64)
+link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 
 include(ExternalProject)
 
@@ -32,7 +36,7 @@ ExternalProject_Add(SimSiPM
     GIT_REPOSITORY git@github.com:EdoPro98/SimSiPM.git
     GIT_TAG main
     PREFIX SimSiPM
-    SOURCE_DIR ${CMAKE_INSTALL_PREFIX}/SimSiPM
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../SimSiPM
     BUILD_ALWAYS 1
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
 )
@@ -56,14 +60,14 @@ target_include_directories(DRCalo_DRDigitizationLib PUBLIC ${CMAKE_CURRENT_SOURC
 add_executable( RunDRDigitization ${CMAKE_CURRENT_SOURCE_DIR}/utils/RunDRDigitization.cxx )
 target_link_libraries( RunDRDigitization ${ROOT_LIBRARIES} DRCalo_DRDigitizationLib sipm)
 
-install(FILES ${DRDigitization_h} DESTINATION include/DRDigitization)
+install(FILES ${DRDigitization_h} DESTINATION DRDigitization)
 install(FILES python/run_digitization.py DESTINATION python)
 install(FILES python/test_digitization.py DESTINATION python)
 install( TARGETS DRCalo_DRDigitizationLib DESTINATION lib )
-install(FILES ${CMAKE_BINARY_DIR}/Digitization/DRDigitization/libDigitSteer.rootmap DESTINATION lib )
-install(FILES ${CMAKE_BINARY_DIR}/Digitization/DRDigitization/libDigitSteer_rdict.pcm DESTINATION lib )
-install(FILES ${CMAKE_BINARY_DIR}/Digitization/DRDigitization/libFiberDigitizer.rootmap DESTINATION lib )
-install(FILES ${CMAKE_BINARY_DIR}/Digitization/DRDigitization/libFiberDigitizer_rdict.pcm DESTINATION lib )
+install(FILES ${CMAKE_BINARY_DIR}/libDigitSteer.rootmap DESTINATION lib )
+install(FILES ${CMAKE_BINARY_DIR}/libDigitSteer_rdict.pcm DESTINATION lib )
+install(FILES ${CMAKE_BINARY_DIR}/libFiberDigitizer.rootmap DESTINATION lib )
+install(FILES ${CMAKE_BINARY_DIR}/libFiberDigitizer_rdict.pcm DESTINATION lib )
 install( TARGETS DRCalo_DRDigitizationLib LIBRARY DESTINATION lib )
 install( TARGETS RunDRDigitization DESTINATION bin )
 
