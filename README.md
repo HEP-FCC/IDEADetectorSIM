@@ -40,7 +40,7 @@ Go take a coffee. The code should compile and be ready to be used. If you do not
 
 Every time you log in, you will have to source simulation/env.sh and analyzer/envGMC.sh. 
 
-##### Not yet ready to be used, under development 
+### Not yet ready to be used, under development 
 
 Use this repository as any other git repositories 
 
