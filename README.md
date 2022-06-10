@@ -24,6 +24,24 @@ It is devoted to move:
 
 ## RECOMMENDED use of the package
 
+Instructions:
+
+
+
+<ul>
+   <li> Create an empty directory, say called mydir. cd into it and clone the repository. </li>
+   <li> Clone the package and checkout the master branch</li>
+   <li> Copy the install_standalone.sh script in mydir </li> 
+   <li> Edit it and set STANDALONE_INSTALL_DIR to the directory where you want to install everything </li>
+   <li> Execute it with: source ./install_standalone.sh </li>
+</ul>
+
+Go take a coffee. The code should compile and be ready to be used. If you do not have access to afs, you will seee an error related to copy a gdml file, you will have to copy that by hand. 
+
+Every time you log in, you will have to source simulation/env.sh and analyzer/envGMC.sh. 
+
+##### Not yet ready to be used, under development 
+
 Use this repository as any other git repositories 
 
 <ul>                                                                                     
@@ -147,7 +165,7 @@ Previously:
    <li> rome-v3.2.15.1
 </ul>
 
-## INSTALLATION via installer
+## OLD INSTRUCTION, KEPT FOR REFERENCE ONLY - INSTALLATION via installer
 
 Instructions:
 <ul>
