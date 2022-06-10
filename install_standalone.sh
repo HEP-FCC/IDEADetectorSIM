@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # set STANDALONE_INSTALL_DIR="your_complete_installation_path", e.g.:
-#export STANDALONE_INSTALL_DIR="your_installation_path"
-export STANDALONE_INSTALL_DIR=/its/home/iv41/workarea/FullIDEASim_superdev
+export STANDALONE_INSTALL_DIR="your_installation_path"
+
 # -----------------------------------------------
 echo "installing in $STANDALONE_INSTALL_DIR"
 mkdir $STANDALONE_INSTALL_DIR 
@@ -102,7 +102,7 @@ cd $STANDALONE_INSTALL_DIR
 echo "compile converter"
 cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/converter
 cmake .
-make VERBOSE=1
+make 
 cd $STANDALONE_INSTALL_DIR
 
 # -------------------
