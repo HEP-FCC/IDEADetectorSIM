@@ -23,6 +23,7 @@ public:
   /* Main hooks to calibration and digitization. The digitization is performed by simulated sensors using the sipm library provided by University of Insubria. The calibration (at the moment dummy) is provided by reading calibration constants from teh DR_GeometryHelper */
   
   void Digitize(const edm4hep::SimCalorimeterHitCollection& i_coll, edm4hep::CalorimeterHitCollection& o_coll);
+
   bool Calibrate(edm4hep::CalorimeterHitCollection& l_coll, DRCalo_FiberType l_type);
 
   /* Additional printouts if a debug flag is set */

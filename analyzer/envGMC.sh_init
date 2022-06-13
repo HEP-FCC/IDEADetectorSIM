@@ -59,3 +59,6 @@ export G4WORKDIR=$SIM_INSTAL_DIR
 export LD_LIBRARY_PATH=${G4WORKDIR}/lib:${LD_LIBRARY_PATH}
 export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${EIGEN3SYS}/include/eigen3
 
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${PRJBASE}/../build/lib:${PRJBASE}/../build/lib64                                         
+export PATH=${PATH}:${PRJBASE}/../build/bin                                                                                             
+export PYTHONPATH=${PYTHONPATH}:${PRJBASE}/../build/python

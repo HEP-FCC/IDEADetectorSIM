@@ -24,20 +24,35 @@
 #include "DD4hep/DetType.h"
 #include "podio/EventStore.h"
 #include "podio/ROOTWriter.h"
+#include "podio/ROOTReader.h"
 #include "edm4hep/TrackCollection.h"
+
+#include "FiberDigitizer.h"
+#include "SiPMSensor.h"
+#include "SiPMProperties.h"
 
 // using namespace std;
 int main(int argc,char** argv) 
 {
   bool debug=false;
+  bool m_doCalibration = false;
   std::cout << "convert tracks" << std::endl;
 
   gSystem->Load("$PRJBASE/simulation/build/lib/libGMCG4ClassesDict");
   gSystem->Load("$PRJBASE/analyzer/GMC/obj/libGMCAnalyzer");
 
-  if(argc<2) std::cout << "Missing name of the file to read!" << std::endl;
+  if(argc<3) {
+    std::cout << "USAGE: " << argv[0] << " [TRACKINPUT] [CALOINPUT] [OUTPUT] " << std::endl;
+    std::cout << "The output file name is optional" << std::endl;
+    return -1;
+  }
 
   TFile fo(argv[1]);
+  if (!fo.IsOpen()) {
+    std::cerr << "Cannot find file " << argv[1] << std::endl;
+    return -1;
+  }
+  TString caloPodioFileName = argv[2];
 
   // -------------
   TTree* RecoData = ((TTree*) fo.Get("RecoData"));
@@ -58,7 +73,7 @@ int main(int argc,char** argv)
   // ----------------------------------------------
   // output file name construction
   int fOutNum=1;
-  if (argc==3) { fOutNum = TString(argv[2]).Atoi(); }
+  if (argc==4) { fOutNum = TString(argv[3]).Atoi(); }
   else {
     TString fIn(argv[1]);
     fIn.ReplaceAll(".root","");
@@ -75,8 +90,28 @@ int main(int argc,char** argv)
 
   podio::EventStore * l_evtstore = new podio::EventStore();
   podio::ROOTWriter * l_writer = new podio::ROOTWriter(filename, l_evtstore);
-    
-  std::cout << "filename  " << filename << std::endl;
+
+  // Also open the file containing the podio simulation-level hits from the calorimeter. No need to declare them on the heap. 
+
+  podio::ROOTReader m_reader;
+  podio::EventStore m_read_store;
+
+  m_reader.openFile(caloPodioFileName.Data());
+  if (!m_reader.isValid()){
+    std::cerr << "Cannot open file " << caloPodioFileName << ". Will exit gently doing nothing" << std::endl;
+    return -1;
+  }
+  m_read_store.setReader(&m_reader);
+
+  unsigned int caloEntries = m_reader.getEntries();
+
+  if (caloEntries != nevents) {
+    std::cerr << "Files " << filename << " and " << caloPodioFileName << " have a different number of entries. Exiting graciously but doing nothing useful. " << std::endl;
+    return -1;
+  }
+  
+  std::cout << "Track filename  " << filename << std::endl;
+  std::cout << "Calo filename  " << caloPodioFileName << std::endl;
   std::cout << "evt store " << l_evtstore << std::endl;
   std::cout << "writer    " << l_writer << std::endl;
 
@@ -95,8 +130,20 @@ int main(int argc,char** argv)
   l_writer->registerForWrite("C_CalorimeterHits");
 
   edm4hep::CalorimeterHitCollection * auxCaloHits = new  edm4hep::CalorimeterHitCollection();
-  l_evtstore->registerCollection("Aux_CalorimeterInfoHits",_recoCaloHits);
+  l_evtstore->registerCollection("Aux_CalorimeterInfoHits",auxCaloHits);
   l_writer->registerForWrite("Aux_CalorimeterInfoHits");
+
+  // Now prepare the digitizer for the calo signal
+
+  // Now configuring the SiPM sensor
+  sipm::SiPMProperties l_properties;
+
+  // creating a default sensor. Many properties of the sensor are available
+  
+  sipm::SiPMSensor l_sensor (l_properties);
+
+  FiberDigitizer l_digitizer;
+  l_digitizer.SetSiPMSensor(&l_sensor);
 
 
   // ---------------
@@ -377,9 +424,49 @@ int main(int argc,char** argv)
 	 - edm4hep::Track tracks            //tracks (segments) that have been combined to create this tr
       */
     }
-    
+
+    // Now deal with the digitization of the calorimeter
+
+       auto & s_hitColl = m_read_store.get<edm4hep::SimCalorimeterHitCollection>("S_caloHits");
+
+    if (!s_hitColl.isValid()){
+      std::cerr << "Cannot read S simulation hits with name S_caloHits " << std::endl;
+      return false;
+    }
+
+
+    if (debug) std::cout << "Number of s fibers fired " << s_hitColl.size() << std::endl;
+
+    l_digitizer.Digitize(s_hitColl,*s_recoCaloHits);    
+
+    auto & c_hitColl = m_read_store.get<edm4hep::SimCalorimeterHitCollection>("C_caloHits");
+
+    if (!c_hitColl.isValid()){
+      std::cerr << "Cannot read C simulation hits with name C_caloHits" << std::endl;
+      return false;
+    }
+
+    if (debug) std::cout << "Number of c fibers fired " << c_hitColl.size() << std::endl;
+
+    l_digitizer.Digitize(c_hitColl,*c_recoCaloHits);
+
+    // now calibrate the collections
+
+    if (m_doCalibration){
+
+      if (!l_digitizer.Calibrate(*s_recoCaloHits,DRCalo_FiberType::S)){
+	std::cerr << "Cannot calibrate scint collection " << std::endl;
+	return false;
+      }
+      if (!l_digitizer.Calibrate(*c_recoCaloHits,DRCalo_FiberType::C)){
+	std::cerr << "Cannot calibrate cher collection " << std::endl;
+	return false;
+      }
+    }
   
     // for each event write output
+    m_read_store.clear();
+    m_reader.endOfEvent();
     if (l_writer != NULL)   l_writer->writeEvent();
     if (l_evtstore != NULL) l_evtstore->clearCollections();
   }

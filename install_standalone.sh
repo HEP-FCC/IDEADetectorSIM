@@ -5,8 +5,8 @@ export STANDALONE_INSTALL_DIR="your_installation_path"
 
 # -----------------------------------------------
 echo "installing in $STANDALONE_INSTALL_DIR"
-mkdir $STANDALONE_INSTALL_DIR 
 cd $STANDALONE_INSTALL_DIR
+mkdir -p build
 
 # -------------------
 # SIMULATION
@@ -95,29 +95,26 @@ source ./envGMC.sh
 echo "compile analyzer"
 cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC
 $ROMESYS/bin/romebuilder.exe -i GMC.xml
-cd $STANDALONE_INSTALL_DIR
 
-# -------------------
-# CONVERTER
-echo "compile converter"
-cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/converter
-cmake .
-make 
-cd $STANDALONE_INSTALL_DIR
+#### Getting the gdml file from the ideadr box  
 
-# -------------------
-# GEOMETRY
-echo "copy geometry GDML/XML files"
-cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC
-cp /afs/cern.ch/work/l/llavezzi/public/geometry/* .
+wget https://cernbox.cern.ch/index.php/s/KxGYRFnkcob09z1/download -O g4-IDEA_reco.gdml
+
 # set the right PATH in the xml files
 string1="<SPValue>path_to_simulation</SPValue>"
 string2="<SPValue>$STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/simulation/g4GMC/config</SPValue>"
 sed "s|$string1|$string2|g" ./geant4MC-IDEA.xml_init > geant4MC-IDEA.xml
 sed "s|$string1|$string2|g" ./geant4MC-IDEA-fit.xml_init > geant4MC-IDEA-fit.xml
 
+ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC/geant4MC-IDEA.xml $STANDALONE_INSTALL_DIR/build
+ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC/geant4MC-IDEA-fit.xml $STANDALONE_INSTALL_DIR/build
+ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC/g4-IDEA_reco.gdml $STANDALONE_INSTALL_DIR/build
+ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/gmcanalyzer.exe $STANDALONE_INSTALL_DIR/build
 
 cd $STANDALONE_INSTALL_DIR
+
+########## Compile tools for calorimeter
+
 mkdir -p build/AnalysisTools
 cd build/AnalysisTools
 cmake -DCMAKE_INSTALL_PREFIX=$STANDALONE_INSTALL_DIR/build $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/DRCalo/Analysis/AnalysisTools
@@ -134,11 +131,13 @@ cmake -DCMAKE_INSTALL_PREFIX=$STANDALONE_INSTALL_DIR/build $STANDALONE_INSTALL_D
 make 
 make install
 
-export PYTHONPATH=${PYTHONPATH}:$STANDALONE_INSTALL_DIR/build/python
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$STANDALONE_INSTALL_DIR/build/lib:$STANDALONE_INSTALL_DIR/build/lib64
-export PATH=${PATH}:$STANDALONE_INSTALL_DIR/build/bin
-
-
-
+# -------------------
+# CONVERTER
+echo "compile converter"
+cd $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/converter
+cmake -DCMAKE_INSTALL_PREFIX=$STANDALONE_INSTALL_DIR/build .
+make 
+make install
 cd $STANDALONE_INSTALL_DIR
+
 echo "finished installation in $STANDALONE_INSTALL_DIR"
