@@ -81,6 +81,7 @@ include_directories($ENV{PRJBASE}/simulation/g4GMC/include
 		$ENV{PRJBASE}/simulation/g4GMC
 		$ENV{CLHEP_INCLUDE_DIR}
 		$ENV{DD4hepINSTALL}
+		$ENV{PRJBASE}/../build/DRDigitization
 )
 
 foreach(basefld ${BASE_FLD})
@@ -94,6 +95,9 @@ target_link_libraries(readHits PUBLIC
 		G4GMC
 		GMCG4ClassesDict
  		GMCAnalyzer
+		DRCalo_AnalysisToolsLib
+		DRCalo_DdAndCalibrationLib
+		DRCalo_DRDigitizationLib
  		stdc++
 		SCrd
 		${BASE_FLD}
@@ -141,6 +145,8 @@ target_link_directories(readHits PUBLIC
 		$ENV{G4LIB}
 		$ENV{SIM_INSTAL_DIR}/lib
 		$ENV{PRJBASE}/analyzer/GMC/obj
+		$ENV{PRJBASE}/../build/lib
+		$ENV{PRJBASE}/../build/lib64
 #		$ENV{GENFIT2SYS}/lib
 )	      
 
