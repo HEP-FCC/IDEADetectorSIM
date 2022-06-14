@@ -6,8 +6,9 @@ set( CMAKE_CXX_STANDARD 17)
 set( CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set( ROME_INST_DIR ${CMAKE_CURRENT_BINARY_DIR}/LOCAL/rome )
-set( GMC_INST_DIR ${CMAKE_SOURCE_DIR}/analyzer/GMC )
-
+set( ENV{ROMESYS} ${ROME_INST_DIR} )
+set( GMC_INST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/analyzer/GMC )
+set( ENV{PRJBASE} ${CMAKE_CURRENT_SOURCE_DIR} )
 
 message( STATUS "Install path ${CMAKE_INSTALL_PREFIX}" )
 message( STATUS "Rome installation directory is ${ROME_INST_DIR}" )
@@ -38,7 +39,7 @@ ExternalProject_Add(rome3
 )
 
 add_dependencies(rome3 g4simulation)
-
+		       
 
 
 message( STATUS "G4INCLUDE will be set to ${Geant4_INCLUDE_DIR}" )
@@ -46,7 +47,7 @@ message( STATUS "G4INCLUDE will be set to ${Geant4_INCLUDE_DIR}" )
 ExternalProject_Add(GMC
       SOURCE_DIR ${GMC_INST_DIR}
       CONFIGURE_COMMAND ""
-      INSTALL_COMMAND ""
+      INSTALL_COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/analyzer/GMC/gmcanalyzer.exe ${CMAKE_CURRENT_BINARY_DIR}/gmcanalyzer.exe
       BUILD_COMMAND
       ${CMAKE_COMMAND} -E env "ROMESYS=${ROME_INST_DIR}"
       ${CMAKE_COMMAND} -E env G4WORKDIR=${CMAKE_INSTALL_PREFIX}
@@ -61,6 +62,21 @@ ExternalProject_Add(GMC
 
 add_dependencies(GMC rome3)
 
+ExternalProject_Add(AnalysisTools
+    PREFIX AnalysisTools
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/DRCalo/Analysis/AnalysisTools
+    BUILD_ALWAYS 1
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF"
+)
+
+ExternalProject_Add(DRDigitization
+    PREFIX DRDigitization
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/DRCalo/Digitization/DRDigitization
+    BUILD_ALWAYS 1
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF"
+)
+
+
 ExternalProject_Add(converter
     PREFIX IDEAconverter
     SOURCE_DIR ${CMAKE_SOURCE_DIR}/converter
@@ -74,12 +90,16 @@ ExternalProject_Add(converter
     ${CMAKE_COMMAND} -E env G4LIBS=$ENV{G4LIBS}
     ${CMAKE_COMMAND} -E env SIM_INSTAL_DIR=${CMAKE_INSTALL_PREFIX}
     ${CMAKE_COMMAND} -E env PRJBASE=${CMAKE_SOURCE_DIR}
-    cmake
+    cmake -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF" ${CMAKE_SOURCE_DIR}/converter
     BUILD_ALWAYS 1
-#    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF"
-     BUILD_IN_SOURCE TRUE
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_CXX_FLAGS="-DMT_OFF"
+
 )
 
 add_dependencies(converter GMC)
+add_dependencies(converter DRDigitization)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/env.sh ${CMAKE_CURRENT_BINARY_DIR} @ONLY) 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/xml_templates/geant4MC-IDEA-fit.xml ${CMAKE_CURRENT_BINARY_DIR} @ONLY) 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/xml_templates/geant4MC-IDEA.xml ${CMAKE_CURRENT_BINARY_DIR} @ONLY) 
+file(DOWNLOAD https://cernbox.cern.ch/index.php/s/KxGYRFnkcob09z1/download ${CMAKE_INSTALL_PREFIX}/g4-IDEA_reco.gdml )
