@@ -109,7 +109,7 @@ sed "s|$string1|$string2|g" ./geant4MC-IDEA-fit.xml_init > geant4MC-IDEA-fit.xml
 ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC/geant4MC-IDEA.xml $STANDALONE_INSTALL_DIR/build
 ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC/geant4MC-IDEA-fit.xml $STANDALONE_INSTALL_DIR/build
 ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC/g4-IDEA_reco.gdml $STANDALONE_INSTALL_DIR/build
-ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/gmcanalyzer.exe $STANDALONE_INSTALL_DIR/build
+ln -s $STANDALONE_INSTALL_DIR/DriftChamberPLUSVertex/analyzer/GMC/gmcanalyzer.exe $STANDALONE_INSTALL_DIR/build
 
 cd $STANDALONE_INSTALL_DIR
 
