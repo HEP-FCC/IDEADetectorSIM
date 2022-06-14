@@ -81,6 +81,9 @@ include_directories($ENV{PRJBASE}/simulation/g4GMC/include
 		$ENV{PRJBASE}/simulation/g4GMC
 		$ENV{CLHEP_INCLUDE_DIR}
 		$ENV{DD4hepINSTALL}
+		$ENV{PRJBASE}/../build/DRDigitization
+                ${CMAKE_INSTALL_PREFIX}/include/sipm
+		${CMAKE_INSTALL_PREFIX}/include/DdAndCalibration
 )
 
 foreach(basefld ${BASE_FLD})
@@ -141,6 +144,8 @@ target_link_directories(readHits PUBLIC
 		$ENV{G4LIB}
 		$ENV{SIM_INSTAL_DIR}/lib
 		$ENV{PRJBASE}/analyzer/GMC/obj
+		$ENV{PRJBASE}/../build/lib
+		$ENV{PRJBASE}/../build/lib64
 #		$ENV{GENFIT2SYS}/lib
 )	      
 
@@ -204,8 +209,46 @@ target_link_directories(convertTracks PUBLIC
 )
 
 #--------------------------------------------------------------------
+# buildRecoLevelIDEAFile.cc
+#
+add_executable(buildRecoLevelIDEAFile buildRecoLevelIDEAFile.cc)
+
+target_link_libraries(buildRecoLevelIDEAFile PUBLIC
+	              G4GMC
+                      GMCG4ClassesDict
+                      SCrd
+                      ${BASE_FLD}
+                      ${DET_FLD}
+                      ${Geant4_LIBRARIES}
+                      ${HEPMC_LIBRARIES}
+                      ${HEPMC_FIO_LIBRARIES}
+                      ${PYTHIA6_LIBRARIES}
+                      ${ROOT_LIBRARIES}
+             #         ${${PROJECT_NAME}_LIB}
+                      gfortran
+                     EDM4HEP::edm4hep
+                     podio::podioRootIO
+		     DRCalo_DRDigitizationLib 
+		     sipm
+                     )
+
+target_link_directories(buildRecoLevelIDEAFile PUBLIC
+                $ENV{CLHEP_LIB_DIR}
+                $ENV{G4LIB}
+		$ENV{SIM_INSTAL_DIR}/lib
+                $ENV{PRJBASE}/analyzer/GMC/obj
+#               $ENV{GENFIT2SYS}/lib
+		${CMAKE_INSTALL_PREFIX}/lib64
+		${CMAKE_INSTALL_PREFIX}/lib
+)
+
+
+#--------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-#install(TARGETS g4GMC DESTINATION bin)
-#install(DIRECTORY ${PROJECT_BINARY_DIR}/lib DESTINATION .)
+install (TARGETS readHits DESTINATION bin) 
+install (TARGETS convertHits DESTINATION bin) 
+install (TARGETS convertTracks DESTINATION bin) 
+install (TARGETS buildRecoLevelIDEAFile DESTINATION bin) 
+
 

@@ -8,6 +8,7 @@
 // podio includes
 #include "podio/EventStore.h"
 #include "podio/ROOTReader.h"
+#include "podio/ROOTWriter.h"
 
 #include "FiberDigitizer.h"
 
@@ -38,8 +39,8 @@ class DigitSteer
   void SetCherOutputHitsName(std::string hits_name) {m_outputCherHitsName=hits_name;}
   void SetAuxOutputHitsName(std::string hits_name) {m_outputCherHitsName=hits_name;}
 
-  // Setter for the output file
-  void SetOutputFileName(std::string filename) {m_outputFileName = filename;}
+  void SetOutputEventStore(podio::EventStore * store) {l_store = store;}
+  void SetOutputROOTWriter(podio::ROOTWriter * writer) {l_writer = writer;} 
 
   void SetFiberDigitizer(FiberDigitizer * l_digitizer){m_digitizer = l_digitizer;}
   const FiberDigitizer * GetFiberDigitizer() {return m_digitizer;}
@@ -60,6 +61,8 @@ class DigitSteer
   bool m_doCalibration;
   podio::ROOTReader m_reader;
   podio::EventStore m_read_store;
+  podio::ROOTWriter * l_writer;
+  podio::EventStore * l_store;
   FiberDigitizer * m_digitizer;
 };
 

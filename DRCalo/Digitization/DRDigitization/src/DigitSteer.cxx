@@ -17,18 +17,18 @@ bool DigitSteer::Process()
     return false;
   }
   
-  podio::EventStore l_store;                                                                                 
-  podio::ROOTWriter l_writer(m_outputFileName,&l_store);
+  //  podio::EventStore l_store;                                                                                 
+  //podio::ROOTWriter l_writer->m_outputFileName,&l_store);
   
   unsigned int nevents = m_reader.getEntries();
   
-  edm4hep::CalorimeterHitCollection & s_recoCaloHits = l_store.create<edm4hep::CalorimeterHitCollection>(m_outputScintHitsName );             
-  l_writer.registerForWrite(m_outputScintHitsName);
+  edm4hep::CalorimeterHitCollection & s_recoCaloHits = l_store->create<edm4hep::CalorimeterHitCollection>(m_outputScintHitsName );             
+  l_writer->registerForWrite(m_outputScintHitsName);
 
-   edm4hep::CalorimeterHitCollection & c_recoCaloHits = l_store.create<edm4hep::CalorimeterHitCollection>(m_outputCherHitsName );             
-  l_writer.registerForWrite(m_outputCherHitsName );
+   edm4hep::CalorimeterHitCollection & c_recoCaloHits = l_store->create<edm4hep::CalorimeterHitCollection>(m_outputCherHitsName );             
+  l_writer->registerForWrite(m_outputCherHitsName );
 
-  edm4hep::CalorimeterHitCollection & auxCaloHits = l_store.create<edm4hep::CalorimeterHitCollection>(m_outputAuxHitsName );             
+  edm4hep::CalorimeterHitCollection & auxCaloHits = l_store->create<edm4hep::CalorimeterHitCollection>(m_outputAuxHitsName );             
 
   // check that the digitiser has a sensor set.
 
@@ -50,6 +50,8 @@ bool DigitSteer::Process()
       std::cerr << "Cannot read S simulation hits with name " << m_inputScintHitsName << std::endl;
       return false;
     }
+
+    m_debug=true;
 
     if (m_debug) std::cout << "Number of s fibers fired " << s_hitColl.size() << std::endl;
 
@@ -82,12 +84,12 @@ bool DigitSteer::Process()
 
     // Final cleanup
 
-    l_writer.writeEvent();
+    l_writer->writeEvent();
     m_read_store.clear();
     m_reader.endOfEvent();
-    l_store.clearCollections();
+    l_store->clearCollections();
   }
-  l_writer.finish();
+  l_writer->finish();
   return true;
 }
 
