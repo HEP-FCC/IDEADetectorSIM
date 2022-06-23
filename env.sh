@@ -1,7 +1,19 @@
 #!/bin/bash
 
 
-# suggestions by Valentin to retrieve necessary env for the rest of compilation 
+# suggestions by Valentin to retrieve necessary env for the rest of compilation
+
+INSTALL_DIR=@CMAKE_INSTALL_PREFIX@
+
+if [[ ${INSTALL_DIR} == *CMAKE_INSTALL_PREFIX* ]]
+then
+    echo 'INSTALL_DIR will be set only at runtime'
+else
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${INSTALL_DIR}/lib:${INSTALL_DIR}/lib64
+    export PATH=${PATH}:${INSTALL_DIR}/bin
+    export PYTHONPATH=${PYTHONPATH}:${INSTALL_DIR}/python 
+fi
+ 
 for path in ${CMAKE_PREFIX_PATH//:/ }; do
 
     # GEANT4 --------------------------------------
@@ -69,7 +81,7 @@ then
     echo 'ROMESYS will be configured after installation'
 else
     echo "ROMESYS is set to " ${ROMESYS}
-    export PATH=$ROMESYS/bin:$PATH
+    export PATH=$ROMESYS/bin:${PATH}:${INSTALL_DIR}/bin
 fi
 
 #needed by the analyzer
@@ -79,7 +91,9 @@ if [ ! -d "${GENFIT2SYS}/lib64" ]
 then
     echo "WARNING! " ${GENFIT2SYS}/lib64 " does not exist"
 fi
+
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GENFIT2SYS}/lib64
+
 export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${GENFIT2SYS}/include
 export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${EIGEN3SYS}/include/eigen3
 

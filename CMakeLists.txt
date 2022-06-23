@@ -39,15 +39,13 @@ ExternalProject_Add(rome3
 )
 
 add_dependencies(rome3 g4simulation)
-		       
-
 
 message( STATUS "G4INCLUDE will be set to ${Geant4_INCLUDE_DIR}" )
 
 ExternalProject_Add(GMC
       SOURCE_DIR ${GMC_INST_DIR}
       CONFIGURE_COMMAND ""
-      INSTALL_COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/analyzer/GMC/gmcanalyzer.exe ${CMAKE_CURRENT_BINARY_DIR}/gmcanalyzer.exe
+      INSTALL_COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/analyzer/GMC/gmcanalyzer.exe ${CMAKE_CURRENT_BINARY_DIR}/bin/gmcanalyzer.exe
       BUILD_COMMAND
       ${CMAKE_COMMAND} -E env "ROMESYS=${ROME_INST_DIR}"
       ${CMAKE_COMMAND} -E env G4WORKDIR=${CMAKE_INSTALL_PREFIX}
@@ -103,3 +101,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/env.sh ${CMAKE_CURRENT_BINARY_DIR} @O
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/xml_templates/geant4MC-IDEA-fit.xml ${CMAKE_CURRENT_BINARY_DIR} @ONLY) 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/xml_templates/geant4MC-IDEA.xml ${CMAKE_CURRENT_BINARY_DIR} @ONLY) 
 file(DOWNLOAD https://cernbox.cern.ch/index.php/s/KxGYRFnkcob09z1/download ${CMAKE_INSTALL_PREFIX}/g4-IDEA_reco.gdml )
+
+install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/scripts/commonRecoIDEAFile.sh DESTINATION scripts )
+
+
