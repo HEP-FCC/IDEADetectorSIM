@@ -21,7 +21,7 @@ Use this repository as any other git repositories
    <li> Prepare your environment. </li>                                                                             
                                                                                                                     
    ```                                                                                                              
-   cd /my/dir/DriftChamberPLUSVertex                                                                                
+   cd /my/dir/IDEADetectorSIM                                                                                
    source key4hep_setup.sh                                                                                          
    source env.sh                                                                                                    
    ```                                                                                                              
@@ -36,7 +36,7 @@ Use this repository as any other git repositories
    <li> Configure and compile: </li>                                                                                
                                                                                                                     
    ```                                                                                                              
-      cmake -DCMAKE_INSTALL_PREFIX=/my/dir/build/instal_dir -DCMAKE_CXX_FLAGS="-DMT_OFF" ../DriftChamberPLUSVertex  
+      cmake -DCMAKE_INSTALL_PREFIX=/my/dir/build/instal_dir -DCMAKE_CXX_FLAGS="-DMT_OFF" ../IDEADetectorSIM  
       make -j10                                                                                                 
       make install                                                                                                  
    ```                                                                                                              
@@ -56,7 +56,7 @@ inutes.</li>
    <li> Every time you log in again, you should do: </li>                                                  
                                                                                                                     
    ```                                                                                                              
-   cd /my/dir/DriftChamberPLUSVertex                                                                                
+   cd /my/dir/IDEADetectorSIM                                                                                
    source key4hep_setup.sh                                                                                          
    cd ../build                                                                                                      
    source env.sh                                                                                                    
