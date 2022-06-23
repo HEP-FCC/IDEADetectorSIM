@@ -76,11 +76,15 @@ RootIO::RootIO(Int_t runN, TString outFold, bool hasDRFPIC):fHasDRFPIC(hasDRFPIC
 void RootIO::CreateTreeObject() {
 
  fFile->cd();
+
  fMCStep =  new TTree("MCStep","MCStep");
+ fMCStep->SetAutoFlush(10);
  fMCTracks =  new TTree("MCTracks","MCTracks");
+ fMCTracks->SetAutoFlush(10);
 
  if (fHasDRFPIC) {
-	 fDRCalo = new TTree("B4", "edep");	 
+	 fDRCalo = new TTree("B4", "edep");
+	 fDRCalo->SetAutoFlush(10);
  }
  
 // fMCStep->Branch("HitsStepCh","std::vector<GMCG4TrackerHit*>",&fHitsVectorCh);

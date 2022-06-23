@@ -2,6 +2,8 @@ import ROOT
 
 ROOT.gSystem.Load("libDRCalo_DRDigitizationLib.so")
 #ROOT.gSystem.Load("libsipm.so")
+ROOT.gSystem.Load("libpodioRootIO")
+from ROOT import podio
 
 def main():
     import argparse
@@ -33,13 +35,15 @@ def main():
     for mykey in par.SiPMproperties.keys():
         SiPMprop.setProperty(mykey,float(par.SiPMproperties[mykey]))
 
-    print('Sensor properties:\n')
-    
-    SiPMprop.dumpSettings()
-    print ('\n')
     SiPMsensor = ROOT.sipm.SiPMSensor(SiPMprop)
     fbDigit.SetSiPMSensor(SiPMsensor)
-    digitsteer.SetOutputFileName(par.ofile)
+
+    evStore = podio.EventStore()
+    l_writer = podio.ROOTWriter(par.ofile,evStore)
+
+    digitsteer.SetOutputEventStore(evStore)
+    digitsteer.SetOutputROOTWriter(l_writer)
+
     digitsteer.SetFiberDigitizer(fbDigit)
 
     if (par.ifile == None):

@@ -24,7 +24,6 @@ public:
 
   void newEvent(G4int evId, bool writeASCII=false);
   void writePodio(G4int evId);
-  void writeASCIIEvent(G4int evId);
 //  void fillAnlysis();
 
   void Addneutrinoleakage(G4double de); //add energy of neutrinos in the ball containing the calorimeter
