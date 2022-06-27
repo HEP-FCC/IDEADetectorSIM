@@ -62,6 +62,8 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+#undef G4MULTITHREADED
+
 int main(int argc,char** argv)
 {
   // Detect interactive mode (if no arguments) and define UI session

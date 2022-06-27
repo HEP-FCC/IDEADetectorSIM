@@ -16,7 +16,7 @@ then
   root -b -q GenerateSeeds.C\($nRuns\)
   nMaxSeed=$nRuns
 fi
-
+outFold=$PWD/tmp
 #rm -fr ${outFold}/tmpG4mac
 mkdir -p ${outFold}/tmpG4mac
 #rm -f ${outFold}/tmpG4mac/*

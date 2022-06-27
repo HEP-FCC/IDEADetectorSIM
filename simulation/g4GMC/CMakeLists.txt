@@ -6,6 +6,9 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(g4GMC_simulation)
 
+
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE CACHE BOOL "RPATH USE LINK PATH")
+
 set(BASE_FLD
 	EXCEP
 	GEOMSRVC
@@ -49,6 +52,10 @@ find_package(HepMC REQUIRED)
 #
 find_package(EDM4HEP)
 find_package(podio)
+find_package(Boost)
+find_package(VecGeom)
+find_package(VecCore)
+find_package(XercesC)
 
 #----------------------------------------------------------------------------
 # Find ROOT
@@ -56,7 +63,12 @@ find_package(podio)
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 find_package(ROOT REQUIRED COMPONENTS RIO EG)
 include(${ROOT_USE_FILE})
-include_directories(${ROOT_INCLUDE_DIRS})
+include_directories(${ROOT_INCLUDE_DIRS} 
+                    ${Boost_INCLUDE_DIRS}
+                    ${VECGEOM_INCLUDE_DIRS}
+                    ${VecCore_INCLUDE_DIRS}
+                    ${XercesC_INCLUDE_DIRS}
+                    )
 
 #----------------------------------------------------------------------------
 # THIS PROJECT
