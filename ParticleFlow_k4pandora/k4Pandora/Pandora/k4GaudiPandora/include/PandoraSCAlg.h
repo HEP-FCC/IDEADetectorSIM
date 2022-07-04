@@ -42,6 +42,7 @@
 
 #include "TROOT.h"
 #include "TFile.h"
+#include "TH1F.h"
 
 /* PandoraSCAlg ========== <br>
  * 
@@ -87,6 +88,9 @@ public:
   void FinaliseSteeringParameters(ISvcLocator* svcloc);
   pandora::StatusCode RegisterUserComponents() const;
   void Reset();
+
+  void writeHistoSC();
+  void deleteHistoSC();
 
   void copyHit(edm4hep::CalorimeterHit targetHit, edm4hep::CalorimeterHit poHit);
 
@@ -144,11 +148,24 @@ protected:
 
   std::ofstream myfile;
 
-  TFile *out_dumper_histo;// = new TFile("./ExampleMacro.root","RECREATE","example");
-  //  TFile *f = TFile::Open("name.root","RECREATE","File title");
+  TFile *out_dumper_histo;
+
+  TH1F *h_type;
+  //declare histos S/0 type.....to be improved
+  TH1F *  h_energy_S   ;
+  TH1F *  h_positionX_S;
+  TH1F *  h_positionY_S;
+  TH1F *  h_positionZ_S;
+
+  //declare histos C/1 type.....to be improved
+  TH1F *  h_energy_C   ;
+  TH1F *  h_positionX_C;
+  TH1F *  h_positionY_C;
+  TH1F *  h_positionZ_C;
 
   //
   edm4hep::CalorimeterHitCollection      *pCaloHitCollection;
+  edm4hep::CalorimeterHitCollection      *pCaloHitCollection_S;
   //
 
   
@@ -158,6 +175,7 @@ protected:
   std::map<std::string, DataObjectHandleBase*> m_dataHandles;
 
   DataHandle<edm4hep::CalorimeterHitCollection>  m_SC_CaloHitCollection_w {"SC_CalorimeterHitCollection",Gaudi::DataHandle::Writer, this};
+  DataHandle<edm4hep::CalorimeterHitCollection>  m_S_CaloHitCollection_w {"S_CalorimeterHitCollection",Gaudi::DataHandle::Writer, this};
 
 
 };

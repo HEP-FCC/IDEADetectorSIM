@@ -39,6 +39,7 @@ PandoraSCAlg::PandoraSCAlg(const std::string& name, ISvcLocator* svcLoc)
 {
  m_CollectionMaps = new CollectionMaps();
  declareProperty("WriteCaloHitCollection"              , m_SC_CaloHitCollection_w,               "Handle of the SC_CaloHitCollection               output collection" );
+ declareProperty("WriteCaloHitCollection_S"              , m_S_CaloHitCollection_w,               "Handle of the S_CaloHitCollection               output collection" );
 }
 
 
@@ -69,12 +70,12 @@ StatusCode PandoraSCAlg::initialize()
       std::string colType = col.substr(0, seperater);
       std::string colName = col.substr(seperater+1);
       m_collections[colName] = colType;
-      std::cout << "colType " << colType << std::endl;
+      info() << "colType " << colType << endmsg;
 
       if ( colType == "CalorimeterHit" ) {
           m_dataHandles[colName] =
               new DataHandle<edm4hep::CalorimeterHitCollection>(colName, Gaudi::DataHandle::Reader, this);
-	  std::cout << "object dataHandles created with address " <<  m_dataHandles[colName] << std::endl;
+	  info() << "object dataHandles created with address " <<  m_dataHandles[colName] << endmsg;
       }
       else {
             error() << "invalid collection type: " << colType << endmsg;
@@ -89,40 +90,51 @@ StatusCode PandoraSCAlg::initialize()
 
   try
   {
-      std::cout << "in try " << std::endl;
-
-      ISvcLocator* svcloc = serviceLocator();
-       std::cout << "svcloc " << svcloc << std::endl;
+    ISvcLocator* svcloc = serviceLocator();
+    info() << "svcloc " << svcloc << endmsg;
 
       m_pPandora = new pandora::Pandora();
-      std::cout << " new pandora alg created " <<  m_pPandora << std::endl;
+      info() << " new pandora alg created " <<  m_pPandora <<endmsg;
 
       m_pCaloHitCreator = new CaloHitCreator(m_caloHitCreatorSettings, m_pPandora, svcloc, 0);
-      std::cout << " new CaloHitCreator " <<  m_pCaloHitCreator << std::endl;
+      info()<< " new CaloHitCreator " <<  m_pCaloHitCreator << endmsg;
 
       m_pDumperHelper = new DumperHelper(m_caloHitCreatorSettings, m_pPandora);
-      std::cout << " new DumperHelper " <<  m_pDumperHelper << std::endl;
+      info()<< " new DumperHelper " <<  m_pDumperHelper << endmsg;
 
       PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, this->RegisterUserComponents());
-      std::cout << "before API" << std::endl;
       PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::ReadSettings(*m_pPandora, m_settings.m_pandoraSettingsXmlFile));
-      std::cout << "after PANDORA_THROW_RESULT_IF" << std::endl;
+
   }
   catch (pandora::StatusCodeException &statusCodeException)
   {
-      std::cout << "Failed to initialize gaudi pandora: " << statusCodeException.ToString() << std::endl;
+    error() << "Failed to initialize gaudi pandora: " << statusCodeException.ToString() << endmsg;
       throw statusCodeException;
   }
   catch (...)
   {
-      std::cout << "Failed to initialize gaudi pandora: unrecognized exception" << std::endl;
+    error() << "Failed to initialize gaudi pandora: unrecognized exception" << endmsg;
       throw;
   }
 
-  //open the txt file for the dumper
-  myfile.open("exampleOutputProva.txt");
+  myfile.open("exampleOutputTxT.txt");
 
-  out_dumper_histo = new TFile("./ExampleMacro.root","RECREATE","example");
+  out_dumper_histo = new TFile("./exampleOutputFile.root","RECREATE","example");
+
+  //declareHistosSC();
+  h_type = new TH1F ("h_type", "type", 10, 0.,10.);
+
+  h_energy_S    = new TH1F ("h_energy_S", "energy_S", 16, 0.,16.);              
+  h_positionX_S = new TH1F ("h_positionX_S", "positionX_S", 1000, -3000.,3000.);
+  h_positionY_S = new TH1F ("h_positionY_S", "positionY_S", 1000, -3000.,3000.);  //open the txt file for the dumper
+  h_positionZ_S = new TH1F ("h_positionZ_S", "positionZ_S", 10, -3000.,-1900.) ;
+
+
+  h_energy_C    = new TH1F ("h_energy_C", "energy_C", 16, 0.,16.)              ;
+  h_positionX_C = new TH1F ("h_positionX_C", "positionX_C", 1000, -3000.,3000.);
+  h_positionY_C = new TH1F ("h_positionY_C", "positionY_C", 1000, -3000.,3000.);
+  h_positionZ_C = new TH1F ("h_positionZ_C", "positionZ_C", 10, -3000.,-1900.) ;
+  
 
   return GaudiAlgorithm::initialize();
 }
@@ -150,6 +162,9 @@ StatusCode PandoraSCAlg::execute()
 	auto po = handle->get();
 	if(po != NULL){
 	  
+	  //	  std::cout<<"*************************************************************SCsaved col name************************************="<<v.first<<std::endl;	  
+
+	  //	  std::cout<<"*************************************************************po->size() = ************************************="<<po->size()<<std::endl;	  
 	  
 	  for(unsigned int i=0 ; i< po->size(); i++) {
 	    
@@ -160,8 +175,9 @@ StatusCode PandoraSCAlg::execute()
 	    
 	    copyHit(m_pCaloHit,po->at(i));
 
-	    if((v.first) == "S_CalorimeterHits")
+	    if((v.first) == "S_CalorimeterHits"){
 	      m_pCaloHit.setType(0);		
+	    }
 	    else{
 	      if((v.first) == "C_CalorimeterHits")
 		m_pCaloHit.setType(1);		
@@ -173,44 +189,52 @@ StatusCode PandoraSCAlg::execute()
 	}
       }
 
-      PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, m_pDumperHelper->WriteToFile(pCaloHitCollection, myfile, out_dumper_histo));
+      PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, m_pDumperHelper->WriteToFile(pCaloHitCollection, myfile));
+      //fill histos S/0 type.....to be improved
+      //fill histos C/1 type.....to be improved
+      PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, m_pDumperHelper->FillHistos(pCaloHitCollection, h_type, h_energy_S,h_positionX_S,h_positionY_S,h_positionZ_S, h_energy_C,h_positionX_C,h_positionY_C,h_positionZ_C));
 
       //      std::cout << "nElements in pCaloHitCollection= "  << pCaloHitCollection->size()<< std::endl;
-      /*
-      for(int i = 0; i< pCaloHitCollection->size() ; ++i){
-	std::cout<<"energy in hit collection = "<<pCaloHitCollection->at(i).getEnergy()<<std::endl;
-	std::cout<<"type in hit collection = "<<pCaloHitCollection->at(i).getType()<<std::endl;
-      }
-      */
 
       this->Reset();
     }
     catch (pandora::StatusCodeException &statusCodeException)
     {
-        std::cout << "Gaudi pandora failed to process event: " << statusCodeException.ToString() << std::endl;
+      error() << "Gaudi pandora failed to process event: " << statusCodeException.ToString() <<endmsg;
         throw statusCodeException;
     }
     catch (...)
     {
-        std::cout << "Gaudi pandora failed to process event: unrecognized exception" << std::endl;
+      error() << "Gaudi pandora failed to process event: unrecognized exception" << endmsg;
         throw;
     }
   
-  info() << "PandoraSCAlg Processed " << _nEvt << " events " << endmsg;
+  debug() << "PandoraSCAlg Processed " << _nEvt << " events " << endmsg;
   _nEvt ++ ;
 
   return StatusCode::SUCCESS;
 }
 
+
+
+
+
+
 StatusCode PandoraSCAlg::finalize()
 {
   info() << "Finalized. Processed " << _nEvt << " events " << endmsg;
+
+  out_dumper_histo->cd();
+  writeHistoSC();
+  out_dumper_histo->Close();
+  //deleteHistoSC();
+
   delete m_pPandora;
   delete m_pCaloHitCreator;
   return GaudiAlgorithm::finalize();
 }
 
-
+//Adele, copyHit function.....TODO: ask to implement a copy function centrally
 void PandoraSCAlg::copyHit(edm4hep::CalorimeterHit targetHit, edm4hep::CalorimeterHit poHit)
 {
   targetHit.setEnergy(poHit.getEnergy());
@@ -261,6 +285,37 @@ collectionMap_TrkRel.clear();
 }
 
 
+void PandoraSCAlg::writeHistoSC()
+{
+  h_type->Write();
+
+  h_energy_S->Write();   
+  h_positionX_S->Write();   
+  h_positionY_S->Write();   
+  h_positionZ_S->Write();   
+
+  h_energy_C->Write();   
+  h_positionX_C->Write();   
+  h_positionY_C->Write();   
+  h_positionZ_C->Write();   
+
+}
+
+
+void PandoraSCAlg::deleteHistoSC()
+{
+  delete h_type;
+  delete h_energy_S;
+  delete h_positionX_S;
+  delete h_positionY_S;
+  delete h_positionZ_S;
+  delete h_energy_C;
+  delete h_positionX_C;
+  delete h_positionY_C;
+  delete h_positionZ_C;
+
+}
+
 StatusCode PandoraSCAlg::updateMap()
 {
 
@@ -279,13 +334,13 @@ StatusCode PandoraSCAlg::updateMap()
 	  }
 	}
 	else{
-	  std::cout<<"don't find col name="<<v.first<<std::endl;
+	  info()<<"don't find col name="<<v.first<<endmsg;
 	}
       }
     }//try
     catch(...){
-      std::cout<<"don't find "<<v.first<<"in event"<<std::endl;
-      std::cout<<"don't find  col name="<<v.first<<",with type="<<m_collections[v.first]<<" in this event"<<std::endl;
+      error()<<"don't find "<<v.first<<"in event"<<endmsg;
+      error()<<"don't find  col name="<<v.first<<",with type="<<m_collections[v.first]<<" in this event"<<endmsg;
     }
   }
 

@@ -33,6 +33,7 @@
 #include <fstream>
 
 
+
 DumperHelper::DumperHelper(const CaloHitCreator::Settings& settings, const pandora::Pandora *const pPandora) :
     m_settings(settings),
     m_pPandora(pPandora)
@@ -61,9 +62,19 @@ pandora::StatusCode DumperHelper::my_ReadSettings(const std::string &xmlFileName
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
-pandora::StatusCode DumperHelper::WriteToFile( edm4hep::CalorimeterHitCollection      *pCaloHitCollection, std::ofstream &txtFileName, TFile  *out_dumper_histo) const
+pandora::StatusCode DumperHelper::WriteToFile( edm4hep::CalorimeterHitCollection      *pCaloHitCollection, std::ofstream &txtFileName) const
 {
   
+  Int_t     type        = -999;
+  Float_t   energy      = -999.;
+  Float_t   energyError = -999.;
+  Float_t   time        = -999.;
+  Float_t   positionX   = -999.;
+  Float_t   positionY   = -999.;
+  Float_t   positionZ   = -999.;
+  ULong64_t cellID      = -999;
+
+
   if (txtFileName.is_open())
     {
       txtFileName << "nElements in pCaloHitCollection= "  << pCaloHitCollection->size()<< " ; \n";
@@ -71,14 +82,26 @@ pandora::StatusCode DumperHelper::WriteToFile( edm4hep::CalorimeterHitCollection
     }
 
   for(int i = 0; i < pCaloHitCollection->size(); ++i){
-    txtFileName <<pCaloHitCollection->at(i).getType()<<" ; ";
-    txtFileName <<pCaloHitCollection->at(i).getEnergy()<<" ; ";
-    txtFileName <<pCaloHitCollection->at(i).getEnergyError()<<" ; ";
-    txtFileName <<pCaloHitCollection->at(i).getTime()<<" ; ";
-    txtFileName <<pCaloHitCollection->at(i).getPosition()[0]<<" ; ";
-    txtFileName <<pCaloHitCollection->at(i).getPosition()[1]<<" ; ";
-    txtFileName <<pCaloHitCollection->at(i).getPosition()[2]<<" ; ";
-    txtFileName <<pCaloHitCollection->at(i).getCellID()<<" ; \n";
+    //set variables
+    type        = pCaloHitCollection->at(i).getType()       ;
+    energy      = pCaloHitCollection->at(i).getEnergy()     ;
+    energyError = pCaloHitCollection->at(i).getEnergyError();
+    time        = pCaloHitCollection->at(i).getTime()       ;
+    positionX   = pCaloHitCollection->at(i).getPosition()[0];
+    positionY   = pCaloHitCollection->at(i).getPosition()[1];
+    positionZ   = pCaloHitCollection->at(i).getPosition()[2];
+    cellID      = pCaloHitCollection->at(i).getCellID()     ;
+
+    //write to txt file
+    txtFileName <<type<<" ; ";
+    txtFileName <<energy<<" ; ";
+    txtFileName <<energyError<<" ; ";
+    txtFileName <<time<<" ; ";
+    txtFileName <<positionX<<" ; ";
+    txtFileName <<positionY<<" ; ";
+    txtFileName <<positionZ<<" ; ";
+    txtFileName <<cellID<<" ; \n";
+
   }
 
     return pandora::STATUS_CODE_SUCCESS;
@@ -86,3 +109,47 @@ pandora::StatusCode DumperHelper::WriteToFile( edm4hep::CalorimeterHitCollection
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
+pandora::StatusCode DumperHelper::FillHistos( edm4hep::CalorimeterHitCollection      *pCaloHitCollection, TH1F *h_type, TH1F *h_energy_S, TH1F *h_positionX_S, TH1F *h_positionY_S, TH1F *h_positionZ_S, TH1F *h_energy_C, TH1F *h_positionX_C, TH1F *h_positionY_C, TH1F *h_positionZ_C) const
+{
+  
+  Int_t     type        = -999;
+  Float_t   energy      = -999.;
+  Float_t   energyError = -999.;
+  Float_t   time        = -999.;
+  Float_t   positionX   = -999.;
+  Float_t   positionY   = -999.;
+  Float_t   positionZ   = -999.;
+  ULong64_t cellID      = -999;
+
+  for(int i = 0; i < pCaloHitCollection->size(); ++i){
+    //set variables
+    type        = pCaloHitCollection->at(i).getType()       ;
+    energy      = pCaloHitCollection->at(i).getEnergy()     ;
+    energyError = pCaloHitCollection->at(i).getEnergyError();
+    time        = pCaloHitCollection->at(i).getTime()       ;
+    positionX   = pCaloHitCollection->at(i).getPosition()[0];
+    positionY   = pCaloHitCollection->at(i).getPosition()[1];
+    positionZ   = pCaloHitCollection->at(i).getPosition()[2];
+    cellID      = pCaloHitCollection->at(i).getCellID()     ;
+
+    //fill histos
+    h_type->Fill(type);
+
+    if(type == 0){
+      h_energy_S->Fill(energy);
+      h_positionX_S->Fill(positionX);
+      h_positionY_S->Fill(positionY);
+      h_positionZ_S->Fill(positionZ);
+    }
+
+    if(type == 1){
+      h_energy_C->Fill(energy);
+      h_positionX_C->Fill(positionX);
+      h_positionY_C->Fill(positionY);
+      h_positionZ_C->Fill(positionZ);
+    }
+
+  }
+
+    return pandora::STATUS_CODE_SUCCESS;
+}

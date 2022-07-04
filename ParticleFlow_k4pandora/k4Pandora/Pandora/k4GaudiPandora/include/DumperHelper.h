@@ -17,7 +17,11 @@
 
 #include "Api/PandoraApi.h"
 #include <string>
-#include "CaloHitCreator.h"
+
+#include "TROOT.h"
+#include "TFile.h"
+#include "TH1F.h"
+
 #include <iostream>
 #include <fstream>
 
@@ -46,11 +50,15 @@ public:
      ~DumperHelper();
 
     /**
-     *  @brief  writes calohits to file
+     *  @brief  writes calohits to txt file
      * 
      */
-     pandora::StatusCode WriteToFile(edm4hep::CalorimeterHitCollection      *pCaloHitCollection, std::ofstream &txtFileName, TFile  *out_dumper_histo) const;
-
+     pandora::StatusCode WriteToFile( edm4hep::CalorimeterHitCollection      *pCaloHitCollection, std::ofstream &txtFileName) const;
+    /**
+     *  @brief  writes calohits-histos to root file file
+     * 
+     */
+     pandora::StatusCode FillHistos( edm4hep::CalorimeterHitCollection      *pCaloHitCollection, TH1F *h_type, TH1F *h_energy_S, TH1F *h_positionX_S, TH1F *h_positionY_S, TH1F *h_positionZ_S, TH1F *h_energy_C, TH1F *h_positionX_C, TH1F *h_positionY_C, TH1F *h_positionZ_C) const;
      /**
       *  @brief  Read a value from an xml element
       *

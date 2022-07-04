@@ -1,16 +1,16 @@
 ## Quick start
-$ Code originally developed by another student for CEPC here: git clone https://github.com/key4hep/k4Pandora.git
+$ Code originally developed by Wenxing Fang for CEPC here: git clone https://github.com/key4hep/k4Pandora.git
 
 ```
-$ source my_setup.sh
 $ cd k4Pandora
+$ source my_setup.sh
 $ mkdir build && cd build
 $ cmake .. 
 $ make
 $ ./run gaudirun.py ../Examples/options/tut_pandora.py
 ```
 
-$ Input: simulation code from Iacopo where there are (edm4hep collections of) hits divided into S_ and C_ categories (to be read in the .py file)
+$ Input: simulation code from Iacopo Vivarelle where there are (edm4hep collections of) hits divided into S_ and C_ categories (to be read in the .py file)
 $ Main code: PandoraSCAlg.cpp: handles calorimeter hit collections and modifies the hit type according to the S/C info
 $ To do: implement a dumper algorithm that dumps a text file with the relevant hit info, which will feed our NN algorithm
 
