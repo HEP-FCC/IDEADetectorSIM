@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 #
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 project(g4GMC_simulation)
 
 set(BASE_FLD
@@ -20,6 +20,10 @@ set(DET_FLD
 	DRFPIC
     MUSPC
 )
+
+
+SET(GCC_COVERAGE_LINK_FLAGS    "-ltcmalloc")
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -49,6 +53,11 @@ find_package(HepMC REQUIRED)
 #
 find_package(EDM4HEP)
 find_package(podio)
+
+####find gperftools 
+
+list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
+find_package(gperftools)
 
 #----------------------------------------------------------------------------
 # Find ROOT

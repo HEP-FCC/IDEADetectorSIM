@@ -180,6 +180,9 @@ void RootIO::PutMCStepHit(std::string key, std::vector<GMCG4TrackerHit*> &mcHit)
 void RootIO::PutMCTracks(std::vector<GMCG4Particle*> &mctrk) {
 //void RootIO::PutMCTracks(TClonesArray &mctrk) {
 
+  for (auto p : fTracks){
+    if (p != NULL) delete p;
+  }
  fTracks.clear();
  fTracks = mctrk;
  
