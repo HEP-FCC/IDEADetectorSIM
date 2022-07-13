@@ -5,7 +5,7 @@ gaudi_add_module(k4GaudiPandora
                          src/MCParticleCreator.cpp
                          src/GeometryCreator.cpp
                          src/CaloHitCreator.cpp
-			 src/DumperHelper.cpp	 
+			 src/DumperHelperAlg.cpp	 
                          src/TrackCreator.cpp
                          src/PfoCreator.cpp
                          src/Utility.cpp

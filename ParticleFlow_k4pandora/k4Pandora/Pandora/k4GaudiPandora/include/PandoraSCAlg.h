@@ -9,6 +9,7 @@
 #include "edm4hep/SimTrackerHitCollection.h"
 #include "edm4hep/TrackerHitCollection.h"
 #include "edm4hep/CalorimeterHitCollection.h"
+#include "edm4hep/SimCalorimeterHitCollection.h"
 #include "edm4hep/VertexCollection.h"
 #include "edm4hep/TrackCollection.h"
 #include "edm4hep/MCParticle.h" 
@@ -33,7 +34,6 @@
 
 
 #include "CaloHitCreator.h"
-#include "DumperHelper.h"
 #include "GeometryCreator.h"
 #include "MCParticleCreator.h"
 #include "PfoCreator.h"
@@ -89,9 +89,6 @@ public:
   pandora::StatusCode RegisterUserComponents() const;
   void Reset();
 
-  void writeHistoSC();
-  void deleteHistoSC();
-
   void copyHit(edm4hep::CalorimeterHit targetHit, edm4hep::CalorimeterHit poHit);
 
   typedef std::vector<float> FloatVector;
@@ -124,6 +121,8 @@ protected:
 
   int _nEvt ;
 
+  int maxHitSize ;
+
 
   Gaudi::Property< std::string >              m_PandoraSettingsXmlFile { this, "PandoraSettingsDefault_xml", "PandoraSettingsDefault.xml" };
   Gaudi::Property<int>                        m_NEventsToSkip                   { this, "NEventsToSkip", 0 };
@@ -131,14 +130,11 @@ protected:
   Gaudi::Property< std::vector<std::string> > m_HCalCaloHitCollections{ this, "HCalCaloHitCollections", {"HCALBarrel","HCALEndcap","HCALOther"} };
 
   static pandora::Pandora        *m_pPandora;
-  CaloHitCreator                 *m_pCaloHitCreator;              ///< The calo hit creator
- 
-  DumperHelper                   *m_pDumperHelper;                ///< The dumper of the calo hit collection
 
   Settings                        m_settings;                     ///< The settings for the pandora pfa new algo
   CollectionMaps                  *m_CollectionMaps;               ///< The settings for the pandora pfa new algo
 
-  CaloHitCreator::Settings        m_caloHitCreatorSettings;       ///< The calo hit creator settings
+  //  CaloHitCreator::Settings        m_caloHitCreatorSettings;       ///< The calo hit creator settings
 
   std::string                     m_detectorName;                 ///< The detector name
   unsigned int                    m_nRun;                         ///< The run number
@@ -146,27 +142,7 @@ protected:
 
   //######################
 
-  std::ofstream myfile;
-
-  TFile *out_dumper_histo;
-
-  TH1F *h_type;
-  //declare histos S/0 type.....to be improved
-  TH1F *  h_energy_S   ;
-  TH1F *  h_positionX_S;
-  TH1F *  h_positionY_S;
-  TH1F *  h_positionZ_S;
-
-  //declare histos C/1 type.....to be improved
-  TH1F *  h_energy_C   ;
-  TH1F *  h_positionX_C;
-  TH1F *  h_positionY_C;
-  TH1F *  h_positionZ_C;
-
-  //
   edm4hep::CalorimeterHitCollection      *pCaloHitCollection;
-  edm4hep::CalorimeterHitCollection      *pCaloHitCollection_S;
-  //
 
   
   std::map< std::string, std::string > m_collections;
@@ -175,8 +151,6 @@ protected:
   std::map<std::string, DataObjectHandleBase*> m_dataHandles;
 
   DataHandle<edm4hep::CalorimeterHitCollection>  m_SC_CaloHitCollection_w {"SC_CalorimeterHitCollection",Gaudi::DataHandle::Writer, this};
-  DataHandle<edm4hep::CalorimeterHitCollection>  m_S_CaloHitCollection_w {"S_CalorimeterHitCollection",Gaudi::DataHandle::Writer, this};
-
 
 };
 
