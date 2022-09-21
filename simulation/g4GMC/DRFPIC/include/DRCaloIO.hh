@@ -1,4 +1,3 @@
-
 #ifndef DRCALOIO_HH
 #define DRCALOIO_HH 1
 
@@ -12,6 +11,7 @@
 
 #include "edm4hep/SimCalorimeterHitCollection.h"
 #include "edm4hep/CaloHitContributionCollection.h"
+#include "edm4hep/MCParticleCollection.h"
 
 namespace drc {
 
@@ -24,6 +24,7 @@ public:
 
   void newEvent(G4int evId, bool writeASCII=false);
   void writePodio(G4int evId);
+  void writePodioTruthPrimaryVertex(G4PrimaryVertex * g_vtx);
 //  void fillAnlysis();
 
   void Addneutrinoleakage(G4double de); //add energy of neutrinos in the ball containing the calorimeter
@@ -38,6 +39,7 @@ public:
   //void AddSignalfibre(G4int number);
   void SavePrimaryParticle(G4String name);
   void SavePrimaryEnergy(G4double primaryparticleenergy);
+
 
   //to save variable in ntuple
   G4double& GetEnergyem() { return Energyem; }
