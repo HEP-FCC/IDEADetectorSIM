@@ -42,7 +42,7 @@ int main(int argc,char** argv)
   gSystem->Load("$PRJBASE/analyzer/GMC/obj/libGMCAnalyzer");
 
   if(argc<3) {
-    std::cout << "USAGE: " << argv[0] << " [TRACKINPUT] [CALOINPUT] [OUTPUT] " << std::endl;
+    std::cout << "USAGE: " << argv[0] << " [TRACKINPUT] [CALOINPUT] [MAXEVENTS] [OUTPUT]" << std::endl;
     std::cout << "The output file name is optional" << std::endl;
     return -1;
   }
@@ -72,17 +72,19 @@ int main(int argc,char** argv)
 
   // ----------------------------------------------
   // output file name construction
-  int fOutNum=1;
-  if (argc==4) { fOutNum = TString(argv[3]).Atoi(); }
+  TString fOutNum="EDMOutput.root";
+  unsigned int fMaxEvent = 0;
+  
+  if (argc==4) { fMaxEvent = TString(argv[3]).Atoi(); }
+  if (argc==5) { fOutNum = TString(argv[4]); }
   else {
     TString fIn(argv[1]);
     fIn.ReplaceAll(".root","");
     fIn.ReplaceAll("tracks","");
-    if (fIn.IsDec()) { fOutNum = fIn.Atoi(); }
   }
   
   // edm4hep output file ------------------------------------------
-  TFile fOutput(Form("EDMOutput%05d.root",fOutNum),"RECREATE");
+  TFile fOutput(fOutNum,"RECREATE");
 
   // create a new podio::EventStore, linked to a podio::ROOTWriter,
   // to write the collections on the output file
@@ -109,6 +111,8 @@ int main(int argc,char** argv)
     std::cerr << "Files " << filename << " and " << caloPodioFileName << " have a different number of entries. Exiting graciously but doing nothing useful. " << std::endl;
     return -1;
   }
+
+  if (fMaxEvent != 0) nevents = fMaxEvent;
   
   std::cout << "Track filename  " << filename << std::endl;
   std::cout << "Calo filename  " << caloPodioFileName << std::endl;
