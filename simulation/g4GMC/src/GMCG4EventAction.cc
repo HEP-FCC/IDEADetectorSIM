@@ -73,32 +73,6 @@ void GMCG4EventAction::BeginOfEventAction(const G4Event*) {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void GMCG4EventAction::EndOfEventAction(const G4Event* event) {
 
-  // Loop over primaries
-
-  G4int n_pv = event->GetNumberOfPrimaryVertex();
-  std::cout << "Iacopo: The number of primary vertices is " << n_pv << std::endl;
-  for (G4int i_pv = 0; i_pv < n_pv; ++i_pv){
-    std::cout << "Iacopo: Now dealing with primary event " << i_pv << std::endl;
-    G4PrimaryVertex * g_pv = event->GetPrimaryVertex(i_pv);
-    G4int n_particles = g_pv->GetNumberOfParticle();
-
-    std::cout << "Iacopo: There are " << n_particles << " particles attached to this vertex" << std::endl;
-
-    for (G4int i_particle = 0; i_particle < n_particles; ++i_particle){
-      std::cout << "Now working on particle " << i_particle << std::endl;
-      G4PrimaryParticle * g_particle = g_pv->GetPrimary(i_particle);
-      std::cout << "The particle is " << g_particle->GetPDGcode() << std::endl;
-      std::cout << "The particle is " << g_particle->GetPDGcode() << std::endl;
-      std::cout << "Px = " << g_particle->GetPx() << std::endl;
-      std::cout << "Py = " << g_particle->GetPy() << std::endl;
-      std::cout << "Pz = " << g_particle->GetPz() << std::endl;
-      std::cout << "E = " << g_particle->GetTotalEnergy() << std::endl;
-    }
-  }
-
-
-
-
   // get number of stored trajectories
 
   G4TrajectoryContainer* trajectoryContainer = event->GetTrajectoryContainer();
@@ -129,6 +103,7 @@ void GMCG4EventAction::EndOfEventAction(const G4Event* event) {
   RootIO::GetInstance()->FillEvent();
 
   if (_hasDRFPIC){
+    drc::DRCaloIO::GetInstance()->writePodioTruthPrimaryVertex(event);
     drc::DRCaloIO::GetInstance()->writePodio( G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID() );
   }
   // periodic printing

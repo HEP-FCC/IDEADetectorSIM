@@ -6,6 +6,7 @@
 
 #include "globals.hh"
 #include "G4ThreeVector.hh"
+#include "G4Event.hh"
 
 //podio includes 
 
@@ -24,7 +25,7 @@ public:
 
   void newEvent(G4int evId, bool writeASCII=false);
   void writePodio(G4int evId);
-  void writePodioTruthPrimaryVertex(G4PrimaryVertex * g_vtx);
+  void writePodioTruthPrimaryVertex(const G4Event * g_event);
 //  void fillAnlysis();
 
   void Addneutrinoleakage(G4double de); //add energy of neutrinos in the ball containing the calorimeter
@@ -155,6 +156,10 @@ private:
   
   edm4hep::CaloHitContributionCollection * s_caloHitContributions;
   edm4hep::CaloHitContributionCollection * c_caloHitContributions;
+
+  // truth level collections 
+
+  edm4hep::MCParticleCollection * m_mcParticles;
  
 };
 
