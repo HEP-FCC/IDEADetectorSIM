@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstddef>
 
+#include <edm4hep/Vector3d.h>
 #include <GMCG4PodioManager.hh>
 
 namespace drc {
@@ -47,7 +48,8 @@ static DRCaloIO* instance = 0;
     c_caloHits(NULL),
     aux_infoHits(NULL),
     s_caloHitContributions(NULL),
-    c_caloHitContributions(NULL)
+    c_caloHitContributions(NULL),
+    m_mcParticles(NULL)
     {
     }
   
@@ -200,6 +202,51 @@ static DRCaloIO* instance = 0;
     c_caloHitContributions = new edm4hep::CaloHitContributionCollection();
     l_store->registerCollection("C_caloHitContrib",c_caloHitContributions);
     l_writer->registerForWrite("C_caloHitContrib");
+
+    m_mcParticles = new edm4hep::MCParticleCollection();
+    l_store->registerCollection("MCPrimaryParticles",m_mcParticles);
+    l_writer->registerForWrite("MCPrimaryParticles");
+  }
+  
+  void DRCaloIO::writePodioTruthPrimaryVertex(const G4Event * g_event)
+  {
+    GMCG4PodioManager * l_podioManager = GMCG4PodioManager::Instance();
+    podio::EventStore * l_store = l_podioManager->GetEvtStore();
+    podio::ROOTWriter * l_writer = l_podioManager->GetWriter();    
+
+    if (l_store == NULL){
+      std::cerr << "Error in DRCaloIO::writePodio, cannot access podio event store" << std::endl;
+      return;
+    }
+    
+    if (l_writer == NULL){
+      std::cerr << "Error in DRCaloIO::writePodio, cannot access podio writer" << std::endl;
+      return;
+    }
+
+    G4int n_pv = g_event->GetNumberOfPrimaryVertex();
+
+    for (G4int i_pv = 0; i_pv < n_pv; ++i_pv){
+      std::cout << "Iacopo: Now dealing with primary event " << i_pv << std::endl;
+      G4PrimaryVertex * g_pv = g_event->GetPrimaryVertex(i_pv);
+      edm4hep::Vector3d vtxPos(g_pv->GetX0(), g_pv->GetY0(), g_pv->GetZ0());
+      
+      G4int n_particles = g_pv->GetNumberOfParticle();
+      
+      for (G4int i_particle = 0; i_particle < n_particles; ++i_particle){
+	G4PrimaryParticle * g_particle = g_pv->GetPrimary(i_particle);
+	auto m_particle = m_mcParticles->create();
+	m_particle.setPDG(g_particle->GetPDGcode());
+	m_particle.setCharge(g_particle->GetCharge());
+	m_particle.setTime(g_particle->GetProperTime());
+	m_particle.setMass(g_particle->GetMass());
+	m_particle.setVertex(vtxPos);
+	m_particle.setMomentum({g_particle->GetPx(),g_particle->GetPy(), g_particle->GetPz()});
+      
+      }
+    }
+    
+    
   }
   
   void DRCaloIO::writePodio(G4int evId){

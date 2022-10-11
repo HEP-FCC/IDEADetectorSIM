@@ -103,6 +103,7 @@ void GMCG4EventAction::EndOfEventAction(const G4Event* event) {
   RootIO::GetInstance()->FillEvent();
 
   if (_hasDRFPIC){
+    drc::DRCaloIO::GetInstance()->writePodioTruthPrimaryVertex(event);
     drc::DRCaloIO::GetInstance()->writePodio( G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID() );
   }
   // periodic printing
