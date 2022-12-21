@@ -277,7 +277,17 @@ int main(int argc,char** argv)
       // radius @ innermost state
       double tmpradius = 10000; // initialized to extremely big value by choice [mm]
       for(int ihit = 0; ihit < statevector->GetEntries(); ihit++) {
-	if(skipped.at(ihit)) continue;
+	
+	// CHECK fixed bug 2022-12-02
+	// if(skipped.at(ihit)) continue;
+	try { 
+	  bool isthere = skipped.at(ihit);
+	  if(isthere==true) continue;
+	} 
+	catch(std::out_of_range) {
+	  std::cout << "event " << ievt << "out of range error because skipped size is " << skipped.size() << std::endl;
+	}
+
 	TVector3 *state = (TVector3*) statevector->At(ihit);
 	if(state==NULL) continue;
 	// std::cout << state << " " << counter << " " << "hit " << hitindex.at(ihit) << " detector id " << detid.at(ihit) << " is skipped " << skipped.at(ihit)

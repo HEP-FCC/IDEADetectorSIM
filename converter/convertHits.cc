@@ -28,6 +28,7 @@
 #include "podio/EventStore.h"
 #include "podio/ROOTWriter.h"
 #include "edm4hep/SimTrackerHitCollection.h"
+#include "edm4hep/MCParticleCollection.h"
 
 // using namespace std;
 
@@ -54,13 +55,14 @@ int main(int argc,char** argv)
   std::vector<GMCG4TrackerHit*> *hitspshw = new std::vector<GMCG4TrackerHit*>();
   std::vector<GMCG4TrackerHit*> *hitsphcv = new std::vector<GMCG4TrackerHit*>();
   std::vector<GMCG4TrackerHit*> *hitsphcvrd = new std::vector<GMCG4TrackerHit*>();
-  std::vector<GMCG4Particle*> *tracks = new std::vector<GMCG4Particle*>();
+  std::vector<GMCG4Particle*> *  primtracks = new std::vector<GMCG4Particle*>();
   bool hitChIsPresent=false;
   bool hitPxIsPresent=false;
   bool hitSVXIsPresent=false;
   bool hitPSHWIsPresent=false;
   bool hitPHCVIsPresent=false;
   bool hitPHCVRadIsPresent=false;
+  bool primtrackIsPresent=false;
 
   fo.GetListOfKeys()->Print();
 
@@ -109,12 +111,17 @@ int main(int argc,char** argv)
 	std::cout << "Number of events: " << hit_tree->GetEntries() << std::endl;
 
       }
-      
+    
       if (br2.CompareTo(key->GetName()) == 0) {
 	fo.GetObject(key->GetName(), track_tree);
-	track_tree->SetBranchAddress("Tracks",&tracks);
+        if (track_tree->FindBranch("Tracks")!=0x0) {
+          primtrackIsPresent=true;
+	  track_tree->SetBranchAddress("Tracks",&primtracks);
+	  std::cout<<"Found MCParticle tracks"<<std::endl;
+	}
 	std::cout << "Collection: " << track_tree->GetName() << std::endl;
 	std::cout << "Number of events: " << track_tree->GetEntries() << std::endl;
+	
       }
     }
 
@@ -124,6 +131,7 @@ int main(int argc,char** argv)
   std::cout << "PSHW hit    " <<  hitPSHWIsPresent << std::endl;
   std::cout << "PHCV hit    " <<  hitPHCVIsPresent << std::endl;
   std::cout << "PHCV hit    " <<  hitPHCVRadIsPresent << std::endl;
+  std::cout << "MC primary track    " <<  primtrackIsPresent << std::endl;
  
   
   
@@ -163,14 +171,18 @@ int main(int argc,char** argv)
   edm4hep::SimTrackerHitCollection *s_pshwtrackerHits = new edm4hep::SimTrackerHitCollection();
   l_evtstore->registerCollection("S_PSHWtrackerHits",s_pshwtrackerHits);
   l_writer->registerForWrite("S_PSHWtrackerHits");
+  // MC 
+  edm4hep::MCParticleCollection *s_mcparticleprimTracks = new edm4hep::MCParticleCollection();
+  l_evtstore->registerCollection("S_MCParticlePrimTracks",s_mcparticleprimTracks);
+  l_writer->registerForWrite("S_MCParticlePrimTracks");
 
-  
+
   // event loop -------------------
   int nevt = hit_tree->GetEntries();
   std::cout << "nof events " << nevt << std::endl;
   for(int ievt=0; ievt<nevt; ievt++) {
 
-    //    track_tree->GetEntry(ievt);
+    track_tree->GetEntry(ievt);
     hit_tree->GetEntry(ievt);
 
     // DCH ---------------------------------
@@ -359,6 +371,41 @@ int main(int argc,char** argv)
       }
     }
 
+    // MC tracks ---------------------------------------
+    if (primtrackIsPresent) {
+      int ntracks = primtracks->size();
+      std::cout << "event " << ievt << " has nof MC tracks " << ntracks << std::endl;
+
+      // loop on MC tracks
+      for (int itrack=0; itrack < ntracks; itrack++) {
+        G4int s_parentid = primtracks->at(itrack)->GetParentID();
+	if(s_parentid!=0) continue; // CHECK only primaries!
+
+	// Get methods
+	G4int s_trackid = primtracks->at(itrack)->GetTrackID();
+	G4String s_name = primtracks->at(itrack)->GetParticleName();
+	G4double s_charge = primtracks->at(itrack)->GetParticleCharge();
+	G4int s_pdg = primtracks->at(itrack)->GetPDGCode();
+	G4ThreeVector s_vertex = primtracks->at(itrack)->GetPosStart();
+	G4ThreeVector s_end    = primtracks->at(itrack)->GetPosEnd();
+	G4ThreeVector s_momentum  = primtracks->at(itrack)->GetMomentum();
+
+	// convert to EDM DCH hit ............................ !! CHECK all the variables and units !!
+	auto l_track = s_mcparticleprimTracks->create();
+
+	l_track.setPDG(s_pdg);         //PDG code of the particle
+	l_track.setCharge(s_charge);  //particle charge
+	//production vertex of the particle in [mm] 
+	edm4hep::Vector3d vertex(s_vertex.x(), s_vertex.y(), s_vertex.z());
+	l_track.setVertex(vertex);
+	//endpoint of the particle in [mm] 
+	edm4hep::Vector3d endpoint(s_end.x(), s_end.y(), s_end.z()); 
+	l_track.setEndpoint(endpoint);
+	//particle 3-momentum at the production vertex in [GeV]
+ 	edm4hep::Vector3f momentum(s_momentum.x(), s_momentum.y(), s_momentum.z());
+	l_track.setMomentum(momentum);
+      }
+    }
     
     // for each event write output
     if (l_writer != NULL)   l_writer->writeEvent();
