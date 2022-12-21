@@ -58,9 +58,9 @@ cd $STANDALONE_INSTALL_DIR/LOCAL/ROME
 echo "download the ROME release"
 git clone https://bitbucket.org/muegamma/rome3.git rome
 cd $STANDALONE_INSTALL_DIR/LOCAL/ROME/rome
-git checkout master
+#git checkout master
 #git tag
-#git checkout v3.2.15.1
+git checkout v3.2.15.1
 export ROMESYS=$STANDALONE_INSTALL_DIR/LOCAL/ROME/rome
 export PATH=$ROMESYS/bin:$PATH
 cd $ROMESYS
@@ -98,7 +98,7 @@ $ROMESYS/bin/romebuilder.exe -i GMC.xml
 
 #### Getting the gdml file from the ideadr box  
 
-wget https://cernbox.cern.ch/index.php/s/KxGYRFnkcob09z1/download -O g4-IDEA_reco.gdml
+wget https://cernbox.cern.ch/remote.php/dav/public-files/KxGYRFnkcob09z1/g4-IDEA_reco.gdml
 
 # set the right PATH in the xml files
 string1="<SPValue>path_to_simulation</SPValue>"
